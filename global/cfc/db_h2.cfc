@@ -2274,13 +2274,6 @@
 	
 	<!--- OPENBD CONFIG INTERACTION --->
 	
-	<cffunction name="bdgetConfig" access="private" output="false" returntype="struct" hint="Returns a struct representation of the OpenBD server configuration (bluedragon.xml)">
-		<cfset var admin = "" />
-			<cflock scope="Server" type="readonly" timeout="5">
-				<cfset admin = createObject("java", "com.naryx.tagfusion.cfm.engine.cfEngine").getConfig().getCFMLData() />
-			</cflock>
-		<cfreturn admin.server />
-	</cffunction>
 	
 	<cffunction name="bdsetConfig" access="private" output="false" returntype="void" hint="Sets the server configuration and tells OpenBD to refresh its settings">
 		<cfargument name="currentConfig" type="struct" required="true" hint="The configuration struct, which is a struct representation of bluedragon.xml" />
@@ -2296,7 +2289,10 @@
 	<cffunction name="bddatasourceExists" access="public" output="false" returntype="boolean" hint="Returns a boolean indicating whether or not a datasource with the specified name exists">
 		<cfargument name="dsn" type="string" required="true" hint="The datasource name to check" />
 		<cfset var dsnExists = true />
-		<cfset var localConfig = bdgetConfig() />
+		
+		<cfinvoke component="cfmlengine" method="getConfig" returnvariable="localConfig" >
+		</cfinvoke>
+		
 		<cfset var i = 0 />
 		<cfif not StructKeyExists(localConfig, "cfquery") or not StructKeyExists(localConfig.cfquery, "datasource")>
 			<!--- no datasources at all, so this one doesn't exist ---->
@@ -2339,7 +2335,11 @@
 		<cfargument name="existingDatasourceName" type="string" required="false" default="" hint="The existing (old) datasource name so we know what to delete if this is an update" />
 		<cfargument name="verificationQuery" type="string" required="false" default="" hint="Custom verification query for 'other' driver types" />
 		
-		<cfset var localConfig = bdgetConfig() />
+		
+		<cfinvoke component="cfmlengine" method="getConfig" returnvariable="localConfig" >
+		</cfinvoke>
+		
+		
 		<cfset var datasourceSettings = structNew() />
 		
 		<!--- make sure configuration structure exists, otherwise build it --->

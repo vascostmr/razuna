@@ -47,7 +47,7 @@
 		</cfquery>
 		<cfcatch type="any">
 			<cfset queryAddRow(qry, 1)>
-			<cfset querySetCell(qry, "cache_token", createuuid(''))>
+			<cfset querySetCell(qry, "cache_token",  replace(createuuid(),"-","","all"))>
 		</cfcatch>
 	</cftry>
 	<cfreturn qry.cache_token />
@@ -58,7 +58,7 @@
 	<cfargument name="type" type="string" required="yes">
 	<cfargument name="nohost" type="string" required="false" default="false">
 	<!--- Create token --->
-	<cfset var t = createuuid('')>
+	<cfset var t =  replace(createuuid(),"-","","all")>
 	<!--- Update DB --->
 	<cftry>
 		<cfquery dataSource="#application.razuna.datasource#">
@@ -77,7 +77,7 @@
 <!--- reset all --->
 <cffunction name="resetcachetokenall" output="false" returntype="void">
 	<!--- Create token --->
-	<cfset var t = createuuid('')>
+	<cfset var t =  replace(createuuid(),"-","","all")>
 	<!--- Update DB --->
 	<cftry>
 		<cfquery dataSource="#application.razuna.datasource#">
