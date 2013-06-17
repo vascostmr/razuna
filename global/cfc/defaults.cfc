@@ -31,7 +31,7 @@
 		<!--- Get the cachetoken for here --->
 		<cfset variables.cachetoken = getcachetoken("settings")>
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="thelangs" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="thelangs" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#getlangs */ lang_id, lang_name
 		FROM #session.hostdbprefix#languages
 		WHERE lang_active = <cfqueryparam value="t" cfsqltype="cf_sql_varchar">
@@ -41,7 +41,7 @@
 		<!--- If no record is found then insert the default English one --->
 		<cfif thelangs.recordcount EQ 0>
 			<!--- Check if english is here or not --->
-			<cfquery datasource="#application.razuna.datasource#" name="thelangseng" cachedwithin="1" region="razcache">
+			<cfquery datasource="#application.razuna.datasource#" name="thelangseng" cachedwithin="1" >
 			SELECT /* #variables.cachetoken#getlangeng */ lang_id
 			FROM #session.hostdbprefix#languages
 			WHERE host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
@@ -70,7 +70,7 @@
 			<!--- Reset Cache --->
 			<cfset variables.cachetoken = resetcachetoken("general")>
 			<!--- Query again --->
-			<cfquery datasource="#application.razuna.datasource#" name="thelangs" cachedwithin="1" region="razcache">
+			<cfquery datasource="#application.razuna.datasource#" name="thelangs" cachedwithin="1">
 			SELECT /* #variables.cachetoken#getlangsagain */ lang_id, lang_name
 			FROM #session.hostdbprefix#languages
 			WHERE lang_active = <cfqueryparam value="t" cfsqltype="cf_sql_varchar">

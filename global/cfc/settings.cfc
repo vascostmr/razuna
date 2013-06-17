@@ -1139,7 +1139,7 @@
 				</cftry>
 			<cfelse>
 				<!--- Create the config DB on the filesystem --->
-				<cfinvoke component="db_h2" method="BDsetDatasource">
+				<cfinvoke component="cfmlengine" method="setDatasource">
 					<cfinvokeargument name="name" value="razuna_default" />
 					<cfinvokeargument name="databasename" value="razuna_default" />
 					<cfinvokeargument name="logintimeout" value="120" />
@@ -1219,7 +1219,7 @@
 		</cfquery>
 		<cfcatch type="database">
 			<!--- Create the config DB on the filesystem --->
-			<cfinvoke component="db_h2" method="BDsetDatasource">
+			<cfinvoke component="cfmlengine" method="setDatasource">
 				<cfinvokeargument name="name" value="razuna_backup" />
 				<cfinvokeargument name="databasename" value="razuna_backup" />
 				<cfinvokeargument name="logintimeout" value="120" />
@@ -1296,7 +1296,14 @@
 	<cfset application.razuna.isp = qry.conf_isp>
 	<cfset application.razuna.firsttime = qry.conf_firsttime>
 	<cfset application.razuna.rfs = qry.conf_rendering_farm>
-	<cfset application.razuna.s3ds = AmazonRegisterDataSource("aws",qry.conf_aws_access_key,qry.conf_aws_secret_access_key,qry.conf_aws_location)>
+
+	<cfinvoke component="amazon" method="registerDataSource" returnvariable="application.razuna.s3ds" >
+		<cfinvokeargument name="datasource" value="aws">
+		<cfinvokeargument name="awsaccess" value="#qry.conf_aws_access_key#">
+		<cfinvokeargument name="awskey" value="#qry.conf_aws_secret_access_key#">
+		<cfinvokeargument name="region" value="#qry.conf_aws_location#">
+	</cfinvoke>
+
 	<cfset application.razuna.whitelabel = qry.conf_wl>
 	<cfset application.razuna.akatoken = qry.conf_aka_token>
 </cffunction>
