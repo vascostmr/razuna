@@ -1,6 +1,5 @@
 ﻿<cfcomponent>
 	
-	
 	<cffunction name="getConfig" output="false" returntype="struct" hint="Returns a struct representation of the OpenBD server configuration (bluedragon.xml)">
 		<cfset var admin = structNew() />
 			<cflock scope="Server" type="readonly" timeout="5">
@@ -11,6 +10,21 @@
 		<cfreturn admin.server />
 	</cffunction>
 	
+	<cffunction name="setConfig" output="false">
+		<cfset pathoneup = expandPath('../')>
+		<cfadmin
+			    action="updateDatasource"
+			    type="web"
+			    password="password"
+			    classname="org.h2.Driver"
+			    dsn="jdbc:h2:#pathoneup#\db\razuna_default;CACHE_SIZE=100000;IGNORECASE=TRUE;MODE=Oracle;AUTO_RECONNECT=TRUE;CACHE_TYPE=SOFT_LRU;AUTO_SERVER=TRUE"
+			    name="razuna_default"
+			    newName="razuna_default"    
+			    dbusername="razuna"
+			    dbpassword="razunaconfig"        
+			    >
+		 <cfreturn true />		
+	</cffunction>	
 	
 	<cffunction name="QueryToArray" access="public" returntype="array" output="false" hint="This turns a query into an array of structures.">
     	<cfargument name="Data" type="query" required="yes" />

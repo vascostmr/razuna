@@ -2273,23 +2273,19 @@
 	</cffunction>
 	
 	<!--- OPENBD CONFIG INTERACTION --->
-	
-	
 	<cffunction name="bdsetConfig" access="private" output="false" returntype="void" hint="Sets the server configuration and tells OpenBD to refresh its settings">
 		<cfargument name="currentConfig" type="struct" required="true" hint="The configuration struct, which is a struct representation of bluedragon.xml" />
 			<cflock scope="Server" type="exclusive" timeout="5">
 				<cfset admin.server = duplicate(arguments.currentConfig) />
 				<cfset admin.server.openbdadminapi.lastupdated = DateFormat(now(), "dd/mmm/yyyy") & " " & TimeFormat(now(), "HH:mm:ss") />
 				<cfset admin.server.openbdadminapi.version = "1.0" />
-				<cfset xmlConfig = createObject("java", "com.naryx.tagfusion.xmlConfig.xmlCFML").init(admin) />
-				<cfset success = createObject("java", "com.naryx.tagfusion.cfm.engine.cfEngine").writeXmlFile(xmlConfig) />
+				<cfinvoke component="cfmlengine" method="setConfig"  admin="#admin#"  />
 			</cflock>
 	</cffunction>
 	
 	<cffunction name="bddatasourceExists" access="public" output="false" returntype="boolean" hint="Returns a boolean indicating whether or not a datasource with the specified name exists">
 		<cfargument name="dsn" type="string" required="true" hint="The datasource name to check" />
 		<cfset var dsnExists = true />
-		
 		<cfinvoke component="cfmlengine" method="getConfig" returnvariable="localConfig" >
 		</cfinvoke>
 		
@@ -2335,13 +2331,10 @@
 		<cfargument name="existingDatasourceName" type="string" required="false" default="" hint="The existing (old) datasource name so we know what to delete if this is an update" />
 		<cfargument name="verificationQuery" type="string" required="false" default="" hint="Custom verification query for 'other' driver types" />
 		
-		
 		<cfinvoke component="cfmlengine" method="getConfig" returnvariable="localConfig" >
 		</cfinvoke>
 		
-		
 		<cfset var datasourceSettings = structNew() />
-		
 		<!--- make sure configuration structure exists, otherwise build it --->
 		<cfif (NOT StructKeyExists(localConfig, "cfquery")) OR (NOT StructKeyExists(localConfig.cfquery, "datasource"))>
 			<cfset localConfig.cfquery.datasource = ArrayNew(1) />
