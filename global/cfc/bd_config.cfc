@@ -31,12 +31,10 @@
 	<cffunction name="getConfig" access="package" output="false" returntype="struct" 
 			hint="Returns a struct representation of the OpenBD server configuration (bluedragon.xml)">
 		<cfset var admin = 0 />
-		
 		<cflock scope="Server" type="readonly" timeout="5">
-			<cfset admin = createObject("java", "com.naryx.tagfusion.cfm.engine.cfEngine").getConfig().getCFMLData() />
+			<cfinvoke component="cfmlengine" method="getConfig" returnvariable="localConfig" >
 		</cflock>
-
-		<cfreturn admin.server />
+		<cfreturn localConfig />
 	</cffunction>
 	
 

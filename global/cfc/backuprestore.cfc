@@ -39,7 +39,7 @@
 		<!--- Params --->
 		<cfset arguments.thestruct.dsn = "razuna_backup">
 		<cfset arguments.thestruct.fromimport = "T">
-		<cfset arguments.thestruct.tschema = "B" & createuuid("")>
+		<cfset arguments.thestruct.tschema = "B" & replace(createuuid(),'-','','all')>
 		<cfparam name="arguments.thestruct.admin" default="F">
 		<!--- Feedback --->
 		<cfoutput><strong>Starting the Backup</strong><br><br></cfoutput>
@@ -873,12 +873,24 @@
 		<!--- Zip and remove original --->
 		<cfif arguments.thestruct.tofiletype EQ "raz">
 			<!--- Zip it --->
-			<cfzip action="create" zipfile="#backupdir#/#arguments.thestruct.thedatefile#.zip" source="#arguments.thestruct.thisdir#" />
+			<cfinvoke component="cfmlengine" method="createZipFile" returnvariable="return_value">
+				<cfinvokeargument name="ZIPFILE" value="#backupdir#/#arguments.thestruct.thedatefile#.zip">
+				<cfinvokeargument name="source" value="#arguments.thestruct.thisdir#">
+				<cfinvokeargument name="recurse" value="false">
+				<cfinvokeargument name="timeout" value="300">
+			</cfinvoke>
+			<!---<cfzip action="create" zipfile="#backupdir#/#arguments.thestruct.thedatefile#.zip" source="#arguments.thestruct.thisdir#" />--->
 			<!--- Remove it --->
 			<cfdirectory action="delete" directory="#arguments.thestruct.thisdir#" recurse="yes" />
 		<cfelse>
 			<!--- Zip it --->
-			<cfzip action="create" zipfile="#backupdir#/#arguments.thestruct.thedatefile#.zip" source="#GetTempDirectory()#/#arguments.thestruct.thedatefile#" />
+			<cfinvoke component="cfmlengine" method="createZipFile" returnvariable="return_value">
+				<cfinvokeargument name="ZIPFILE" value="#backupdir#/#arguments.thestruct.thedatefile#.zip">
+				<cfinvokeargument name="source" value="#GetTempDirectory()#/#arguments.thestruct.thedatefile#">
+				<cfinvokeargument name="recurse" value="false">
+				<cfinvokeargument name="timeout" value="300">
+			</cfinvoke>
+			<!---<cfzip action="create" zipfile="#backupdir#/#arguments.thestruct.thedatefile#.zip" source="#GetTempDirectory()#/#arguments.thestruct.thedatefile#" />--->
 			<!--- Remove it --->
 			<cffile action="delete" file="#GetTempDirectory()#/#arguments.thestruct.thedatefile#">
 		</cfif>
@@ -1872,7 +1884,7 @@
 		<cfargument name="thestruct" type="struct">
 		<!--- Param --->
 		<cfset var mystruct = structnew()>
-		<cfset var foldername = createuuid("")>
+		<cfset var foldername = replace(createuuid(),'-','','all')>
 		<cftry>
 			<!--- Create folder --->
 			<cfdirectory action="create" directory="#arguments.thestruct.thepath#/incoming/#foldername#" mode="775">

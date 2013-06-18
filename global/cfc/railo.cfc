@@ -96,4 +96,24 @@
 	
 	    </cfscript>
     </cffunction>
+    
+    <cffunction name="createZipFile" access="public" output="true">
+		<cfargument name="ZIPFILE" type="string" required="true" />
+		<cfargument name="source" type="string" required="true" />
+		<cfargument name="recurse" type="string" required="true" />
+		<cfargument name="timeout" type="string" required="false" />
+
+		<cfzip action="zip" file="#arguments.ZIPFILE#" source="#arguments.source#" recurse="#arguments.recurse#"  />
+		
+		<!--- Return --->
+		<cfreturn true/>
+	</cffunction>
+	
+	<cffunction name="extractZipFile" access="public" output="true">
+		<cfargument name="ZIPFILE" type="string" required="true" />
+		<cfargument name="destination" type="string" required="true" />
+		<cfzip action="unzip" file="#arguments.ZIPFILE#" destination="#arguments.destination#" />
+		<!--- Return --->
+		<cfreturn true/>
+	</cffunction>
 </cfcomponent>

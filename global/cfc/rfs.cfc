@@ -253,7 +253,11 @@
 				<!--- Get file --->
 				<cfhttp url="#qry.rfs_server_name#/incoming/#arguments.thestruct.rfs_path#/razuna_pdf_images.zip" file="razuna_pdf_images.zip" path="#storein#"></cfhttp>
 				<!--- Extract ZIP --->
-				<cfzip action="extract" zipfile="#storein#/razuna_pdf_images.zip" destination="#storein#/razuna_pdf_images" />
+				<cfinvoke component="cfmlengine" method="extractZipFile" returnvariable="return_value">
+					<cfinvokeargument name="ZIPFILE" value="#storein#/razuna_pdf_images.zip">
+					<cfinvokeargument name="destination" value="#storein#/razuna_pdf_images">
+				</cfinvoke>
+				<!---<cfzip action="extract" zipfile="#storein#/razuna_pdf_images.zip" destination="#storein#/razuna_pdf_images" />--->
 				<!--- Remove the ZIP file --->
 				<cffile action="delete" file="#storein#/razuna_pdf_images.zip" />
 			</cfif>

@@ -40,9 +40,9 @@
 	<cfset var xPath = "">
 	<cfset var node = "">
 	
-		<cfcachecontent name="blog" cachedwithin="#CreateTimeSpan(0,6,0,0)#" region="razcache">
+		<!---<cfcachecontent name="blog" cachedwithin="#CreateTimeSpan(0,6,0,0)#" region="razcache">--->
 			<cfhttp url="#arguments.thefeed#" method="get" throwonerror="no" timeout="6">
-		</cfcachecontent>
+		<!---</cfcachecontent>--->
 		
 			<cfset xmlData = xmlParse(arguments.thefeed)>
 			

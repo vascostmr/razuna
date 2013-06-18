@@ -163,7 +163,7 @@
 		<!--- If file exists locally then upload --->
 		<cfif fileexists(arguments.uploadfile)>			
 			<!--- Params --->
-			<cfset var tt = createuuid("")>
+			<cfset var tt = replace(createuuid(),'-','','all')>
 			<!--- Get Storage Node Stuff --->
 			<cfset var storagenode = getstoragenode(arguments.destFolderPath)>
 			<!--- Upload Asset --->
@@ -789,7 +789,7 @@
 		<!--- Create Epoc time --->
 		<cfset arguments.newepoch = DateDiff("s", DateConvert("utc2Local", "January 1 1970 00:00"), now()) + (arguments.minutesValid * 60)>
 		<!--- Create thread --->
-		<cfset var tt = createuuid("")>
+		<cfset var tt = replace(createuuid(),'-','','all')>
 		<cfthread name="#tt#" intstruct="#arguments#" output="yes">
 			<cfinvoke method="signedurlthread" thestruct="#attributes.intstruct#" returnvariable="turl">
 			<cfoutput>#turl#</cfoutput>

@@ -3095,7 +3095,7 @@
 			</cfquery>
 			<!--- Add labels query --->
 			<cfif qry_l.recordcount NEQ 0>
-				<cfset QuerySetCell(query=qry, column="labels", value=valueList(qry_l.ct_label_id), row=currentrow)>
+				<cfset QuerySetCell(qry, "labels", valueList(qry_l.ct_label_id),currentrow)>
 			</cfif>
 		</cfloop>
 	</cfif>
@@ -4252,7 +4252,13 @@
 	<cfoutput>Ok. All files are here. Creating a nice ZIP file for you now.<br /></cfoutput>
 	<cfflush>
 	<!--- All done. ZIP and finish --->
-	<cfzip action="create" ZIPFILE="#arguments.thestruct.thepath#/outgoing/folder_#arguments.thestruct.folder_id#.zip" source="#arguments.thestruct.newpath#" recurse="true" timeout="300" />
+	<cfinvoke component="cfmlengine" method="createZipFile" returnvariable="return_value">
+		<cfinvokeargument name="ZIPFILE" value="#arguments.thestruct.thepath#/outgoing/folder_#arguments.thestruct.folder_id#.zip">
+		<cfinvokeargument name="source" value="#arguments.thestruct.newpath#">
+		<cfinvokeargument name="recurse" value="true">
+		<cfinvokeargument name="timeout" value="300">
+	</cfinvoke>
+	<!---<cfzip action="create" ZIPFILE="#arguments.thestruct.thepath#/outgoing/folder_#arguments.thestruct.folder_id#.zip" source="#arguments.thestruct.newpath#" recurse="true" timeout="300" />--->
 	<!--- Zip path for download --->
 	<cfoutput><p><a href="outgoing/folder_#arguments.thestruct.folder_id#.zip"><strong style="color:green;">All done. Here is your downloadable folder</strong></a></p></cfoutput>
 	<cfflush>
