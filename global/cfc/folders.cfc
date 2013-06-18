@@ -416,7 +416,7 @@
 		<!--- Param --->
 		<cfset arguments.thestruct.folder_id = newfolderid>
 		<!--- Thread for adding files of this folder --->
-		<cfthread intstruct="#arguments.thestruct#">
+		<cfthread intstruct="#arguments.thestruct#" name="#newfolderid#">
 			<!--- Loop over the assets --->
 			<cfloop query="attributes.intstruct.thefiles">
 				<!--- Params --->
@@ -439,7 +439,7 @@
 			<!--- Put folderid into struct --->
 			<cfset arguments.thestruct.theid = newfolderid>
 			<!--- Call function --->
-			<cfthread intstruct="#arguments.thestruct#">
+			<cfthread intstruct="#arguments.thestruct#" name="#newfolderid#">
 				<cfinvoke method="folder_link_rec" thestruct="#attributes.intstruct#">
 			</cfthread>
 		</cfif>
@@ -1383,7 +1383,7 @@
 			<!--- Flush Cache --->
 			<cfset variables.cachetoken = resetcachetoken("folders")>
 			<!--- The rest goes in a thread since it can run in the background --->
-			<cfthread intstruct="#arguments.thestruct#">
+			<cfthread intstruct="#arguments.thestruct#" name="#arguments.thestruct.folder_id#">
 				<!--- Call to get the recursive folder ids --->
 				<cfinvoke method="recfolder" returnvariable="folderids">
 					<cfinvokeargument name="thelist" value="#attributes.intstruct.folder_id#">
@@ -1605,7 +1605,7 @@
 	<cfargument name="qry_all" type="Query">
 	<cfargument name="thestruct" type="struct">
 	<!--- Thread --->
-	<cfthread instruct="#arguments#">
+	<cfthread instruct="#arguments#" name="#arguments.thestruct.id#">
 		<!--- Loop over the query --->
 		<cfloop query="attributes.instruct.qry_all">
 			<!--- Check that users has NOT only read access --->

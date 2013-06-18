@@ -36,6 +36,9 @@
 		<cfif isstruct(server) and server.coldfusion.productname EQ "Railo">
 			<cfinvoke component="amazon_railo" method="#arguments.missingMethodName#" argumentcollection="#arguments.missingMethodArguments#" returnvariable="returnVariable" >
 			</cfinvoke>
+		<cfelseif isstruct(server) and server.coldfusion.productname EQ "ColdFusion Server">
+			<cfinvoke component="amazon_acf" method="#arguments.missingMethodName#" argumentcollection="#arguments.missingMethodArguments#" returnvariable="returnVariable" >
+			</cfinvoke>
 		<cfelse>
 			<cfinvoke component="amazon_openBD" method="#arguments.missingMethodName#" argumentcollection="#arguments.missingMethodArguments#" returnvariable="returnVariable" >
 			</cfinvoke>

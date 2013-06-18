@@ -93,7 +93,7 @@
 		<set name="session.hostid" value="#userhosts.host_id#" />
 		<set name="session.host_count" value="1" />
 		<!-- Relocate -->
-		<relocate url="#myself#c.main&amp;_v=#createuuid('')#" />
+		<relocate url="#myself#c.main&amp;_v=#replace(createuuid(),'-','','all')#" />
 		<!-- Show -->
 		<!-- <do action="ajax.choosehost" /> -->
 	</fuseaction>
@@ -1252,7 +1252,7 @@
 		<if condition="session.updatedb">
 			<true>
 				<!-- <do action="v.update" /> -->
-				<relocate url="#myself#v.update&amp;_v=#replace(createuuid(),'-','','all')#" />
+				<relocate url="#myself#v.update&amp;_v=#repalce(createuuid(),'-','','all')#" />
 			</true>
 		</if>
 	</fuseaction>

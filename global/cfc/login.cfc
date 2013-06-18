@@ -212,7 +212,7 @@
 		<cfargument name="userid" required="yes" type="string">
 		<!--- Get the cachetoken for here --->
 		<cfset arguments.cachetoken = getcachetoken("general")>
-		<cfthread intstruct="#arguments#">
+		<cfthread name="#arguments.userid#" intstruct="#arguments#">
 			<!--- Query customization DB --->
 			<cfquery dataSource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 			SELECT /* #attributes.intstruct.cachetoken#createmyfolder */ custom_id, custom_value
@@ -413,7 +413,7 @@ Password: #randompassword#
 		WHERE host_id = <cfqueryparam value="#arguments.thestruct.hostid#" cfsqltype="cf_sql_numeric">
 		</cfquery>
 		<!--- Remove old entries --->
-		<cfthread>
+		<cfthread name="#arguments.thestruct.theuserid#">
 			<cfquery datasource="#application.razuna.datasource#">
 			DELETE FROM webservices
 			WHERE timeout < <cfqueryparam value="#DateAdd("h", -6, now())#" cfsqltype="cf_sql_timestamp">

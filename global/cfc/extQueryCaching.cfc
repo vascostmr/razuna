@@ -130,7 +130,7 @@
 	<cfargument name="logfiletype" type="string" required="yes" />
 	<cfargument name="assetid" type="string" required="false" />
 	<cftry>
-		<cfthread intstruct="#arguments#">
+		<cfthread name="#arguments.theuserid#" action="run" intstruct="#arguments#">
 			<cfquery datasource="#application.razuna.datasource#">
 			INSERT INTO #session.hostdbprefix#log_assets
 			(log_id,log_user,log_action,log_date,log_time,log_desc,log_file_type,log_timestamp, host_id, asset_id_r<!--- ,log_browser,log_ip --->)

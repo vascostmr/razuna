@@ -7,6 +7,9 @@
 		<cfif isstruct(server) and server.coldfusion.productname EQ "Railo">
 			<cfinvoke component="railo" method="#arguments.missingMethodName#" argumentcollection="#arguments.missingMethodArguments#" returnvariable="returnVariable" >
 			</cfinvoke>
+		<cfelseif isstruct(server) and server.coldfusion.productname EQ "ColdFusion Server">
+			<cfinvoke component="acf" method="#arguments.missingMethodName#" argumentcollection="#arguments.missingMethodArguments#" returnvariable="returnVariable" >
+			</cfinvoke>
 		<cfelse>
 			<cfinvoke component="openbd" method="#arguments.missingMethodName#" argumentcollection="#arguments.missingMethodArguments#" returnvariable="returnVariable" >
 			</cfinvoke>
@@ -15,3 +18,5 @@
 		<cfreturn returnVariable>
 	</cffunction>	
 </cfcomponent>
+
+ 
