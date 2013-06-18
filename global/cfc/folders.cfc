@@ -48,7 +48,7 @@
 	<cfset var qSub = 0>
 	<cfset var qRet = 0>
 	<!--- Do the select --->
-	<cfquery datasource="#variables.dsn#" name="f_1" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="f_1" cachedwithin="1" >
 	SELECT /* #variables.cachetoken##session.theUserID#getTreeByCollection */ #Arguments.ColumnList#,
 		<!--- Permission follow but not for sysadmin and admin --->
 		<cfif not Request.securityObj.CheckSystemAdminUser() and not Request.securityObj.CheckAdministratorUser()>
@@ -155,7 +155,7 @@
 	<cfargument name="folder_id" required="yes" type="string">
 	<!--- init internal vars --->
 	<cfset var qLocal = 0>
-	<cfquery name="qLocal" datasource="#Variables.dsn#" cachedwithin="1" region="razcache">
+	<cfquery name="qLocal" datasource="#Variables.dsn#" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#getfolder */ f.folder_id, f.folder_id_r, f.folder_name, f.folder_level, f.folder_of_user,
 	f.folder_is_collection, f.folder_owner, folder_main_id_r rid, f.folder_shared, f.folder_name_shared,
 	share_dl_org, share_dl_thumb, share_comments, share_upload, share_order, share_order_user, share_dl_thumb
@@ -214,7 +214,7 @@
 	<cfargument name="folder_id" required="yes" type="string">
 	<!--- init internal vars --->
 	<cfset var qLocal = 0>
-	<cfquery name="qLocal" datasource="#Variables.dsn#" cachedwithin="1" region="razcache">
+	<cfquery name="qLocal" datasource="#Variables.dsn#" cachedwithin="1">
 	SELECT /* #variables.cachetoken#getfolderproperties */ f.folder_id, f.folder_id_r, f.folder_name, f.folder_level, f.folder_of_user,
 	f.folder_is_collection, f.folder_owner, folder_main_id_r rid, f.folder_shared, f.folder_name_shared,
 	share_dl_org, share_dl_thumb, share_comments, share_upload, share_order, share_order_user
@@ -229,7 +229,7 @@
 <!--- GET THE DESCRIPTION FOR THIS FOLDER (WITH PARAGRAPHS) --->
 <cffunction hint="GET THE DESCRIPTIONS FOR THIS FOLDER" name="getfolderdesc" output="false">
 	<cfargument name="folder_id" required="yes" type="string">
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#getfolderdesc */ folder_desc, lang_id_r
 	FROM #session.hostdbprefix#folders_desc
 	WHERE folder_id_r = <cfqueryparam value="#arguments.folder_id#" cfsqltype="CF_SQL_VARCHAR">
@@ -247,7 +247,7 @@
 	<cfset var thegroups = 0>
 	<!--- Query --->
 	<cfif arguments.qrygroup.recordcount NEQ 0>
-		<cfquery datasource="#variables.dsn#" name="thegroups" cachedwithin="1" region="razcache">
+		<cfquery datasource="#variables.dsn#" name="thegroups" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getfoldergroups */ grp_id_r, grp_permission
 		FROM #session.hostdbprefix#folders_groups
 		WHERE folder_id_r = <cfqueryparam value="#arguments.folder_id#" cfsqltype="CF_SQL_VARCHAR">
@@ -264,7 +264,7 @@
 <!--- GET THE GROUPS FOR THIS FOLDER ZERO --->
 <cffunction hint="GET THE GROUPS FOR THIS FOLDER ZERO" name="getfoldergroupszero" output="false">
 	<cfargument name="folder_id" default="" required="yes" type="string">
-	<cfquery datasource="#variables.dsn#" name="thegroups" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="thegroups" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#getfoldergroupszero */ grp_id_r, grp_permission
 	FROM #session.hostdbprefix#folders_groups
 	WHERE folder_id_r = <cfqueryparam value="#arguments.folder_id#" cfsqltype="CF_SQL_VARCHAR">
@@ -1195,7 +1195,7 @@
 	<cfparam name="arguments.thestruct.langcount" default="1" />
 	<cfparam name="arguments.thestruct.folder_desc_1" default="" />
 	<!--- Create a new ID --->
-	<cfset var newfolderid = createuuid("")>
+	<cfset var newfolderid = replace(createuuid(),'-','','all')>
 	<!--- Insert --->
 	<cfquery datasource="#application.razuna.datasource#">
 	INSERT INTO #session.hostdbprefix#folders
@@ -1472,14 +1472,14 @@
 </cffunction>
 
 <!--- Get All Folder Trash --->
-<cffunction name="gettrashfolder" output="false" output="false" returntype="Query">
+<cffunction name="gettrashfolder" output="false" returntype="Query">
 	<!--- Param --->
 	<cfset var folderIDs = "">
 	<cfset var qry = "">
 	<!--- Get the cachetoken for here --->
 	<cfset variables.cachetoken = getcachetoken("folders")>
 	<!--- Query --->
-	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#gettrashfolder */ 
 	f.folder_id AS id, 
 	f.folder_name AS filename, 
@@ -2094,7 +2094,7 @@
 		<cfset var thefolderlist = arguments.folder_id & ",">
 	</cfif>
 	<!--- Query --->
-	<cfquery datasource="#application.razuna.datasource#" name="total" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="total" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#filetotalcount */
 		(
 		SELECT count(fi.file_id)
@@ -2197,7 +2197,7 @@
 	</cfif>
 	<!--- Images --->
 	<cfif arguments.thestruct.kind EQ "img">
-		<cfquery datasource="#application.razuna.datasource#" name="total" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="total" cachedwithin="1">
 		SELECT /* #variables.cachetoken#imgfiletotaltype */ count(img_id) as thetotal
 		FROM #session.hostdbprefix#images
 		WHERE host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
@@ -2212,7 +2212,7 @@
 		</cfquery>
 	<!--- Videos --->
 	<cfelseif arguments.thestruct.kind EQ "vid">
-		<cfquery datasource="#application.razuna.datasource#" name="total" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="total" cachedwithin="1">
 		SELECT /* #variables.cachetoken#vidfiletotaltype */ count(vid_id) as thetotal
 		FROM #session.hostdbprefix#videos
 		WHERE host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
@@ -2227,7 +2227,7 @@
 		</cfquery>
 	<!--- Audios --->
 	<cfelseif arguments.thestruct.kind EQ "aud">
-		<cfquery datasource="#application.razuna.datasource#" name="total" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="total" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#audfiletotaltype */ count(aud_id) as thetotal
 		FROM #session.hostdbprefix#audios
 		WHERE host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
@@ -2242,7 +2242,7 @@
 		</cfquery>
 	<!--- All Docs in this folder --->
 	<cfelseif arguments.thestruct.kind EQ "doc">
-		<cfquery datasource="#application.razuna.datasource#" name="total" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="total" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#docfiletotaltype */ count(file_id) as thetotal
 		FROM #session.hostdbprefix#files
 		WHERE host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
@@ -2256,7 +2256,7 @@
 		</cfquery>
 	<!--- Files --->
 	<cfelse>
-		<cfquery datasource="#application.razuna.datasource#" name="total" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="total" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#docfiletotaltype */ count(file_id) as thetotal
 		FROM #session.hostdbprefix#files
 		WHERE host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
@@ -2290,7 +2290,7 @@
 	<!--- Get the cachetoken for here --->
 	<cfset variables.cachetoken = getcachetoken("folders")>
 	<!--- Get All Assets From List Of Folders --->
-	<cfquery datasource="#variables.dsn#" name="qTab" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qTab" cachedwithin="1" >
 	SELECT i.img_id as id
 	FROM #session.hostdbprefix#images i 
 	WHERE i.folder_id_r IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.folder_id#" list="true">)
@@ -2341,7 +2341,7 @@
 	<cfparam name="session.customfileid" default="">
 	<!--- Get the cachetoken for here --->
 	<cfset variables.cachetoken = getcachetoken("folders")>
-	<cfquery datasource="#variables.dsn#" name="qTab" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qTab" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#fileTotalAllTypes */ 'doc' as ext, count(file_id) as cnt, 'doc' as typ, 'tab_word' as scr
 		FROM #session.hostdbprefix#files
 		WHERE folder_id_r = <cfqueryparam value="#arguments.folder_id#" cfsqltype="CF_SQL_VARCHAR">
@@ -2436,7 +2436,7 @@
 	<!--- If there is no session for webgroups set --->
 	<cfparam default="0" name="session.thegroupofuser">
 	<!--- Query --->
-	<cfquery datasource="#application.razuna.datasource#" name="fprop" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="fprop" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#setaccess */ <cfif arguments.sf>'0' as folder_owner<cfelse>f.folder_owner</cfif>, fg.grp_id_r, fg.grp_permission
 	<cfif arguments.sf>
 		FROM #session.hostdbprefix#smart_folders f LEFT JOIN #session.hostdbprefix#folders_groups fg ON f.sf_id = fg.folder_id_r AND f.host_id = fg.host_id
@@ -2588,7 +2588,7 @@
 
 <!--- GET FOLDER OF USER --------------------------------------------------->
 <cffunction name="getuserfolder" output="false">
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getuserfolder */ folder_id
 		FROM #session.hostdbprefix#folders
 		WHERE lower(folder_of_user) = <cfqueryparam cfsqltype="cf_sql_varchar" value="t">
@@ -2659,7 +2659,7 @@
 	<!--- Oracle --->
 	<cfif variables.database EQ "oracle">
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#getallassets */ rn, id, filename, folder_id_r, ext, filename_org, kind, date_create, date_change, link_kind, link_path_url,
 		path_to_asset, cloud_url, cloud_url_org, description, keywords, vheight, vwidth, theformat, filename_forsort, size, hashtag, labels
 		FROM (
@@ -2753,7 +2753,7 @@
 	<!--- DB2 --->
 	<cfelseif variables.database EQ "db2">
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#getallassets */ id, filename, folder_id_r, ext, filename_org, kind, is_available, date_create, date_change, link_kind, link_path_url,
 		path_to_asset, cloud_url, cloud_url_org, description, keywords, theformat, filename_forsort, size, hashtag
 		FROM (
@@ -2847,7 +2847,7 @@
 		<!--- MySQL Offset --->
 		<cfset var mysqloffset = session.offset * session.rowmaxpage>
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#getallassets */ <cfif variables.database EQ "mssql">TOP #session.rowmaxpage# </cfif>i.img_id as id, i.img_filename as filename, i.in_trash, 
 		i.folder_id_r, i.thumb_extension as ext, i.img_filename_org as filename_org, 'img' as kind, i.is_available,
 		i.img_create_time as date_create, i.img_change_time as date_change, i.link_kind, i.link_path_url,
@@ -3088,7 +3088,7 @@
 		<!--- Loop over files and get labels and add to qry --->
 		<cfloop query="qry">
 			<!--- Query labels --->
-			<cfquery name="qry_l" datasource="#application.razuna.datasource#" cachedwithin="1" region="razcache">
+			<cfquery name="qry_l" datasource="#application.razuna.datasource#" cachedwithin="1" >
 			SELECT /* #variables.cachetokenlabels#getallassetslabels */ ct_label_id
 			FROM ct_labels
 			WHERE ct_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#id#">
@@ -3172,7 +3172,7 @@
 	<!--- Get the cachetoken for here --->
 	<cfset variables.cachetoken = getcachetoken("folders")>
 	<!--- Query --->
-	<cfquery datasource="#arguments.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#arguments.dsn#" name="qry" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#getfoldersinlist */ folder_id
 	FROM #arguments.prefix#folders f
 	WHERE f.folder_id <cfif arguments.database EQ "oracle" OR arguments.database EQ "db2"><><cfelse>!=</cfif> f.folder_id_r
@@ -3210,7 +3210,7 @@
 	<!--- Get the cachetoken for here --->
 	<cfset variables.cachetoken = getcachetoken("folders")>
 	<!--- Query --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" >
 	SELECT /* #variables.cachetoken##session.theUserID#getfoldersfortree */ folder_id, folder_name, folder_id_r, folder_of_user, folder_owner, folder_level, in_trash, username, perm, subhere, permfolder
 	FROM (
 		SELECT f.folder_id, f.folder_name, f.folder_id_r, f.folder_of_user, f.folder_owner, f.folder_level,f.in_trash, 
@@ -3486,14 +3486,14 @@
 	<cfparam name="session.iscol" default="F">
 	<!--- Check if folder is even shared or not --->
 	<cfif session.iscol EQ "F">
-		<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#sharecheckperm */ folder_shared shared
 		FROM #session.hostdbprefix#folders
 		WHERE folder_id = <cfqueryparam value="#arguments.thestruct.fid#" cfsqltype="CF_SQL_VARCHAR">
 		AND host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
 		</cfquery>
 	<cfelse>
-		<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#sharecheckperm2 */ col_shared shared
 		FROM #session.hostdbprefix#collections
 		WHERE col_id = <cfqueryparam value="#arguments.thestruct.fid#" cfsqltype="CF_SQL_VARCHAR">
@@ -3505,7 +3505,7 @@
 	<!--- If the folder is shared, check if the folder is for everyone --->
 	<cfif qry.shared EQ "T">
 		<cfif session.iscol EQ "F">
-			<cfquery datasource="#variables.dsn#" name="qryfolder" cachedwithin="1" region="razcache">
+			<cfquery datasource="#variables.dsn#" name="qryfolder" cachedwithin="1" >
 			SELECT /* #variables.cachetoken#sharecheckperm3 */ grp_id_r
 			FROM #session.hostdbprefix#folders_groups
 			WHERE folder_id_r = <cfqueryparam value="#arguments.thestruct.fid#" cfsqltype="CF_SQL_VARCHAR">
@@ -3513,7 +3513,7 @@
 			AND host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
 			</cfquery>
 		<cfelse>
-			<cfquery datasource="#variables.dsn#" name="qryfolder" cachedwithin="1" region="razcache">
+			<cfquery datasource="#variables.dsn#" name="qryfolder" cachedwithin="1" >
 			SELECT /* #variables.cachetoken#sharecheckperm4 */ grp_id_r
 			FROM #session.hostdbprefix#collections_groups
 			WHERE col_id_r = <cfqueryparam value="#arguments.thestruct.fid#" cfsqltype="CF_SQL_VARCHAR">
@@ -3538,7 +3538,7 @@
 	<cfargument name="fid" type="string">
 	<!--- Query --->
 	<cfif session.iscol EQ "F">
-		<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#sharecheckpermfolder */ folder_id,
 			<!--- Permission follow but not for sysadmin and admin --->
 			<cfif not Request.securityObj.CheckSystemAdminUser() and not Request.securityObj.CheckAdministratorUser()>
@@ -3566,7 +3566,7 @@
 		AND f.host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
 		</cfquery>
 	<cfelse>
-		<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#sharecheckpermfolder */ col_id,
 			<!--- Permission follow but not for sysadmin and admin --->
 			<cfif not Request.securityObj.CheckSystemAdminUser() and not Request.securityObj.CheckAdministratorUser()>
@@ -3674,7 +3674,7 @@
 	<!--- Get the cachetoken for here --->
 	<cfset variables.cachetoken = getcachetoken("folders")>
 	<!--- Query --->
-	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#getfoldername */ folder_name
 	FROM #session.hostdbprefix#folders
 	WHERE folder_id = <cfqueryparam value="#arguments.folder_id#" cfsqltype="CF_SQL_VARCHAR">
@@ -3689,7 +3689,7 @@
 	<!--- Param --->
 	<cfset var x = structnew()>
 	<!--- Query --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#getusername */ u.user_first_name, u.user_last_name, f.folder_owner
 	FROM #session.hostdbprefix#folders f LEFT JOIN users u ON f.folder_owner = u.user_id 
 	WHERE f.folder_id = <cfqueryparam value="#arguments.folder_id#" cfsqltype="CF_SQL_VARCHAR">
@@ -3769,7 +3769,7 @@
 					INSERT INTO #session.hostdbprefix#images_text
 					(id_inc, img_description, img_keywords, img_id_r, lang_id_r, host_id)
 					VALUES(
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#createuuid('')#">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#replace(createuuid(),'-','','all')#">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#form["#fdesc#"]#">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#form["#fkeys#"]#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#theid#">,
@@ -3834,7 +3834,7 @@
 					INSERT INTO #session.hostdbprefix#videos_text
 					(id_inc, vid_description, vid_keywords, vid_id_r, lang_id_r, host_id)
 					VALUES(
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#createuuid('')#">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#replace(createuuid(),'-','','all')#">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#form["#fdesc#"]#">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#form["#fkeys#"]#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#theid#">,
@@ -3898,7 +3898,7 @@
 					INSERT INTO #session.hostdbprefix#audios_text
 					(id_inc, aud_description, aud_keywords, aud_id_r, lang_id_r, host_id)
 					VALUES(
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#createuuid('')#">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#replace(createuuid(),'-','','all')#">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#form["#fdesc#"]#">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#form["#fkeys#"]#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#theid#">,
@@ -3967,7 +3967,7 @@
 					INSERT INTO #session.hostdbprefix#files_desc
 					(id_inc, file_desc, file_keywords, file_id_r, lang_id_r, host_id)
 					VALUES(
-						<cfqueryparam cfsqltype="cf_sql_varchar" value="#createuuid('')#">,
+						<cfqueryparam cfsqltype="cf_sql_varchar" value="#replace(createuuid(),'-','','all')#">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#form["#fdesc#"]#">,
 						<cfqueryparam cfsqltype="cf_sql_varchar" value="#form["#fkeys#"]#">,
 						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#theid#">,
@@ -4035,7 +4035,7 @@
 	<!--- If there is no session for webgroups set --->
 	<cfparam default="0" name="session.thegroupofuser">
 	<!--- Query --->
-	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#getsubfolders */ f.folder_id, f.folder_name, f.folder_id_r, f.folder_of_user, f.folder_owner, f.folder_level, <cfif application.razuna.thedatabase EQ "oracle" OR application.razuna.thedatabase EQ "h2" OR application.razuna.thedatabase EQ "db2">NVL<cfelseif application.razuna.thedatabase EQ "mysql">ifnull<cfelseif application.razuna.thedatabase EQ "mssql">isnull</cfif>(u.user_login_name,'Obsolete') as username,
 	<!--- Permission follow but not for sysadmin and admin --->
 	<cfif structKeyExists(Request.securityObj,"CheckSystemAdminUser") AND structKeyExists(Request.securityObj,"CheckAdministratorUser") AND NOT Request.securityObj.CheckSystemAdminUser() AND NOT Request.securityObj.CheckAdministratorUser() AND NOT structkeyexists(arguments,"external")>
@@ -4118,7 +4118,7 @@
 	<!--- If there is no session for webgroups set --->
 	<cfparam default="0" name="session.thegroupofuser">
 	<!--- Query: Get current folder_id_r --->
-	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#getbreadcrumb */ f.folder_name, f.folder_id_r, f.folder_id
 	<cfif arguments.fromshare>
 		<cfif session.iscol EQ "F">
@@ -4217,7 +4217,7 @@
 		</cfcatch>
 	</cftry>
 	<!--- Create directory --->
-	<cfset var basketname = createuuid("")>
+	<cfset var basketname = replace(createuuid(),'-','','all')>
 	<cfset arguments.thestruct.newpath = arguments.thestruct.thepath & "/outgoing/#basketname#">
 	<cfdirectory action="create" directory="#arguments.thestruct.newpath#" mode="775">
 	<!--- Create folders according to selection and download --->
@@ -4401,7 +4401,7 @@
 <cffunction name="store_values" output="false" returntype="void">
 	<cfargument name="thestruct" required="yes" type="struct">
 	<!--- Get ids --->
-	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 	<cfif arguments.thestruct.thekind EQ "ALL" OR arguments.thestruct.thekind EQ "img">
 		SELECT /* #variables.cachetoken#sv */ <cfif application.razuna.thedatabase EQ "mssql">img_id + '-img'<cfelse>concat(img_id,'-img')</cfif> as id
 		FROM #session.hostdbprefix#images
@@ -4486,7 +4486,7 @@
 	<!--- Get the cachetoken for here --->
 	<cfset variables.cachetoken = getcachetoken("folders")>
 	<!--- Query --->
-	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#getfoldername */ folder_id
 	FROM #session.hostdbprefix#folders
 	WHERE lower(folder_name) = <cfqueryparam value="#lcase(arguments.thestruct.folder_name)#" cfsqltype="CF_SQL_VARCHAR">

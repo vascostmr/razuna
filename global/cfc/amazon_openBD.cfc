@@ -30,7 +30,7 @@
 	<!---  --->
 	
 	<!--- FUNCTION: INIT --->
-	<cffunction name="init" returntype="amazon" access="public" output="false">
+	<cffunction name="init" returntype="Any" access="public" output="false">
 		<!--- Return --->
 		<cfreturn this />
 	</cffunction>

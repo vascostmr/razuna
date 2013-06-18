@@ -77,7 +77,29 @@
 		<cfreturn true />	
 	</cffunction>
 
-
+	<cffunction name="bddatasourceExists" access="public" output="false" returntype="boolean" hint="Returns a boolean indicating whether or not a datasource with the specified name exists">
+		<cfargument name="dsn" type="string" required="true" hint="The datasource name to check" />
+		<cfset var dsnExists = true />
+		<cfinvoke component="cfmlengine" method="getConfig" returnvariable="localConfig" >
+		</cfinvoke>
+		
+		<cfset var i = 0 />
+		<cfif not StructKeyExists(localConfig, "cfquery") or not StructKeyExists(localConfig.cfquery, "datasource")>
+			<!--- no datasources at all, so this one doesn't exist ---->
+			<cfset dsnExists = false />
+		<cfelse>
+			<cfloop index="i" from="1" to="#ArrayLen(localConfig.cfquery.datasource)#">
+				<cfif localConfig.cfquery.datasource[i].name is arguments.dsn>
+					<cfset dsnExists = true />
+					<cfbreak />
+				<cfelse>
+					<cfset dsnExists = false />
+				</cfif>
+			</cfloop>
+		</cfif>
+		<cfreturn dsnExists />
+	</cffunction>
+	
 	<!--- Datasource Set config --->
 	<cffunction name="setConfig" output="false"  >
 		<cfargument name="currentConfig" type="struct" required="true" hint="The configuration struct, which is a struct representation of bluedragon.xml" />

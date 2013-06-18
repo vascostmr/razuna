@@ -349,7 +349,7 @@
 		)
 		</cfquery>
 		<!--- Create a new ID --->
-		<cfset var newfolderid = createuuid("")>
+		<cfset var newfolderid = replace(createuuid(),'-','','all')>
 		<!--- Create the default Collections Folder --->
 		<cfquery datasource="#arguments.thestruct.dsn#">
 		Insert into #arguments.thestruct.host_db_prefix#folders
@@ -853,7 +853,7 @@
 	<!--- No cache record is here thus insert for the first time --->
 	<cfif qry.recordcount EQ 0>
 		<!--- Create token --->
-		<cfset var t = createuuid('')>
+		<cfset var t = replace(createuuid(),'-','','all')>
 		<!--- Inserts --->
 		<cfquery dataSource="#application.razuna.datasource#">
 		INSERT INTO cache

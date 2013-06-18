@@ -1252,7 +1252,7 @@
 		<if condition="session.updatedb">
 			<true>
 				<!-- <do action="v.update" /> -->
-				<relocate url="#myself#v.update&amp;_v=#createuuid('')#" />
+				<relocate url="#myself#v.update&amp;_v=#replace(createuuid(),'-','','all')#" />
 			</true>
 		</if>
 	</fuseaction>

@@ -2271,10 +2271,9 @@
 		</cfloop>
 		<cfreturn />
 	</cffunction>
+		
 	
-	
-	
-	<cffunction name="bddatasourceExists" access="public" output="false" returntype="boolean" hint="Returns a boolean indicating whether or not a datasource with the specified name exists">
+	<!---<cffunction name="bddatasourceExists" access="public" output="false" returntype="boolean" hint="Returns a boolean indicating whether or not a datasource with the specified name exists">
 		<cfargument name="dsn" type="string" required="true" hint="The datasource name to check" />
 		<cfset var dsnExists = true />
 		<cfinvoke component="cfmlengine" method="getConfig" returnvariable="localConfig" >
@@ -2295,7 +2294,7 @@
 			</cfloop>
 		</cfif>
 		<cfreturn dsnExists />
-	</cffunction>
+	</cffunction>--->
 	
 	
 		

@@ -116,7 +116,7 @@
 	<!--- Get cachetoken --->
 	<cfset variables.cachetoken = getcachetoken("users")>
 	<!--- Query --->
-	<cfquery datasource="#application.razuna.datasource#" name="localquery" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="localquery" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#getallusers */ u.user_id, u.user_login_name, u.user_first_name, u.user_last_name, u.user_email, u.user_active, u.user_company, 
 	0 AS thetotal,
 		<cfif application.razuna.thedatabase EQ "mysql" OR application.razuna.thedatabase EQ "h2">
@@ -166,7 +166,7 @@
 <cffunction name="details">
 	<cfargument name="thestruct" type="Struct">
 	<cfset variables.cachetoken = getcachetoken("users")>
-	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 	select /* #variables.cachetoken#detailsusers */ user_id, user_login_name, user_email, user_pass, 
 	user_first_name, user_last_name, user_in_admin, user_create_date, user_active, user_company, user_phone, 
 	user_mobile, user_fax, user_in_dam, user_salutation
@@ -178,7 +178,7 @@
 
 <!--- GET EMAIL FROM THIS USER --->
 <cffunction name="user_email">
-	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#user_emailuser */ user_email
 	FROM users
 	WHERE user_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.theuserid#">
@@ -189,7 +189,7 @@
 <!--- Get hosts of this user --->
 <cffunction name="userhosts">
 	<cfargument name="thestruct" type="Struct">
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#userhosts */ h.host_id, h.host_name, h.host_db_prefix, h.host_shard_group, h.host_path
 		FROM ct_users_hosts ct, hosts h
 		WHERE ct.ct_u_h_user_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.thestruct.user_id#">
@@ -457,7 +457,7 @@
 	<cfargument name="reset" required="false" default="false">
 	<!--- If we need to reset the key then save first --->
 	<cfif arguments.reset EQ "true">
-		<cfset key.user_api_key = createuuid("")>
+		<cfset key.user_api_key =  replace(createuuid(),"-","","all")>
 		<cfquery datasource="#application.razuna.datasource#">
 		UPDATE users
 		SET user_api_key = <cfqueryparam value="#key.user_api_key#" cfsqltype="CF_SQL_VARCHAR">
@@ -472,7 +472,7 @@
 	</cfquery>
 	<!--- If key is empty --->
 	<cfif key.user_api_key EQ "">
-		<cfset key.user_api_key = createuuid("")>
+		<cfset key.user_api_key =  replace(createuuid(),"-","","all")>
 		<cfquery datasource="#application.razuna.datasource#">
 		UPDATE users
 		SET user_api_key = <cfqueryparam value="#key.user_api_key#" cfsqltype="CF_SQL_VARCHAR">
@@ -486,7 +486,7 @@
 <!--- Get social accounts for this user --->
 <cffunction name="getsocial">
 	<cfargument name="thestruct" type="Struct">
-	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#getsocial */ identifier, provider
 	FROM #session.hostdbprefix#users_accounts
 	WHERE user_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.thestruct.user_id#">
@@ -779,7 +779,7 @@
 
 <!--- Get all users who are active --->
 <cffunction name="getallactive">
-	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 	SELECT /* #variables.cachetoken#getallactive */ u.user_email, u.user_first_name, u.user_last_name
 	FROM users u, ct_users_hosts uh
 	WHERE (

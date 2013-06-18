@@ -361,7 +361,7 @@ Comment:<br>
 			<cfset var qry = 0>
 			<!--- Loop over basket query --->
 			<cfloop query="arguments.thestruct.qrybasket">
-				<cfquery datasource="#application.razuna.datasource#" name="qry_asset" cachedwithin="1" region="razcache">
+				<cfquery datasource="#application.razuna.datasource#" name="qry_asset" cachedwithin="1" >
 				SELECT /* #variables.cachetoken#get_share_options */ asset_id_r, group_asset_id, asset_format, asset_dl, asset_order, asset_selected
 				FROM #session.hostdbprefix#share_options
 				WHERE group_asset_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cart_product_id#">
@@ -388,7 +388,7 @@ Comment:<br>
 				<cfset var thelist = 0>
 			</cfif>
 			<!--- Query --->
-			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 			SELECT /* #variables.cachetoken#get_share_options2 */ 
 			asset_id_r, group_asset_id, asset_format, asset_dl, asset_order, asset_selected
 			FROM #session.hostdbprefix#share_options
@@ -397,7 +397,7 @@ Comment:<br>
 			</cfquery>
 		<cfelse>
 			<!--- Query --->
-			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" >
 			SELECT /* #variables.cachetoken#get_share_options3 */ 
 			asset_id_r, group_asset_id, asset_format, asset_dl, asset_order, asset_selected
 			FROM #session.hostdbprefix#share_options
@@ -659,7 +659,7 @@ Comment:<br>
 		<!--- Param --->
 		<cfset var qry = structnew()>
 		<!--- Query links --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry.links" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry.links" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#get_versions_link */ av_id, av_link_title, av_link_url
 		FROM #session.hostdbprefix#additional_versions
 		WHERE asset_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.thestruct.file_id#">
@@ -667,7 +667,7 @@ Comment:<br>
 		AND av_link = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="1">
 		</cfquery>
 		<!--- Query links --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry.assets" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry.assets" cachedwithin="1" >
 		SELECT /* #variables.cachetoken#get_versions_link2 */ av_id, av_link_title, av_link_url, thesize, thewidth, theheight, av_type, hashtag
 		FROM #session.hostdbprefix#additional_versions
 		WHERE asset_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.thestruct.file_id#">
@@ -691,7 +691,7 @@ Comment:<br>
 		INSERT INTO #session.hostdbprefix#additional_versions
 		(av_id, av_link_title, av_link_url, asset_id_r, folder_id_r, host_id, av_type, av_link, thesize, thewidth, theheight, hashtag)
 		VALUES(
-		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#createuuid("")#">,
+		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#replace(createuuid(),"-","","all")#">,
 		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.thestruct.av_link_title#">,
 		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.thestruct.av_link_url#">,
 		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.thestruct.file_id#">,
@@ -924,12 +924,12 @@ Comment:<br>
 		</cfhttp> --->
 		<!--- Convert WDDX --->
 		<!--- <cfwddx action="wddx2cfml" input="#cfhttp.filecontent#" output="account" /> --->
-		<cfquery datasource="razuna_account" name="account" region="razcache" cachedwithin="#CreateTimeSpan(0,0,10,0)#">
+		<cfquery datasource="razuna_account" name="account" cachedwithin="#CreateTimeSpan(0,0,10,0)#">
 		SELECT /* #arguments.thehostid# */ account_type
 		FROM hosted_users
 		WHERE host_id = <cfqueryparam value="#arguments.thehostid#" cfsqltype="cf_sql_numeric" />
 		</cfquery>
-		<cfquery datasource="razuna_account" name="qry" region="razcache" cachedwithin="#CreateTimeSpan(0,0,10,0)#">
+		<cfquery datasource="razuna_account" name="qry"  cachedwithin="#CreateTimeSpan(0,0,10,0)#">
 		SELECT /* #arguments.thehostid# */ b.bill_id, b.bill_date, b.bill_total, u.user_id, u.account_type
 		FROM hosted_bills b, hosted_users u
 		WHERE u.host_id = <cfqueryparam value="#arguments.thehostid#" cfsqltype="cf_sql_numeric" />
@@ -1364,6 +1364,7 @@ Comment:<br>
 		<cfargument name="directoryrecursive" required="false" type="string" default="false">
 		<!--- Param --->
 		<cfset var contents = "" />
+		<cfset var thestruct = structnew()>
 		<!--- Create the new directory if it does not exists --->
 		<cfif !directoryExists(arguments.destination)>
 			<cfdirectory action="create" directory="#arguments.destination#" mode="775">
@@ -1395,7 +1396,13 @@ Comment:<br>
 			<cfelseif type EQ "dir" AND arguments.directoryrecursive>
 				<!--- For copy --->
 				<cfif arguments.directoryaction EQ "copy">
-					<cfset directoryCopy(source=arguments.source & "/" & name, destination=arguments.destination & "/" & name, fileaction=arguments.fileaction, directoryaction=arguments.directoryaction, directoryrecursive=arguments.directoryrecursive) />
+					<cfset thestruct.source = arguments.source & "/" & name>
+					<cfset thestruct.destination = arguments.destination & "/" & name>
+					<cfset thestruct.fileaction = arguments.fileaction>
+					<cfset thestruct.directoryaction = arguments.directoryaction>
+					<cfset thestruct.directoryrecursive = arguments.directoryrecursive>
+					<cfinvoke  method="directoryCopy" argumentcollection="#thestruct#"   />
+					<!---<cfset directoryCopy(source=arguments.source & "/" & name, destination=arguments.destination & "/" & name, fileaction=arguments.fileaction, directoryaction=arguments.directoryaction, directoryrecursive=arguments.directoryrecursive) />--->
 				<!--- For Move --->
 				<cfelse>
 					<cfdirectory action="rename" directory="#arguments.source#/#name#" newdirectory="#arguments.destination#/#name#" mode="775" />
