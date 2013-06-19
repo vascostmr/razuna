@@ -273,7 +273,14 @@
 	<!--- Check for existing datasource in bd_config --->
 	<cffunction name="checkdatasource" access="public" output="false">
 		<cfinvoke component="cfmlengine" method="getDatasources" dsn="#session.firsttime.database#" returnVariable="thedsn" />
-		<cfreturn thedsn />
+		 <cfif arrayLen(thedsn)>
+           <cfinvoke component="cfmlengine" method="deleteDatasource" dsn="#session.firsttime.database#" returnvariable="thedel" />
+           <cfif thedel>
+                   <cfset ArrayClear(thedsn)>
+           </cfif>
+         </cfif>
+        
+        <cfreturn thedsn />
 	</cffunction>
 	
 	<!--- Check for connecting to datasource in bd_config --->
@@ -311,7 +318,7 @@
 			<cfset verificationQuery = "select 5 from sysibm.sysdummy1">
 		</cfif>
 		<!--- Set the datasource --->
-		<!---<cftry>--->
+		<cftry>
 			<cfinvoke component="cfmlengine" method="setDatasource" >
 				<cfinvokeargument name="name" value="#session.firsttime.database#">
 				<cfinvokeargument name="databasename" value="#session.firsttime.db_name#">
@@ -327,26 +334,11 @@
 				<cfinvokeargument name="hoststring" value="#hoststring#">
 				<cfinvokeargument name="verificationQuery" value="#verificationQuery#">
 			</cfinvoke>
-			<!---<cfinvoke component="bd_config" method="setDatasource">
-				<cfinvokeargument name="name" value="#session.firsttime.database#">
-				<cfinvokeargument name="databasename" value="#session.firsttime.db_name#">
-				<cfinvokeargument name="server" value="#session.firsttime.db_server#">
-				<cfinvokeargument name="port" value="#session.firsttime.db_port#">
-				<cfinvokeargument name="username" value="#session.firsttime.db_user#">
-				<cfinvokeargument name="password" value="#session.firsttime.db_pass#">
-				<cfinvokeargument name="action" value="#session.firsttime.db_action#">
-				<cfinvokeargument name="existingDatasourceName" value="#session.firsttime.database#">
-				<cfinvokeargument name="drivername" value="#thedrivername#">
-				<cfinvokeargument name="h2Mode" value="Oracle">
-				<cfinvokeargument name="connectstring" value="#theconnectstring#">
-				<cfinvokeargument name="hoststring" value="#hoststring#">
-				<cfinvokeargument name="verificationQuery" value="#verificationQuery#">
-			</cfinvoke>--->
-			<!---<cfcatch type="any">
+			<cfcatch type="any">
 				<cfset consoleoutput(true)>
 				<cfset console(cfcatch)>
 			</cfcatch>
-		</cftry>--->
+		</cftry>
 		<cfreturn />
 	</cffunction>
 
