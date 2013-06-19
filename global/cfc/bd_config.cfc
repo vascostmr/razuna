@@ -32,9 +32,9 @@
 			hint="Returns a struct representation of the OpenBD server configuration (bluedragon.xml)">
 		<cfset var admin = 0 />
 		<cflock scope="Server" type="readonly" timeout="5">
-			<cfinvoke component="cfmlengine" method="getConfig" returnvariable="localConfig" >
+			<cfset admin = createObject("java", "com.naryx.tagfusion.cfm.engine.cfEngine").getConfig().getCFMLData() />
 		</cflock>
-		<cfreturn localConfig />
+		<cfreturn admin.server />
 	</cffunction>
 	
 
@@ -255,9 +255,9 @@
 		</cfif>
 		
 		<!--- if the datasource already exists and this isn't an update, throw an error --->
-		<cfif arguments.action is "create" and datasourceExists(arguments.name)>
+		<!---<cfif arguments.action is "create" and datasourceExists(arguments.name)>
 			<cfthrow message="The datasource already exists" type="bluedragon.adminapi.datasource" />
-		</cfif>
+		</cfif>--->
 		
 		<!--- if this is an update, delete the existing datasource --->
 		<cfif arguments.action is "update">
@@ -568,6 +568,26 @@
 	<cffunction name="getJVMProperties" access="public" output="false" returntype="struct" 
 			hint="Returns a struct containing the JVM properties">
 		<cfreturn createObject("java", "java.lang.System").getProperties() />
+	</cffunction>
+	
+	<cffunction name="createZipFile" access="public" output="false">
+		<cfargument name="ZIPFILE" type="string" required="true" />
+		<cfargument name="source" type="string" required="true" />
+		<cfargument name="recurse" type="string" required="true" />
+		<cfargument name="timeout" type="string" required="true" />
+
+		<cfzip action="create" ZIPFILE="#arguments.ZIPFILE#" source="#arguments.source#" recurse="#arguments.recurse#" timeout="#arguments.timeout#" />
+		
+		<!--- Return --->
+		<cfreturn true/>
+	</cffunction>
+	
+	<cffunction name="extractZipFile" access="public" output="false">
+		<cfargument name="ZIPFILE" type="string" required="true" />
+		<cfargument name="destination" type="string" required="true" />
+		<cfzip action="extract" zipfile="#arguments.ZIPFILE#" destination="#arguments.destination#" />
+		<!--- Return --->
+		<cfreturn true/>
 	</cffunction>
 	
 </cfcomponent>

@@ -272,7 +272,7 @@
 
 	<!--- Check for existing datasource in bd_config --->
 	<cffunction name="checkdatasource" access="public" output="false">
-		<cfinvoke component="bd_config" method="getDatasources" dsn="#session.firsttime.database#" returnVariable="thedsn" />
+		<cfinvoke component="cfmlengine" method="getDatasources" dsn="#session.firsttime.database#" returnVariable="thedsn" />
 		<cfreturn thedsn />
 	</cffunction>
 	
@@ -280,7 +280,7 @@
 	<cffunction name="verifydatasource" access="public" output="false">
 		<cfset var theconnection = false>
 		<cftry>
-			<cfinvoke component="bd_config" method="verifyDatasource" dsn="#session.firsttime.database#" returnVariable="theconnection" />
+			<cfinvoke component="cfmlengine" method="verifyDatasource" dsn="#session.firsttime.database#" returnVariable="theconnection" />
 			<cfdump var="#theconnection#">
 			<cfcatch type="any"></cfcatch>
 		</cftry>
@@ -311,8 +311,8 @@
 			<cfset verificationQuery = "select 5 from sysibm.sysdummy1">
 		</cfif>
 		<!--- Set the datasource --->
-		<cftry>
-			<cfinvoke component="bd_config" method="setDatasource">
+		<!---<cftry>--->
+			<cfinvoke component="cfmlengine" method="setDatasource" >
 				<cfinvokeargument name="name" value="#session.firsttime.database#">
 				<cfinvokeargument name="databasename" value="#session.firsttime.db_name#">
 				<cfinvokeargument name="server" value="#session.firsttime.db_server#">
@@ -327,11 +327,26 @@
 				<cfinvokeargument name="hoststring" value="#hoststring#">
 				<cfinvokeargument name="verificationQuery" value="#verificationQuery#">
 			</cfinvoke>
-			<cfcatch type="any">
+			<!---<cfinvoke component="bd_config" method="setDatasource">
+				<cfinvokeargument name="name" value="#session.firsttime.database#">
+				<cfinvokeargument name="databasename" value="#session.firsttime.db_name#">
+				<cfinvokeargument name="server" value="#session.firsttime.db_server#">
+				<cfinvokeargument name="port" value="#session.firsttime.db_port#">
+				<cfinvokeargument name="username" value="#session.firsttime.db_user#">
+				<cfinvokeargument name="password" value="#session.firsttime.db_pass#">
+				<cfinvokeargument name="action" value="#session.firsttime.db_action#">
+				<cfinvokeargument name="existingDatasourceName" value="#session.firsttime.database#">
+				<cfinvokeargument name="drivername" value="#thedrivername#">
+				<cfinvokeargument name="h2Mode" value="Oracle">
+				<cfinvokeargument name="connectstring" value="#theconnectstring#">
+				<cfinvokeargument name="hoststring" value="#hoststring#">
+				<cfinvokeargument name="verificationQuery" value="#verificationQuery#">
+			</cfinvoke>--->
+			<!---<cfcatch type="any">
 				<cfset consoleoutput(true)>
 				<cfset console(cfcatch)>
 			</cfcatch>
-		</cftry>
+		</cftry>--->
 		<cfreturn />
 	</cffunction>
 

@@ -11,7 +11,7 @@
 			<cfinvoke component="acf" method="#arguments.missingMethodName#" argumentcollection="#arguments.missingMethodArguments#" returnvariable="returnVariable" >
 			</cfinvoke>
 		<cfelse>
-			<cfinvoke component="openbd" method="#arguments.missingMethodName#" argumentcollection="#arguments.missingMethodArguments#" returnvariable="returnVariable" >
+			<cfinvoke component="bd_config" method="#arguments.missingMethodName#" argumentcollection="#arguments.missingMethodArguments#" returnvariable="returnVariable" >
 			</cfinvoke>
 		</cfif>
 		
