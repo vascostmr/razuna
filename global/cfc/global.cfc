@@ -273,14 +273,15 @@
 	<!--- Check for existing datasource in bd_config --->
 	<cffunction name="checkdatasource" access="public" output="false">
 		<cfinvoke component="cfmlengine" method="getDatasources" dsn="#session.firsttime.database#" returnVariable="thedsn" />
-		 <cfif arrayLen(thedsn)>
-           <cfinvoke component="cfmlengine" method="deleteDatasource" dsn="#session.firsttime.database#" returnvariable="thedel" />
-           <cfif thedel>
-                   <cfset ArrayClear(thedsn)>
-           </cfif>
-         </cfif>
-        
-        <cfreturn thedsn />
+		<cfif arrayLen(thedsn)>
+			<cfinvoke component="cfmlengine" method="deleteDatasource" dsn="#session.firsttime.database#" returnvariable="thedel" />
+			<cfif thedel>
+				<cfset ArrayClear(thedsn)>
+				<cfreturn thedsn />
+			</cfif>
+		<cfelse>
+			<cfreturn thedsn />
+		</cfif>
 	</cffunction>
 	
 	<!--- Check for connecting to datasource in bd_config --->
@@ -288,7 +289,6 @@
 		<cfset var theconnection = false>
 		<cftry>
 			<cfinvoke component="cfmlengine" method="verifyDatasource" dsn="#session.firsttime.database#" returnVariable="theconnection" />
-			<cfdump var="#theconnection#">
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfreturn theconnection />
@@ -318,8 +318,8 @@
 			<cfset verificationQuery = "select 5 from sysibm.sysdummy1">
 		</cfif>
 		<!--- Set the datasource --->
-		<cftry>
-			<cfinvoke component="cfmlengine" method="setDatasource" >
+		<!---<cftry>--->
+			<cfinvoke component="cfmlengine" method="setDatasource">
 				<cfinvokeargument name="name" value="#session.firsttime.database#">
 				<cfinvokeargument name="databasename" value="#session.firsttime.db_name#">
 				<cfinvokeargument name="server" value="#session.firsttime.db_server#">
@@ -334,11 +334,11 @@
 				<cfinvokeargument name="hoststring" value="#hoststring#">
 				<cfinvokeargument name="verificationQuery" value="#verificationQuery#">
 			</cfinvoke>
-			<cfcatch type="any">
+			<!---<cfcatch type="any">
 				<cfset consoleoutput(true)>
 				<cfset console(cfcatch)>
 			</cfcatch>
-		</cftry>
+		</cftry>--->
 		<cfreturn />
 	</cffunction>
 
