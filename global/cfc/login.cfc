@@ -106,27 +106,27 @@
 				<cfset session.hostid = "0">
 				<!--- Store the login info into cookie var --->
 				<cfif arguments.rem_login EQ "T">
-					<cfset SetCookie("loginnameadmin",arguments.name,"never")>
-					<cfset SetCookie("loginpassadmin",thepass,"never")>
+					<cfcookie name="loginnameadmin" value="#arguments.name#" expires="never">
+					<cfcookie name="loginpassadmin" value="#thepass#" expires="never">
 				<cfelse>
-					<cfset SetCookie("loginnameadmin","","now")>
-					<cfset SetCookie("loginpassadmin","","now")>
+					<cfcookie name="loginnameadmin" value="" expires="now">
+					<cfcookie name="loginpassadmin" value="" expires="now">
 				</cfif>
 				<!--- Cookie --->
-				<cfset setcookie("loginadminrem",arguments.rem_login,"never")>
+				<cfcookie name="loginadminrem" value="#arguments.rem_login#" expires="never">	
 			</cfif>
 			<!--- If we login to the DAM then check for the existence of the "My Folder" of this user --->
 			<cfif arguments.loginto EQ "dam" AND arguments.from_share EQ "f">
 				<!--- Store the login info into cookie var --->
 				<cfif arguments.rem_login EQ "T">
-					<cfset SetCookie("loginname",arguments.name,"never")>
-					<cfset SetCookie("loginpass",thepass,"never")>
+					<cfcookie name="loginname" value="#arguments.name#" expires="never">
+					<cfcookie name="loginpass" value="#thepass#" expires="never">
 				<cfelse>
-					<cfset SetCookie("loginname","","now")>
-					<cfset SetCookie("loginpass","","now")>
+					<cfcookie name="loginname" value="" expires="now">
+					<cfcookie name="loginpass" value="" expires="now">
 				</cfif>
 				<!--- Cookie --->
-				<cfset setcookie("loginrem",arguments.rem_login,"never")>
+				<cfcookie name="loginrem" value="#arguments.rem_login#" expires="never">		
 				<!--- Call internal create my folder function but not for SystemAdmins --->
 				<cfif !listFind(session.thegroupofuser, "1", ",")>
 					<cfinvoke method="createmyfolder" userid="#qryuser.user_id#" />

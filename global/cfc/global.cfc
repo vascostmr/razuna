@@ -273,15 +273,14 @@
 	<!--- Check for existing datasource in bd_config --->
 	<cffunction name="checkdatasource" access="public" output="false">
 		<cfinvoke component="cfmlengine" method="getDatasources" dsn="#session.firsttime.database#" returnVariable="thedsn" />
-		<cfif arrayLen(thedsn)>
-			<cfinvoke component="cfmlengine" method="deleteDatasource" dsn="#session.firsttime.database#" returnvariable="thedel" />
-			<cfif thedel>
-				<cfset ArrayClear(thedsn)>
-				<cfreturn thedsn />
-			</cfif>
-		<cfelse>
-			<cfreturn thedsn />
-		</cfif>
+		 <cfif arrayLen(thedsn)>
+           <cfinvoke component="cfmlengine" method="deleteDatasource" dsn="#session.firsttime.database#" returnvariable="thedel" />
+           <cfif thedel>
+                   <cfset ArrayClear(thedsn)>
+           </cfif>
+         </cfif>
+        
+        <cfreturn thedsn />
 	</cffunction>
 	
 	<!--- Check for connecting to datasource in bd_config --->

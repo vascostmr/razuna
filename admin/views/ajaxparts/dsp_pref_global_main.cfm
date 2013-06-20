@@ -98,7 +98,12 @@
 				</tr>
 			</table>
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="grid">
-					<cfset variables.mem = systemmemory()>
+					<!---<cfset variables.mem = systemmemory()>--->
+					<cfset var runtime = createObject("java","java.lang.Runtime").getRuntime()>
+	                <cfset variables.mem.free = runtime.freeMemory()>
+	                <cfset variables.mem.max = runtime.maxMemory()>
+	                <cfset variables.mem.total = runtime.totalMemory()>
+	                <cfset variables.mem.used = runtime.totalMemory()-runtime.freeMemory()>
 				<tr>
 					<th colspan="2">Memory Allocation</th>
 				</tr>

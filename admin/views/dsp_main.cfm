@@ -112,7 +112,15 @@
 									</tr>
 									<tr>
 										<td width="100%">#defaultsObj.trans("coldfusion_version")#</td>
-										<td width="1%" nowrap><cfif server.ColdFusion.ProductName CONTAINS "bluedragon">#server.bluedragon.edition#<cfelse>#server.ColdFusion.ProductVersion#</cfif></td>
+										<td width="1%" nowrap>
+											<cfif server.ColdFusion.ProductName CONTAINS "bluedragon">
+												#server.bluedragon.edition#
+											<cfelseif server.ColdFusion.ProductName CONTAINS "Railo">
+												#server.Railo.Version#
+											<cfelse>
+												#server.ColdFusion.ProductVersion#
+											</cfif>
+										</td>
 									</tr>
 									<tr>
 										<td width="100%">#defaultsObj.trans("server_url")#</td>
@@ -127,7 +135,12 @@
 									</tr>
 								</table>
 								<table width="100%" border="0" cellspacing="0" cellpadding="0" class="grid">
- 									<cfset variables.mem = systemmemory()>
+ 									<!---<cfset variables.mem = systemmemory()>--->
+									<cfset var runtime = createObject("java","java.lang.Runtime").getRuntime()>
+                                    <cfset variables.mem.free = runtime.freeMemory()>
+                                    <cfset variables.mem.max = runtime.maxMemory()>
+                                    <cfset variables.mem.total = runtime.totalMemory()>
+                                    <cfset variables.mem.used = runtime.totalMemory()-runtime.freeMemory()>
 									<tr>
 										<th colspan="2">Memory Allocation</th>
 									</tr>

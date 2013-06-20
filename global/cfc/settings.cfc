@@ -505,7 +505,12 @@
 		<cfset application.razuna.awskey = arguments.thestruct.conf_aws_access_key>
 		<cfset application.razuna.awskeysecret = arguments.thestruct.conf_aws_secret_access_key>
 		<cfset application.razuna.awslocation = arguments.thestruct.conf_aws_location>
-		<cfset application.razuna.s3ds = AmazonRegisterDataSource("aws","#arguments.thestruct.conf_aws_access_key#","#arguments.thestruct.conf_aws_secret_access_key#","#arguments.thestruct.conf_aws_location#")>
+		<cfinvoke component="amazon" method="registerDataSource" returnvariable="application.razuna.s3ds" >
+			<cfinvokeargument name="datasource" value="aws">
+			<cfinvokeargument name="awsaccess" value="#arguments.thestruct.conf_aws_access_key#">
+			<cfinvokeargument name="awskey" value="#arguments.thestruct.conf_aws_secret_access_key#">
+			<cfinvokeargument name="region" value="#arguments.thestruct.conf_aws_location#">
+		</cfinvoke>
 	</cfif>
 	<!--- Set rendering setting in application scope --->
 	<cfif StructKeyExists(arguments.thestruct, "conf_rendering_farm")>
@@ -1355,7 +1360,12 @@
 	<cfset application.razuna.awslocation = qry.conf_aws_location>
 	<cfset application.razuna.isp = qry.conf_isp>
 	<cfset application.razuna.rfs = qry.conf_rendering_farm>
-	<cfset application.razuna.s3ds = AmazonRegisterDataSource("aws",qry.conf_aws_access_key,qry.conf_aws_secret_access_key,qry.conf_aws_location)>
+	<cfinvoke component="amazon" method="registerDataSource" returnvariable="application.razuna.s3ds" >
+		<cfinvokeargument name="datasource" value="aws">
+		<cfinvokeargument name="awsaccess" value="#qry.conf_aws_access_key#">
+		<cfinvokeargument name="awskey" value="#qry.conf_aws_secret_access_key#">
+		<cfinvokeargument name="region" value="#qry.conf_aws_location#">
+	</cfinvoke>
 	<cfset application.razuna.whitelabel = qry.conf_wl>
 	<cfset application.razuna.dynpath = cgi.context_path>
 	<cfset application.razuna.akatoken = qry.conf_aka_token>
