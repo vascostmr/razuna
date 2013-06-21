@@ -31,20 +31,8 @@
 	<cffunction name="setup" access="public" output="false">
 		<cfargument name="thestruct" type="Struct">
 
-		<!---  --->
 		<!--- START: CREATE TABLES --->
-		<!---  --->
-		<!--- CREATE SEQUENCES
-		<cfquery datasource="#arguments.thestruct.dsn#">
-		CREATE TABLE #arguments.thestruct.theschema#.sequences 
-		(
-			theid varchar(100), 
-			thevalue INT NOT NULL, 
-			PRIMARY KEY (theid)
-		) 
-		#this.tableoptions#
-		</cfquery>
-		 --->
+		
 		<!--- CREATE CACHE --->
 		<cfquery datasource="#arguments.thestruct.dsn#">
 		CREATE TABLE #arguments.thestruct.theschema#.cache 
@@ -425,790 +413,7 @@
 		
 		<!--- If we come from import then dont do this --->
 		<cfif NOT structkeyexists(arguments.thestruct,"fromimport")>
-		
-			<!---  --->
-			<!--- START: INSERT VALUES --->
-			<!---  --->
-			
-			<!--- SEQUENCES
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('categories_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('collection_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('content_id_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('ct_users_remoteusers_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('ctuag_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('ctug_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('ctuh_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('file_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('folder_seq', 3)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('groupsadmin_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('groups_seq', 3)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('hostid_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('img_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('keywords_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('log_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('menuesid_seq', 5)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('permissions_seq', 12)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('pub_grp_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('pub_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('schedule_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('sched_log_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('userlogin_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('users_lists_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('users_seq', 5)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('user_ship_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('valuelist_seq', 0)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.sequences
-			(theid, thevalue)
-			VALUES('customfield_seq', 0)
-			</cfquery>
-			 --->
-			<!--- USERS --->
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.users
-			(USER_ID, USER_LOGIN_NAME, USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME, USER_PASS, USER_ACTIVE, USER_IN_ADMIN, USER_IN_DAM)
-			VALUES ('1', 'admin', 'admin@razuna.com', 'SystemAdmin', 'SystemAdmin', '778509C62BD8904D938FB85644EC4712', 'T', 'T', 'T')
-			</cfquery>
-			<!--- MODULES --->
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.modules
-			(mod_id, mod_name, mod_short, mod_host_id)
-			VALUES(	1, 'razuna', 'ecp', NULL)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.modules
-			(mod_id, mod_name, mod_short, mod_host_id)
-			VALUES(	2, 'admin', 'adm', NULL)
-			</cfquery>
-			<!--- DEFAULT ADMIN GROUPS --->
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.groups
-			(grp_id, grp_name, grp_host_id, grp_mod_id)
-			VALUES(	'1', 'SystemAdmin', NULL, 2 )
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.groups
-			(grp_id, grp_name, grp_host_id, grp_mod_id)
-			VALUES(	'2', 'Administrator', NULL, 2	)
-			</cfquery>
-			<!--- DEFAULT ADMIN CROSS TABLE --->
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.ct_groups_users
-			(CT_G_U_GRP_ID, CT_G_U_USER_ID, rec_uuid)
-			VALUES(	'1', '1', '#createuuid()#')
-			</cfquery>
-			<!--- DEFAULT ADMIN PERMISSIONS --->
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (1,'SystemAdmin',null,1,2,null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (2,'Administrator',null,1,2,null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (3,'PER_USERS:N',null,1,2,null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (4,'PER_USERS:R',null,1,2,null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (5,'PER_USERS:W',null,1,2,null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (6,'PER_GROUPS:N',null,1,2,null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (7,'PER_GROUPS:R',null,1,2,null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (8,'PER_GROUPS:W',null,1,2,null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (9,'PER_GROUPS_ADMIN:N',null,1,2,null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (10,'PER_GROUPS_ADMIN:R',null,1,2,null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (11,'PER_GROUPS_ADMIN:W',null,1,2,null)
-			</cfquery>
-			<!--- DEFAULT ADMIN PERMISSIONS CROSS TABLE --->
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 1, '1' )
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 2, '1' )
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 3, '1' )
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 4, '1' )
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 5, '1' )
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 6, '1' )
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 7, '1' )
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 8, '1' )
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 9, '1' )
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 10, '1' )
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 11, '1' )
-			</cfquery>
-			<!--- WISDOM --->
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			2, 'In giving advice, seek to help, not please, your friend.', 'Solon') 
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			3, 'A friend is one to whom you can pour out the contents of your heart, chaff and grain alike. Knowning that the gentlest of hands will take and sift it, keep what is worth keeping, and with a breath of kindness, blow the rest away.'
-			, 'Anonymous') 
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			4, 'The most exciting phrase to hear in science, the one that heralds new discoveries, is not "Eureka" (I found it!) but "That''s funny ..."'
-			, 'Isaac Asimov') 
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			5, 'Everyone should carefully observe which way his heart draws him, and then choose that way with all his strength!'
-			, 'Hasidic saying') 
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			6, 'Mend your speech a little, lest it may mar your fortunes.', 'Shakespeare, King Lear')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#"> 
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			7, 'In preparing for battle I have always found that plans are useless, but planning is indispensable.'
-			, 'Dwight D. Eisenhower') 
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			8, 'It''s all right to aim high if you have plenty of ammunition.', 'Hawley R. Everhart')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#"> 
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			10, 'A great civilization is not concurred from without until it has destroyed itself from within.'
-			, 'Will Durant') 
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			11, 'Travel far enough away, my friend, and you''ll discover something of great beauty: your self'
-			, 'Cirque du Soleil') 
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			1, 'There are Painters who transform the sun to a yellow spot, but there are others who with the help of their art and their intelligence, transform a yellow spot into the sun.'
-			, 'Pablo Picasso') 
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			9, 'The significant problems we have cannot be solved at the same level of thinking with which we created them.'
-			, 'Albert Einstein') 
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			12, 'Acquaintance, n.: A person whom we know well enough to borrow from, but not well enough to lend to. '
-			, 'Ambrose Bierce') 
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			13, 'The best investment is in the tools of one''s trade.', 'Benjamin Franklin')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#"> 
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			14, 'We all agree that your theory is crazy -- but is it crazy enough?', 'Niels Bohr')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#"> 
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			15, 'Genius without education is like silver in the mine.', 'Benjamin Franklin')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#"> 
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			16, 'Anybody can sympathise with the sufferings of a friend, but it requires a very fine nature to sympathise with a friend''s success.', 'Oscar Wilde') 
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			17, 'Absurdity, n.: A statement or belief manifestly incosistent with one''s own.', 'Ambrose Bierce')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#"> 
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			18, 'There''s no trick to being a humorist when you have the whole government working for you.', 'Will Rogers')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			19, 'The real question is not whether machines think but whether men do. The mystery which surrounds a thinking machine already surrounds a thinking man.', 'B.F.Skinner') 
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			20, 'That we must all die, we always knew; I wish I had remembered it sooner.', 'Samuel Johnson')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			21, 'The key to living well is first to will that which is necessary and then to love that which is willed.', 'Irving Yalom')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			22, 'Always tell the truth. You will gratify some people and astonish the rest.', 'Mark Twain')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			23, 'See everything. Ignore a lot. Improve a little.', 'Pope John Paul II')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			24, 'Resentment is like taking poison and hoping the other person dies.', 'St. Augustine')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			25, 'Hope is definitely not the same thing as optimism. It is not the conviction that something will turn out well, but the certainty that something makes sense, regardless of how it turns out.', 'Vaclav Havel')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			26, 'We must never be ashamed of our tears, they are rain from heaven washing the dust from our hard hearts.', 'Charles Dickens')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			27, 'Our business in life is not to succeed, but to continue to fail in good spirits.', 'Robert Louis Stevenson')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			28, 'Be who you are and say what you feel because the people who mind don''t matter and the people who matter don''t mind.', 'Theodor Geisel')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			29, 'It is well to remember that the entire universe, with one trifling exception, is composed of others.', 'John Andrew Holmes')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			30, 'Fail to honor people, they fail to honor you.', 'Lao Tzu')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			31, 'You can leave anything out, as long as you know what it is.', 'Ernest Hemingway')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			32, 'The future is here. It''s just not evenly distributed yet.', 'William Gibson')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			33, 'The future always comes too fast and in the wrong order.', 'Alvin Toffler')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			34, 'There will always be people who are ahead of the curve, and people who are behind the curve. But knowledge moves the curve.', 'Bill James')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			35, 'History is a wave that moves through time slightly faster than we do.', 'Kim Stanley Robinson')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			36, 'Inspiration is for amateurs. I just get to work.', 'Chuck Close')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			37, 'The best and most beautiful things in the world cannot be seen or even touched. They must be felt with the heart.', 'Hellen Keller')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			38, 'Small opportunities are often the beginning of great enterprises.', 'Demosthenes')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			39, 'Simplicity is the utlimate sophistication.', 'Leonardo da Vinci')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			40, 'A journey of thousand miles begins with a single step.', 'Lao tzu')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			41, 'What we think, we become.', 'Buddha')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			42, 'Great minds discuss ideas. Average minds discuss events. Small minds discuss people.', 'Eleanor Roosevelt')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			43, 'Forget the place you are trying to get and see the beauty in right now', 'Some wise person')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			44, 'All that we are, is the result of our thoughts.', 'Buddha')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			45, 'Logic will get you from A to B. Imagination will take you everywhere.', 'Albert Einstein')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			46, 'Do not dwell on who let you down, cherish those whoe hold you up.', 'Unknown')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			47, 'People are made to be loved and things are made to be used. The confusion in this world is that people are used and things are loved!', 'Unknown')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			48, 'Make peace with your past so it will not destroy your present.', 'Paulo Coelho')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			49, 'Obstacles are those frightful things you see when you take your eyes off your goal.', 'Henry Ford')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			50, 'I feel like I can not feel.', 'Salvador Dali')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			51, 'To avoid criticism, do nothing, say nothing, and be nothing.', 'Elbert Hubbard')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			52, 'I am not upset that you lied to me, I am upset that from now on I can not believe you anymore.', 'Friedrich Nietzsche')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			53, 'Successful and great people are ordinary people with extraordinary determination.', 'Robert Schuller')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			54, 'Everything has beauty, but not everyone sees it.', 'Confucius')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
-			55, 'Wanting to be someone else is a waste of the person you are.', 'Kurt Cobain')
-			</cfquery>
-			<!--- FILE TYPES --->
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('doc', 'doc', 'application', 'vnd.ms-word')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('docx', 'doc', 'application', 'vnd.ms-word')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('xls', 'doc', 'application', 'vnd.ms-excel')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('xlsx', 'doc', 'application', 'vnd.ms-excel')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ppt', 'doc', 'application', 'vnd.ms-powerpoint')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pptx', 'doc', 'application', 'vnd.ms-powerpoint')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pdf', 'doc', 'application', 'pdf')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('txt', 'doc', 'application', 'txt')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('psd', 'img', 'application', 'photoshop')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ai', 'img', 'application', 'photoshop')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('eps', 'img', 'application', 'eps')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('jpg', 'img', 'image', 'jpg')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('jpeg', 'img', 'image', 'jpeg')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('gif', 'img', 'image', 'gif')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('png', 'img', 'image', 'png')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('bmp', 'img', 'image', 'bmp')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('cal', 'img', null, null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('dcm', 'img', null, null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('fpx', 'img', 'image', 'vnd.fpx')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pbm', 'img', 'image', 'pbm')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pgm', 'img', 'image', 'x-portable-graymap')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ppm', 'img', 'image', 'x-portable-pixmap')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pnm', 'img', 'image', 'x-portable-anymap')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pcx', 'img', 'image', 'pcx')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pct', 'img', null, null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('rpx', 'img', null, null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ras', 'img', 'image', 'ras')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('tga', 'img', 'image', 'tga')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('tif', 'img', 'image', 'tif')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('tiff', 'img', 'image', 'tiff')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('wbmp', 'img', 'image', 'vnd.wap.wbmp')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('nef', 'img', 'image', 'nef')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('swf', 'vid', 'application', 'x-shockwave-flash')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('flv', 'vid', 'application', 'x-shockwave-flash')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('f4v', 'vid', 'application', 'x-shockwave-flash')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mov', 'vid', 'video', 'quicktime')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('m4v', 'vid', 'video', 'quicktime')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('avi', 'vid', 'video', 'avi')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('3gp', 'vid', 'video', '3gpp')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('rm', 'vid', 'application', 'vnd.rn-realmedia')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mpg', 'vid', 'video', 'mpeg')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mp4', 'vid', 'video', 'mp4v-es')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('wmv', 'vid', 'video', 'x-ms-wmv')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('vob', 'vid', 'video', 'mpeg')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ogv', 'vid', 'video', 'ogv')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('webm', 'vid', 'video', 'webm')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mts', 'vid', 'video', 'mts')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('m2ts', 'vid', 'video', 'm2ts')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('m2t', 'vid', 'video', 'm2t')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('aff', 'aud', null, null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('aft', 'aud', null, null)
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('au', 'aud', 'audio', 'basic')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ram', 'aud', 'audio', 'x-pn-realaudio')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('wav', 'aud', 'audio', 'x-wav')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mp3', 'aud', 'audio', 'mpeg')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('aiff', 'aud', 'audio', 'x-aiff')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('aif', 'aud', 'audio', 'x-aiff')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('aifc', 'aud', 'audio', 'x-aiff')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('snd', 'aud', 'audio', 'basic')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mid', 'aud', 'audio', 'mid')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('m3u', 'aud', 'audio', 'x-mpegurl')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('rmi', 'aud', 'audio', 'mid')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ra', 'aud', 'audio', 'x-pn-realaudio')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('flac', 'aud', 'audio', 'flac')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ogg', 'aud', 'audio', 'ogg')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('m4a', 'aud', 'audio', 'x-m4a')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('arw', 'img', 'image', 'arw')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('cr2', 'img', 'image', 'cr2')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('crw', 'img', 'image', 'crw')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ciff', 'img', 'image', 'ciff')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('cs1', 'img', 'image', 'cs1')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('erf', 'img', 'image', 'erf')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mef', 'img', 'image', 'mef')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mrw', 'img', 'image', 'mrw')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('nrw', 'img', 'image', 'nrw')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pef', 'img', 'image', 'pef')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('psb', 'img', 'application', 'photoshop')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('raf', 'img', 'image', 'raf')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('raw', 'img', 'image', 'raw')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('rw2', 'img', 'image', 'rw2')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('rwl', 'img', 'image', 'rwl')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('srw', 'img', 'image', 'srw')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('3fr', 'img', 'image', '3fr')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ari', 'img', 'image', 'ari')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('srf', 'img', 'image', 'srf')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('sr2', 'img', 'image', 'sr2')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('bay', 'img', 'image', 'bay')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('cap', 'img', 'image', 'cap')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('iiq', 'img', 'image', 'iiq')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('eip', 'img', 'image', 'eip')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('dcr', 'img', 'image', 'dcr')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('drf', 'img', 'image', 'drf')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('k25', 'img', 'image', 'k25')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('kdc', 'img', 'image', 'kdc')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('dng', 'img', 'image', 'dng')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('fff', 'img', 'image', 'fff')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mos', 'img', 'image', 'mos')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('orf', 'img', 'image', 'orf')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ptx', 'img', 'image', 'ptx')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('r3d', 'img', 'image', 'r3d')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('rwz', 'img', 'image', 'rwz')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('x3f', 'img', 'image', 'x3f')
-			</cfquery>
-			<cfquery datasource="#arguments.thestruct.dsn#">
-			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mxf', 'vid', 'video', 'mxf')
-			</cfquery>
+			<cfinvoke method="insertDBData" thestruct="#arguments.thestruct#" >
 		</cfif>
 	</cffunction>
 	
@@ -2507,6 +1712,654 @@
 		
 	</cffunction>
 	
+	
+	<cffunction name="insertDBData" access="public" output="false">
+		<cfargument name="thestruct" type="Struct">
+			
+		
+			<!--- USERS --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.users
+			(USER_ID, USER_LOGIN_NAME, USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME, USER_PASS, USER_ACTIVE, USER_IN_ADMIN, USER_IN_DAM)
+			VALUES ('1', 'admin', 'admin@razuna.com', 'SystemAdmin', 'SystemAdmin', '778509C62BD8904D938FB85644EC4712', 'T', 'T', 'T')
+			</cfquery>
+			<!--- MODULES --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.modules
+			(mod_id, mod_name, mod_short, mod_host_id)
+			VALUES(	1, 'razuna', 'ecp', NULL)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.modules
+			(mod_id, mod_name, mod_short, mod_host_id)
+			VALUES(	2, 'admin', 'adm', NULL)
+			</cfquery>
+			<!--- DEFAULT ADMIN GROUPS --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.groups
+			(grp_id, grp_name, grp_host_id, grp_mod_id)
+			VALUES(	'1', 'SystemAdmin', NULL, 2 )
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.groups
+			(grp_id, grp_name, grp_host_id, grp_mod_id)
+			VALUES(	'2', 'Administrator', NULL, 2	)
+			</cfquery>
+			<!--- DEFAULT ADMIN CROSS TABLE --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.ct_groups_users
+			(CT_G_U_GRP_ID, CT_G_U_USER_ID, rec_uuid)
+			VALUES(	'1', '1', '#createuuid()#')
+			</cfquery>
+			<!--- DEFAULT ADMIN PERMISSIONS --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (1,'SystemAdmin',null,1,2,null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (2,'Administrator',null,1,2,null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (3,'PER_USERS:N',null,1,2,null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (4,'PER_USERS:R',null,1,2,null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (5,'PER_USERS:W',null,1,2,null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (6,'PER_GROUPS:N',null,1,2,null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (7,'PER_GROUPS:R',null,1,2,null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (8,'PER_GROUPS:W',null,1,2,null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (9,'PER_GROUPS_ADMIN:N',null,1,2,null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (10,'PER_GROUPS_ADMIN:R',null,1,2,null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			Insert into #arguments.thestruct.theschema#.permissions (PER_ID,PER_KEY,PER_HOST_ID,PER_ACTIVE,PER_MOD_ID,PER_LEVEL) values (11,'PER_GROUPS_ADMIN:W',null,1,2,null)
+			</cfquery>
+			<!--- DEFAULT ADMIN PERMISSIONS CROSS TABLE --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 1, '1' )
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 2, '1' )
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 3, '1' )
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 4, '1' )
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 5, '1' )
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 6, '1' )
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 7, '1' )
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 8, '1' )
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 9, '1' )
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 10, '1' )
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO	#arguments.thestruct.theschema#.ct_groups_permissions( CT_G_P_PER_ID, CT_G_P_GRP_ID )VALUES( 11, '1' )
+			</cfquery>
+			<!--- WISDOM --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			2, 'In giving advice, seek to help, not please, your friend.', 'Solon') 
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			3, 'A friend is one to whom you can pour out the contents of your heart, chaff and grain alike. Knowning that the gentlest of hands will take and sift it, keep what is worth keeping, and with a breath of kindness, blow the rest away.'
+			, 'Anonymous') 
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			4, 'The most exciting phrase to hear in science, the one that heralds new discoveries, is not "Eureka" (I found it!) but "That''s funny ..."'
+			, 'Isaac Asimov') 
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			5, 'Everyone should carefully observe which way his heart draws him, and then choose that way with all his strength!'
+			, 'Hasidic saying') 
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			6, 'Mend your speech a little, lest it may mar your fortunes.', 'Shakespeare, King Lear')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#"> 
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			7, 'In preparing for battle I have always found that plans are useless, but planning is indispensable.'
+			, 'Dwight D. Eisenhower') 
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			8, 'It''s all right to aim high if you have plenty of ammunition.', 'Hawley R. Everhart')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#"> 
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			10, 'A great civilization is not concurred from without until it has destroyed itself from within.'
+			, 'Will Durant') 
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			11, 'Travel far enough away, my friend, and you''ll discover something of great beauty: your self'
+			, 'Cirque du Soleil') 
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			1, 'There are Painters who transform the sun to a yellow spot, but there are others who with the help of their art and their intelligence, transform a yellow spot into the sun.'
+			, 'Pablo Picasso') 
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			9, 'The significant problems we have cannot be solved at the same level of thinking with which we created them.'
+			, 'Albert Einstein') 
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			12, 'Acquaintance, n.: A person whom we know well enough to borrow from, but not well enough to lend to. '
+			, 'Ambrose Bierce') 
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			13, 'The best investment is in the tools of one''s trade.', 'Benjamin Franklin')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#"> 
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			14, 'We all agree that your theory is crazy -- but is it crazy enough?', 'Niels Bohr')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#"> 
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			15, 'Genius without education is like silver in the mine.', 'Benjamin Franklin')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#"> 
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			16, 'Anybody can sympathise with the sufferings of a friend, but it requires a very fine nature to sympathise with a friend''s success.', 'Oscar Wilde') 
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			17, 'Absurdity, n.: A statement or belief manifestly incosistent with one''s own.', 'Ambrose Bierce')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#"> 
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			18, 'There''s no trick to being a humorist when you have the whole government working for you.', 'Will Rogers')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			19, 'The real question is not whether machines think but whether men do. The mystery which surrounds a thinking machine already surrounds a thinking man.', 'B.F.Skinner') 
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			20, 'That we must all die, we always knew; I wish I had remembered it sooner.', 'Samuel Johnson')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			21, 'The key to living well is first to will that which is necessary and then to love that which is willed.', 'Irving Yalom')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			22, 'Always tell the truth. You will gratify some people and astonish the rest.', 'Mark Twain')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			23, 'See everything. Ignore a lot. Improve a little.', 'Pope John Paul II')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			24, 'Resentment is like taking poison and hoping the other person dies.', 'St. Augustine')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			25, 'Hope is definitely not the same thing as optimism. It is not the conviction that something will turn out well, but the certainty that something makes sense, regardless of how it turns out.', 'Vaclav Havel')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			26, 'We must never be ashamed of our tears, they are rain from heaven washing the dust from our hard hearts.', 'Charles Dickens')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			27, 'Our business in life is not to succeed, but to continue to fail in good spirits.', 'Robert Louis Stevenson')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			28, 'Be who you are and say what you feel because the people who mind don''t matter and the people who matter don''t mind.', 'Theodor Geisel')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			29, 'It is well to remember that the entire universe, with one trifling exception, is composed of others.', 'John Andrew Holmes')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			30, 'Fail to honor people, they fail to honor you.', 'Lao Tzu')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			31, 'You can leave anything out, as long as you know what it is.', 'Ernest Hemingway')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			32, 'The future is here. It''s just not evenly distributed yet.', 'William Gibson')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			33, 'The future always comes too fast and in the wrong order.', 'Alvin Toffler')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			34, 'There will always be people who are ahead of the curve, and people who are behind the curve. But knowledge moves the curve.', 'Bill James')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			35, 'History is a wave that moves through time slightly faster than we do.', 'Kim Stanley Robinson')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			36, 'Inspiration is for amateurs. I just get to work.', 'Chuck Close')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			37, 'The best and most beautiful things in the world cannot be seen or even touched. They must be felt with the heart.', 'Hellen Keller')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			38, 'Small opportunities are often the beginning of great enterprises.', 'Demosthenes')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			39, 'Simplicity is the utlimate sophistication.', 'Leonardo da Vinci')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			40, 'A journey of thousand miles begins with a single step.', 'Lao tzu')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			41, 'What we think, we become.', 'Buddha')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			42, 'Great minds discuss ideas. Average minds discuss events. Small minds discuss people.', 'Eleanor Roosevelt')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			43, 'Forget the place you are trying to get and see the beauty in right now', 'Some wise person')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			44, 'All that we are, is the result of our thoughts.', 'Buddha')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			45, 'Logic will get you from A to B. Imagination will take you everywhere.', 'Albert Einstein')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			46, 'Do not dwell on who let you down, cherish those whoe hold you up.', 'Unknown')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			47, 'People are made to be loved and things are made to be used. The confusion in this world is that people are used and things are loved!', 'Unknown')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			48, 'Make peace with your past so it will not destroy your present.', 'Paulo Coelho')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			49, 'Obstacles are those frightful things you see when you take your eyes off your goal.', 'Henry Ford')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			50, 'I feel like I can not feel.', 'Salvador Dali')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			51, 'To avoid criticism, do nothing, say nothing, and be nothing.', 'Elbert Hubbard')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			52, 'I am not upset that you lied to me, I am upset that from now on I can not believe you anymore.', 'Friedrich Nietzsche')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			53, 'Successful and great people are ordinary people with extraordinary determination.', 'Robert Schuller')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			54, 'Everything has beauty, but not everyone sees it.', 'Confucius')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.wisdom ( WIS_ID, WIS_TEXT, WIS_AUTHOR ) VALUES ( 
+			55, 'Wanting to be someone else is a waste of the person you are.', 'Kurt Cobain')
+			</cfquery>
+			<!--- FILE TYPES --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('doc', 'doc', 'application', 'vnd.ms-word')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('docx', 'doc', 'application', 'vnd.ms-word')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('xls', 'doc', 'application', 'vnd.ms-excel')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('xlsx', 'doc', 'application', 'vnd.ms-excel')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ppt', 'doc', 'application', 'vnd.ms-powerpoint')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pptx', 'doc', 'application', 'vnd.ms-powerpoint')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pdf', 'doc', 'application', 'pdf')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('txt', 'doc', 'application', 'txt')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('psd', 'img', 'application', 'photoshop')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ai', 'img', 'application', 'photoshop')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('eps', 'img', 'application', 'eps')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('jpg', 'img', 'image', 'jpg')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('jpeg', 'img', 'image', 'jpeg')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('gif', 'img', 'image', 'gif')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('png', 'img', 'image', 'png')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('bmp', 'img', 'image', 'bmp')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('cal', 'img', null, null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('dcm', 'img', null, null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('fpx', 'img', 'image', 'vnd.fpx')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pbm', 'img', 'image', 'pbm')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pgm', 'img', 'image', 'x-portable-graymap')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ppm', 'img', 'image', 'x-portable-pixmap')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pnm', 'img', 'image', 'x-portable-anymap')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pcx', 'img', 'image', 'pcx')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pct', 'img', null, null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('rpx', 'img', null, null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ras', 'img', 'image', 'ras')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('tga', 'img', 'image', 'tga')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('tif', 'img', 'image', 'tif')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('tiff', 'img', 'image', 'tiff')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('wbmp', 'img', 'image', 'vnd.wap.wbmp')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('nef', 'img', 'image', 'nef')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('swf', 'vid', 'application', 'x-shockwave-flash')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('flv', 'vid', 'application', 'x-shockwave-flash')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('f4v', 'vid', 'application', 'x-shockwave-flash')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mov', 'vid', 'video', 'quicktime')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('m4v', 'vid', 'video', 'quicktime')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('avi', 'vid', 'video', 'avi')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('3gp', 'vid', 'video', '3gpp')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('rm', 'vid', 'application', 'vnd.rn-realmedia')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mpg', 'vid', 'video', 'mpeg')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mp4', 'vid', 'video', 'mp4v-es')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('wmv', 'vid', 'video', 'x-ms-wmv')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('vob', 'vid', 'video', 'mpeg')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ogv', 'vid', 'video', 'ogv')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('webm', 'vid', 'video', 'webm')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mts', 'vid', 'video', 'mts')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('m2ts', 'vid', 'video', 'm2ts')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('m2t', 'vid', 'video', 'm2t')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('aff', 'aud', null, null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('aft', 'aud', null, null)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('au', 'aud', 'audio', 'basic')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ram', 'aud', 'audio', 'x-pn-realaudio')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('wav', 'aud', 'audio', 'x-wav')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mp3', 'aud', 'audio', 'mpeg')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('aiff', 'aud', 'audio', 'x-aiff')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('aif', 'aud', 'audio', 'x-aiff')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('aifc', 'aud', 'audio', 'x-aiff')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('snd', 'aud', 'audio', 'basic')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mid', 'aud', 'audio', 'mid')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('m3u', 'aud', 'audio', 'x-mpegurl')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('rmi', 'aud', 'audio', 'mid')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ra', 'aud', 'audio', 'x-pn-realaudio')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('flac', 'aud', 'audio', 'flac')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ogg', 'aud', 'audio', 'ogg')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('m4a', 'aud', 'audio', 'x-m4a')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('arw', 'img', 'image', 'arw')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('cr2', 'img', 'image', 'cr2')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('crw', 'img', 'image', 'crw')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ciff', 'img', 'image', 'ciff')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('cs1', 'img', 'image', 'cs1')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('erf', 'img', 'image', 'erf')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mef', 'img', 'image', 'mef')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mrw', 'img', 'image', 'mrw')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('nrw', 'img', 'image', 'nrw')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('pef', 'img', 'image', 'pef')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('psb', 'img', 'application', 'photoshop')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('raf', 'img', 'image', 'raf')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('raw', 'img', 'image', 'raw')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('rw2', 'img', 'image', 'rw2')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('rwl', 'img', 'image', 'rwl')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('srw', 'img', 'image', 'srw')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('3fr', 'img', 'image', '3fr')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ari', 'img', 'image', 'ari')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('srf', 'img', 'image', 'srf')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('sr2', 'img', 'image', 'sr2')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('bay', 'img', 'image', 'bay')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('cap', 'img', 'image', 'cap')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('iiq', 'img', 'image', 'iiq')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('eip', 'img', 'image', 'eip')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('dcr', 'img', 'image', 'dcr')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('drf', 'img', 'image', 'drf')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('k25', 'img', 'image', 'k25')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('kdc', 'img', 'image', 'kdc')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('dng', 'img', 'image', 'dng')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('fff', 'img', 'image', 'fff')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mos', 'img', 'image', 'mos')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('orf', 'img', 'image', 'orf')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('ptx', 'img', 'image', 'ptx')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('r3d', 'img', 'image', 'r3d')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('rwz', 'img', 'image', 'rwz')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('x3f', 'img', 'image', 'x3f')
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+			INSERT INTO #arguments.thestruct.theschema#.file_types VALUES ('mxf', 'vid', 'video', 'mxf')
+			</cfquery>
+	</cffunction>
 	<!--- Clear database completely --->
 	<cffunction name="clearall" access="public" output="false">
 		<!--- Query Tables --->

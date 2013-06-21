@@ -208,7 +208,7 @@
 <!--- get users of one or more groups by group-name --->
 <!--- This is called while creating a new host --->
 <cffunction name="searchUsersOfGroups" returntype="query" access="remote" hint="get users of one or more groups by group-name">
-	<cfargument name="func_dsn" type="string" required="false">
+	<cfargument name="func_dsn" type="string" default="" required="false">
 	<cfargument name="list_grp_id" type="string" required="false">
 	<cfargument name="list_grp_name" type="string" required="false">
 	<cfargument name="list_delim" type="string" required="false" default=",">
