@@ -1644,7 +1644,7 @@ WHERE host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#
 	</cftry>
 	<!--- Test Exiftool --->
 	<cftry>
-		<cfexecute name="#appex#" arguments="-version" timeout="5" />
+		<cfexecute name="#appex#" arguments="-ver" timeout="5" />
 		<cfcatch type="any">
 			<cfset apps.ex = "F">
 		</cfcatch>

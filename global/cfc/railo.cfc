@@ -360,4 +360,8 @@
 		<!--- Return --->
 		<cfreturn true/>
 	</cffunction>
+	<cffunction name="logConsole" access="public" output="true" hint="Console output">
+		<!--- Return --->
+		<cfreturn true/>
+	</cffunction>
 </cfcomponent>

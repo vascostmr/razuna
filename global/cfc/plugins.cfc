@@ -125,8 +125,8 @@
 			<!--- Reset cache --->
 			<!--- <cfset resetcachetoken("settings")> --->
 			<cfcatch type="database">
-				<cfset consoleoutput(true)>
-				<cfset console(cfcatch)>
+				<cfinvoke component="cfmlengine" method="logConsole" catch="#cfcatch#" >
+				</cfinvoke>
 			</cfcatch>
 		</cftry>
 		<!--- Return --->

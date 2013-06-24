@@ -1314,7 +1314,7 @@
 		<!-- If new then create id -->
 		<if condition="attributes.rfs_id EQ 0">
 			<true>
-				<set name="attributes.rfs_id" value="#createuuid('')#" />
+				<set name="attributes.rfs_id" value="replace(createuuid(),'-','','all')" />
 			</true>
 		</if>
 		<!-- CFC: Check if there is an update for this DB -->
@@ -1373,7 +1373,7 @@
 		<!-- If add is true we create a news_id -->
 		<if condition="attributes.add">
 			<true>
-				<set name="attributes.news_id" value="#createuuid()#" />
+				<set name="attributes.news_id" value="replace(createuuid(),'-','','all')" />
 			</true>
 		</if>
 		<!-- Get record -->

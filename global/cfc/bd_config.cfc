@@ -589,5 +589,12 @@
 		<!--- Return --->
 		<cfreturn true/>
 	</cffunction>
+
+	<cffunction name="logConsole" access="public" output="false" hint="Console output">
+		<cfset consoleoutput(true)>
+		<cfset console(catch)>
+		<!--- Return --->
+		<cfreturn true/>
+	</cffunction>
 	
 </cfcomponent>
