@@ -95,7 +95,7 @@
 		<!--- Clean columnlist --->
 		<cfset var thecolumnlist = replacenocase(arguments.columnlist,"v.","","all")>
 		<!--- Query --->
-		<cfquery datasource="#Variables.dsn#" name="qLocal" cachedwithin="1" region="razcache">
+		<cfquery datasource="#Variables.dsn#" name="qLocal" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getFolderAssetsaud */ rn, aud_id, aud_name, aud_extension, aud_create_date, aud_change_date, folder_id_r, keywords, description, labels, filename_forsort, size, hashtag, date_create, date_change
 		FROM (
 			SELECT ROWNUM AS rn, aud_id, aud_name, aud_extension, aud_create_date, aud_change_date, folder_id_r, keywords, description, labels, filename_forsort, size, hashtag, date_create, date_change
@@ -117,7 +117,7 @@
 		<!--- Clean columnlist --->
 		<cfset var thecolumnlist = replacenocase(arguments.columnlist,"v.","","all")>
 		<!--- Query --->
-		<cfquery datasource="#Variables.dsn#" name="qLocal" cachedwithin="1" region="razcache">
+		<cfquery datasource="#Variables.dsn#" name="qLocal" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getFolderAssetsaud */ #thecolumnlist#, att.aud_keywords keywords, att.aud_description description, '' as labels, filename_forsort, size, hashtag, date_create, date_change
 		FROM (
 			SELECT row_number() over() as rownr, a.*, att.*, 
@@ -139,7 +139,7 @@
 		<!--- MySQL Offset --->
 		<cfset var mysqloffset = session.offset * session.rowmaxpage>
 		<!--- Query --->
-		<cfquery datasource="#Variables.dsn#" name="qLocal" cachedwithin="1" region="razcache">
+		<cfquery datasource="#Variables.dsn#" name="qLocal" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getFolderAssetsaud */ <cfif variables.database EQ "mssql" AND (arguments.thestruct.pages EQ "" OR arguments.thestruct.pages EQ "current")>TOP #session.rowmaxpage# </cfif>
 		#thecolumns#, att.aud_keywords keywords, att.aud_description description, '' as labels,
 		lower(a.aud_name) filename_forsort, a.aud_size size, a.hashtag, a.aud_create_time date_create, a.aud_change_time date_change
@@ -204,7 +204,7 @@
 		<!--- Loop over files and get labels and add to qry --->
 		<cfloop query="qLocal">
 			<!--- Query labels --->
-			<cfquery name="qry_l" datasource="#application.razuna.datasource#" cachedwithin="1" region="razcache">
+			<cfquery name="qry_l" datasource="#application.razuna.datasource#" cachedwithin="1">
 			SELECT /* #variables.cachetokenlabels#getallassetslabels */ ct_label_id
 			FROM ct_labels
 			WHERE ct_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#aud_id#">
@@ -228,7 +228,7 @@
 	<!--- Get the cachetoken for here --->
 	<cfset variables.cachetoken = getcachetoken("audios")>
 	<!--- Get details --->
-	<cfquery datasource="#application.razuna.datasource#" name="details" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="details" cachedwithin="1">
 	SELECT /* #variables.cachetoken#detailaud */ 
 	a.aud_id, a.aud_name, a.folder_id_r, a.aud_extension, a.aud_online, a.aud_owner, 
 	a.cloud_url, a.cloud_url_org, a.aud_group,
@@ -251,7 +251,7 @@
 		<cfset QuerySetCell(details, "perm", theaccess, 1)>
 	</cfif>
 	<!--- Get descriptions and keywords --->
-	<cfquery datasource="#application.razuna.datasource#" name="desc" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="desc" cachedwithin="1">
 	SELECT /* #variables.cachetoken#detaildescaud */ aud_description, aud_keywords, lang_id_r, aud_description as thedesc, aud_keywords as thekeys
 	FROM #session.hostdbprefix#audios_text
 	WHERE aud_id_r = <cfqueryparam value="#arguments.thestruct.file_id#" cfsqltype="CF_SQL_VARCHAR">
@@ -288,7 +288,7 @@
 	<cfset arguments.thestruct.setid = variables.setid>
 	<!--- <cfinvoke method="updatethread" thestruct="#arguments.thestruct#" /> --->
 	<!--- Start the thread for updating --->
-	<cfthread intstruct="#arguments.thestruct#">
+	<cfthread intstruct="#arguments.thestruct#" name="update">
 		<cfinvoke method="updatethread" thestruct="#attributes.intstruct#" />
 	</cfthread>
 </cffunction>
@@ -492,7 +492,7 @@
 	<cfset arguments.thestruct.qrydetail = details>
 	<cfset arguments.thestruct.link_kind = details.link_kind>
 	<cfset arguments.thestruct.filenameorg = details.filenameorg>
-	<cfthread intstruct="#arguments.thestruct#">
+	<cfthread intstruct="#arguments.thestruct#" name="#arguments.thestruct.id#">
 		<cfinvoke method="deletefromfilesystem" thestruct="#attributes.intstruct#">
 	</cfthread>
 	<!--- Flush Cache --->
@@ -524,7 +524,7 @@
 	<!--- Param --->
 	<cfset var qry_audio = "">
 	<!--- Query --->
-	<cfquery datasource="#application.razuna.datasource#" name="qry_audio" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry_audio" cachedwithin="1">
 		SELECT /* #variables.cachetoken#gettrashaudio */ 
 		a.aud_id AS id, 
 		a.aud_name AS filename, 
@@ -753,7 +753,7 @@
 		<cfset arguments.thestruct.qrydetail = thedetail>
 		<cfset arguments.thestruct.link_kind = thedetail.link_kind>
 		<cfset arguments.thestruct.filenameorg = thedetail.filenameorg>
-		<cfthread intstruct="#arguments.thestruct#">
+		<cfthread intstruct="#arguments.thestruct#" name="#i#">
 			<cfinvoke method="deletefromfilesystem" thestruct="#attributes.intstruct#">
 		</cfthread>
 	</cfloop>
@@ -874,7 +874,7 @@
 				WHERE aud_id = <cfqueryparam value="#arguments.thestruct.aud_id#" cfsqltype="CF_SQL_VARCHAR">
 				AND host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
 				</cfquery>
-				<cfthread intstruct="#arguments.thestruct#">
+				<cfthread intstruct="#arguments.thestruct#" name="#arguments.thestruct.aud_id#">
 					<!--- Update Dates --->
 					<cfinvoke component="global" method="update_dates" type="aud" fileid="#attributes.intstruct.aud_id#" />
 					<!--- Update Lucene --->
@@ -939,7 +939,7 @@
 	<cfparam default="F" name="arguments.thestruct.related">
 	<cfparam default="0" name="session.thegroupofuser">
 	<!--- Qry. We take the query and do a IN --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 	SELECT /* #variables.cachetoken#detailforbasketaud */ a.aud_id, a.aud_name filename, a.aud_extension, a.aud_group, a.folder_id_r, a.aud_size, 
 	a.link_kind, a.link_path_url, a.path_to_asset,
 	'' as perm
@@ -977,7 +977,7 @@
 		<!--- </cfthread> --->
 	<cfelse>
 		<!--- Start the thread for converting --->
-		<cfthread intstruct="#arguments.thestruct#">
+		<cfthread intstruct="#arguments.thestruct#" name="convertaudio">
 			<cfinvoke method="convertaudiothread" thestruct="#attributes.intstruct#" />
 		</cfthread>
 	</cfif>
@@ -1009,7 +1009,7 @@
 		<!--- Update main record with dates --->
 		<cfinvoke component="global" method="update_dates" type="aud" fileid="#arguments.thestruct.qry_detail.detail.aud_group#" />
 		<!--- Create a temp directory to hold the video file (needed because we are doing other files from it as well) --->
-		<cfset var tempfolder = "aud#createuuid('')#">
+		<cfset var tempfolder = "aud#replace(createuuid(),"-","","all")#">
 		<!--- set the folder path in a var --->
 		<cfset var thisfolder = "#arguments.thestruct.thepath#/incoming/#tempfolder#">
 		<!--- Create the temp folder in the incoming dir --->
@@ -1124,7 +1124,7 @@
 			<cfparam name="arguments.thestruct.convert_bitrate_#theformat#" default="">
 			<!--- Create a new ID for the audio --->
 			<cfset var newid = structnew()>
-			<cfset newid.id = createuuid("")>
+			<cfset newid.id = replace(createuuid(),"-","","all")>
 			<cfquery datasource="#application.razuna.datasource#">
 			INSERT INTO #session.hostdbprefix#audios
 			(aud_id, host_id)
@@ -1347,7 +1347,7 @@
 	<!--- Get the cachetoken for here --->
 	<cfset variables.cachetoken = getcachetoken("audios")>
 	<!--- Query --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 	SELECT /* #variables.cachetoken#relatedaudios */ aud_id, folder_id_r, aud_name, aud_extension, aud_size, 
 	path_to_asset, aud_group, aud_name_org
 	FROM #session.hostdbprefix#audios
@@ -1363,7 +1363,7 @@
 	<cfargument name="thestruct" type="struct">
 	<cfparam name="arguments.thestruct.zipit" default="T">
 	<!--- Create a temp folder --->
-	<cfset tempfolder = createuuid("")>
+	<cfset tempfolder = replace(createuuid(),"-","","all")>
 	<cfdirectory action="create" directory="#arguments.thestruct.thepath#/outgoing/#tempfolder#" mode="775">
 	<!--- Put the audio id into a variable --->
 	<cfset theaudioid = #arguments.thestruct.file_id#>
@@ -1482,7 +1482,12 @@
 		<cfcatch type="any"></cfcatch>
 	</cftry>
 	<!--- Zip the folder --->
-	<cfzip action="create" ZIPFILE="#arguments.thestruct.thepath#/outgoing/#zipname#" source="#arguments.thestruct.thepath#/outgoing/#tempfolder#" recurse="true" timeout="300" />
+	<cfinvoke component="cfmlengine" method="createZipFile">
+		<cfinvokeargument name="zipfile" value="#arguments.thestruct.thepath#/outgoing/#zipname#">
+		<cfinvokeargument name="source" value="#arguments.thestruct.thepath#/outgoing/#tempfolder#">
+		<cfinvokeargument name="recurse" value="true" >
+	</cfinvoke>
+	<!---<cfzip action="create" ZIPFILE="#arguments.thestruct.thepath#/outgoing/#zipname#" source="#arguments.thestruct.thepath#/outgoing/#tempfolder#" recurse="true" timeout="300" />--->
 	<!--- Remove the temp folder --->
 	<cfdirectory action="delete" directory="#arguments.thestruct.thepath#/outgoing/#tempfolder#" recurse="yes">
 	<!--- Return --->
@@ -1495,7 +1500,7 @@
 	<!--- Get the cachetoken for here --->
 	<cfset variables.cachetoken = getcachetoken("audios")>
 	<!--- Query --->
-	<cfquery datasource="#application.razuna.datasource#" name="qryintern" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qryintern" cachedwithin="1">
 	SELECT /* #variables.cachetoken#gettextaud */ aud_id_r tid, aud_description description, aud_keywords keywords
 	FROM #session.hostdbprefix#audios_text
 	WHERE aud_id_r IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ValueList(arguments.qry.id)#" list="true">)
@@ -1511,7 +1516,7 @@
 	<!--- Get the cachetoken for here --->
 	<cfset variables.cachetoken = getcachetoken("audios")>
 	<!--- Query --->
-	<cfquery datasource="#application.razuna.datasource#" name="qryintern" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qryintern" cachedwithin="1">
 	SELECT /* #variables.cachetoken#gettextrm */ aud_meta rawmetadata
 	FROM #session.hostdbprefix#audios
 	WHERE aud_id IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ValueList(arguments.qry.id)#" list="true">)
@@ -1540,7 +1545,7 @@
 <!--- Check for existing MD5 mash records --->
 <cffunction name="checkmd5" output="false">
 	<cfargument name="md5hash" type="string">
-	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 	SELECT /* #variables.cachetoken#checkmd5 */ aud_id
 	FROM #session.hostdbprefix#audios
 	WHERE hashtag = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.md5hash#">
