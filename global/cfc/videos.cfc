@@ -102,7 +102,7 @@
 	<cfelseif session.sortby EQ "datechanged">
 		<cfset var sortby = "date_change DESC">
 	</cfif>
-	<!--- Oracle --->
+	<!--- Oracle  --->
 	<cfif variables.database EQ "oracle">
 		<!--- Clean columnlist --->
 		<cfset var thecolumnlist = replacenocase(arguments.columnlist,"v.","","all")>

@@ -84,7 +84,7 @@
 	<cfelseif session.sortby EQ "datechanged">
 		<cfset var sortby = "date_change DESC">
 	</cfif>
-	<!--- If there is a columnlist then take it else the default--->
+	<!--- If there is a columnlist then take it else the default --->
 	<cfif structkeyexists(arguments.thestruct,"columnlist")>
 		<cfset thecolumns = arguments.thestruct.columnlist>
 	<cfelse>

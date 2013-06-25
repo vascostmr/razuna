@@ -194,7 +194,7 @@
 				WHERE rownr between #min# AND #max#
 			</cfif>
 			</cfquery>
-		<!--- Other DB's --->
+		<!--- Other DB's  --->
 		<cfelse>
 			<!--- MySQL Offset --->
 			<cfset var mysqloffset = session.offset * session.rowmaxpage>
