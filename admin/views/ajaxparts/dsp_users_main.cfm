@@ -23,44 +23,50 @@
 * along with Razuna. If not, see <http://www.razuna.com/licenses/>.
 *
 --->
+<!--- Host form --->
 <cfoutput>
-	<!--- Host form --->
 	<cfinclude template="dsp_host_chooser_include.cfm">
+</cfoutput>
 	<div id="tabs_users">
-		<ul>
-			<li><a href="##tsearch">#defaultsObj.trans("user_list")#</a></li>
-			<li><a href="##tsearch" onclick="showwindow('#myself#c.users_detail&add=T&user_id=0','#defaultsObj.trans("user_add")#',550,1);">#defaultsObj.trans("user_add")#</a></li>
-		</ul>
+		<cfoutput>
+			<ul>
+				<li><a href="##tsearch">#defaultsObj.trans("user_list")#</a></li>
+				<li><a href="##tsearch" onclick="showwindow('#myself#c.users_detail&add=T&user_id=0','#defaultsObj.trans("user_add")#',550,1);">#defaultsObj.trans("user_add")#</a></li>
+			</ul>
+		</cfoutput>
 		<!--- Search Panel --->
 		<div id="tsearch">
-			<form name="usearch" id="usearch" onsubmit="searchme();return false;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="grid">
-			<tr>
-				<th colspan="4">#defaultsObj.trans("quicksearch")#</th>
-			</tr>
-			<tr>
-				<td>#defaultsObj.trans("username")#</td>
-				<td>#defaultsObj.trans("user_company")#</td>
-				<td colspan="2">eMail</td>
-			</tr>
-			<tr>
-				<td><input type="text" size="25" name="user_login_name" id="user_login_name2" /></td>
-				<td><input type="text" size="25" name="user_company" id="user_company2" /></td>
-				<td><input type="text" size="25" name="user_email" id="user_email2" /></td>
-				<td><input type="submit" name="Button" value="#defaultsObj.trans("user_search")#" class="button" /></td>
-			</tr>
-			</table>
-			</form>
+			<cfoutput>
+				<form name="usearch" id="usearch" onsubmit="searchme();return false;">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="grid">
+				<tr>
+					<th colspan="4">#defaultsObj.trans("quicksearch")#</th>
+				</tr>
+				<tr>
+					<td>#defaultsObj.trans("username")#</td>
+					<td>#defaultsObj.trans("user_company")#</td>
+					<td colspan="2">eMail</td>
+				</tr>
+				<tr>
+					<td><input type="text" size="25" name="user_login_name" id="user_login_name2" /></td>
+					<td><input type="text" size="25" name="user_company" id="user_company2" /></td>
+					<td><input type="text" size="25" name="user_email" id="user_email2" /></td>
+					<td><input type="submit" name="Button" value="#defaultsObj.trans("user_search")#" class="button" /></td>
+				</tr>
+				</table>
+				</form>
+			</cfoutput>
 		<!--- The results --->
 			<div id="uresults">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="grid">
-					<tr>
-						<th nowrap="nowrap">#defaultsObj.trans("username")#</th>
-						<th nowrap="nowrap">#defaultsObj.trans("user_first_name")# #defaultsObj.trans("user_last_name")#</th>
-						<th nowrap="nowrap">#defaultsObj.trans("user_company")#</th>
-						<th nowrap="nowrap">eMail</th>
-						<th colspan="2"></th>
-					</tr>
+					<cfoutput>
+						<tr>
+							<th nowrap="nowrap">#defaultsObj.trans("username")#</th>
+							<th nowrap="nowrap">#defaultsObj.trans("user_first_name")# #defaultsObj.trans("user_last_name")#</th>
+							<th nowrap="nowrap">#defaultsObj.trans("user_company")#</th>
+							<th nowrap="nowrap">eMail</th>
+							<th colspan="2"></th>
+						</tr>
 					</cfoutput>
 					<cfoutput query="qry_users" group="user_id">
 						<tr>
