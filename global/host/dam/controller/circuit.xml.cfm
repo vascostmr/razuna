@@ -83,13 +83,13 @@
 				<!-- Redirect request -->
 				<if condition="attributes.redirectto NEQ ''">
 					<true>
-						<relocate url="#session.thehttp##cgi.http_host##myself##attributes.redirectto#&amp;_v=#replace(createuuid(),"-","","all")#" />
+						<relocate url="#session.thehttp##cgi.http_host##myself##attributes.redirectto#&amp;_v=#replace(createuuid(),'-','','all')#" />
 					</true>
 				</if>
 				<!-- TL = Transparent login. In other words this action is called directly -->
 				<if condition="structkeyexists(attributes,'tl')">
 					<true>
-						<relocate url="#session.thehttp##cgi.http_host##myself#c.main&amp;_v=#replace(createuuid(),"-","","all")#" />
+						<relocate url="#session.thehttp##cgi.http_host##myself#c.main&amp;_v=#replace(createuuid(),'-','','all')#" />
 					</true>
 				</if>
 			</true>
@@ -145,7 +145,7 @@
 						<!-- set host again with real value -->
 						<invoke object="myFusebox.getApplicationData().security" methodcall="initUser(Session.hostid,loginstatus,'adm')" returnvariable="Request.securityobj" />
 						<!-- Relocate -->
-						<relocate url="#session.thehttp##cgi.http_host##myself#c.main&amp;_v=#replace(createuuid(),"-","","all")#" />
+						<relocate url="#session.thehttp##cgi.http_host##myself#c.main&amp;_v=#replace(createuuid(),'-','','all')#" />
 					</true>
 					<!-- This is for shared login -->
 					<false>
@@ -159,11 +159,11 @@
 								<!-- CFC: Check if user is allowed for this folder -->
 								<invoke object="myFusebox.getApplicationData().folders" methodcall="sharecheckpermfolder(session.fid)" />
 								<!-- Relocate -->
-								<relocate url="#session.thehttp##cgi.http_host##myself#c.sharep&amp;fid=#attributes.fid#&amp;_v=#replace(createuuid(),"-","","all")#" />
+								<relocate url="#session.thehttp##cgi.http_host##myself#c.sharep&amp;fid=#attributes.fid#&amp;_v=#replace(createuuid(),'-','','all')#" />
 							</true>
 							<false>
 								<set name="session.widget_login" value="T" />
-								<relocate url="#session.thehttp##cgi.http_host##myself#c.w_content&amp;wid=#attributes.wid#&amp;_v=#replace(createuuid(),"-","","all")#" />
+								<relocate url="#session.thehttp##cgi.http_host##myself#c.w_content&amp;wid=#attributes.wid#&amp;_v=#replace(createuuid(),'-','','all')#" />
 							</false>
 						</if>
 					</false>
@@ -191,13 +191,13 @@
 						<if condition="attributes.wid EQ 0">
 							<true>
 								<!-- Relocate -->
-								<relocate url="#session.thehttp##cgi.http_host##myself#c.share&amp;le=t&amp;fid=#attributes.fid#&amp;_v=#replace(createuuid(),"-","","all")#" />
+								<relocate url="#session.thehttp##cgi.http_host##myself#c.share&amp;le=t&amp;fid=#attributes.fid#&amp;_v=#replace(createuuid(),'-','','all')#" />
 							</true>
 							<false>
 								<!-- Param -->
 								<set name="session.widget_login" value="F" />
 								<!-- Relocate -->
-								<relocate url="#session.thehttp##cgi.http_host##myself#c.w&amp;wid=#attributes.wid#&amp;le=T&amp;_v=#replace(createuuid(),"-","","all")#" />
+								<relocate url="#session.thehttp##cgi.http_host##myself#c.w&amp;wid=#attributes.wid#&amp;le=T&amp;_v=#replace(createuuid(),'-','','all')#" />
 							</false>
 						</if>
 					</false>
@@ -5442,7 +5442,7 @@
 	<fuseaction name="upl_template_detail">
 		<if condition="attributes.upl_temp_id EQ 0">
 			<true>
-				<set name="attributes.upl_temp_id" value="#replace(createuuid(),"-","","all")#" />
+				<set name="attributes.upl_temp_id" value="#replace(createuuid(),'-','','all')#" />
 			</true>
 		</if>
 		<!-- CFC: get details -->
@@ -5488,7 +5488,7 @@
 		<!-- Create new ID -->
 		<if condition="attributes.imp_temp_id EQ 0">
 			<true>
-				<set name="attributes.imp_temp_id" value="#replace(createuuid(),"-","","all")#" />
+				<set name="attributes.imp_temp_id" value="#replace(createuuid(),'-','','all')#" />
 			</true>
 		</if>
 		<!-- CFC: get details -->
@@ -6122,7 +6122,7 @@
 		<!-- Create new ID -->
 		<if condition="attributes.wm_temp_id EQ 0">
 			<true>
-				<set name="attributes.wm_temp_id" value="#replace(createuuid(),"-","","all")#" />
+				<set name="attributes.wm_temp_id" value="#replace(createuuid(),'-','','all')#" />
 			</true>
 		</if>
 		<!-- CFC: get details -->
@@ -6306,7 +6306,7 @@
 		<!-- Get labels -->
 		<do action="labels" />
 		<!-- Session for the new comment id -->
-		<set name="session.newcommentid" value="#replace(createuuid(),"-","","all")#" />
+		<set name="session.newcommentid" value="#replace(createuuid(),'-','','all')#" />
 		<!-- Show -->
 		<do action="ajax.comments" />
 	</fuseaction>
@@ -6462,7 +6462,7 @@
 				<!-- CFC: Check if user is allowed for this folder -->
 				<invoke object="myFusebox.getApplicationData().folders" methodcall="sharecheckpermfolder(session.fid)" />
 				<!-- Relocate -->
-				<relocate url="#session.thehttp##cgi.http_host##myself#c.sharep&amp;fid=#attributes.fid#&amp;_v=#replace(createuuid(),"-","","all")#" />
+				<relocate url="#session.thehttp##cgi.http_host##myself#c.sharep&amp;fid=#attributes.fid#&amp;_v=#replace(createuuid(),'-','','all')" />
 			</true>
 			<!-- User not found -->
 			<false>
@@ -6582,7 +6582,7 @@
 		<!-- Param -->
 		<set name="session.theuserid" value="1" />
 		<!-- Session for the new comment id -->
-		<set name="session.newcommentid" value="#replace(createuuid(),"-","","all")#" />
+		<set name="session.newcommentid" value="#replace(createuuid(),'-','','all')#" />
 		<!-- CFC: Add Comment -->
 		<invoke object="myFusebox.getApplicationData().comments" methodcall="add(attributes)" />
 		<!-- Show -->
@@ -6703,7 +6703,7 @@
 	<!-- The initial call -->
 	<fuseaction name="versions">
 		<!-- Param -->
-		<set name="attributes.tempid" value="#replace(createuuid(),"-","","all")#" />
+		<set name="attributes.tempid" value="#replace(createuuid(),'-','','all')#" />
 		<!-- Show -->
 		<do action="ajax.versions" />
 	</fuseaction>
@@ -6856,7 +6856,7 @@
 	<!-- Start -->
 	<fuseaction name="previewimage">
 		<!-- Param -->
-		<set name="attributes.tempid" value="#replace(createuuid(),"-","","all")#" />
+		<set name="attributes.tempid" value="#replace(createuuid(),'-','','all')#" />
 		<!-- Show -->
 		<do action="ajax.previewimage" />
 	</fuseaction>
@@ -6907,7 +6907,7 @@
 	</fuseaction>
 	<!-- Reset CART ID -->
 	<fuseaction name="orders_reset">
-		<set name="session.thecart" value="#replace(createuuid(),"-","","all")#" />
+		<set name="session.thecart" value="#replace(createuuid(),'-','','all')#" />
 		<!-- Show -->
 		<do action="orders" />
 	</fuseaction>
@@ -7254,7 +7254,7 @@
 	</fuseaction>
 	<!-- External call: Widget PRoxy -->
 	<fuseaction name="w_proxy">
-		<relocate url="#session.thehttp##cgi.http_host##myself#c.w_content&amp;wid=#session.widget_id#&amp;_v=#replace(createuuid(),"-","","all")#" />
+		<relocate url="#session.thehttp##cgi.http_host##myself#c.w_content&amp;wid=#session.widget_id#&amp;_v=#replace(createuuid(),'-','','all')#" />
 	</fuseaction>
 	<!-- External call: Get content -->
 	<fuseaction name="w_content">
@@ -7401,7 +7401,7 @@
 				<!-- Folder id into session -->
 				<set name="session.fid" value="#attributes.fid#" />
 				<set name="session.widget_login" value="T" />
-				<relocate url="#session.thehttp##cgi.http_host##myself#c.w_content&amp;wid=#session.widget_id#&amp;_v=#replace(createuuid(),"-","","all")#" />
+				<relocate url="#session.thehttp##cgi.http_host##myself#c.w_content&amp;wid=#session.widget_id#&amp;_v=#replace(createuuid(),'-','','all')#" />
 			</true>
 			<!-- User not found -->
 			<false>
@@ -7848,7 +7848,7 @@
 	<!-- Import show window -->
 	<fuseaction name="meta_imp">
 		<!-- Param -->
-		<set name="attributes.tempid" value="#replace(createuuid(),"-","","all")#" />
+		<set name="attributes.tempid" value="#replace(createuuid(),'-','','all')#" />
 		<!-- CFC -->
 		<invoke object="myFusebox.getApplicationData().import" methodcall="getTemplates(false)" returnvariable="qry_imptemp" />
 		<!-- Show -->
