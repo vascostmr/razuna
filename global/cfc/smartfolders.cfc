@@ -23,7 +23,7 @@
 * along with Razuna. If not, see <http://www.razuna.com/licenses/>.
 *
 --->
-<cfcomponent output="false" output="false" extends="extQueryCaching">
+<cfcomponent output="false" extends="extQueryCaching">
 	
 	<!--- Get the cachetoken for here --->
 	<cfset variables.cachetoken = getcachetoken("folders")>
@@ -33,7 +33,7 @@
 		<!--- Params --->
 		<cfset var qry = "">
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 		SELECT /* #variables.cachetoken#sfgetall */ sf_id, sf_name, sf_type, '' AS shared
 		FROM #session.hostdbprefix#smart_folders
 		WHERE sf_type <cfif variables.database EQ "oracle" OR variables.database EQ "db2"><><cfelse>!=</cfif> <cfqueryparam cfsqltype="cf_sql_varchar" value="saved_search">
@@ -59,13 +59,13 @@
 		<!--- Params --->
 		<cfset var qry = structnew()>
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry.sf" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry.sf" cachedwithin="1">
 		SELECT /* #variables.cachetoken#sfgetone */ sf_id, sf_name, sf_type, sf_description
 		FROM #session.hostdbprefix#smart_folders
 		WHERE sf_id = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.sf_id#">
 		</cfquery>
 		<!--- Query properties --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry.sfprop" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry.sfprop" cachedwithin="1">
 		SELECT /* #variables.cachetoken#sfgetoneprop */ sf_prop_id, sf_prop_value
 		FROM #session.hostdbprefix#smart_folders_prop
 		WHERE sf_id_r = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.sf_id#">
@@ -82,7 +82,7 @@
 		<!--- If the ID is 0 = new folder --->
 		<cfif arguments.thestruct.sf_id EQ 0>
 			<!--- Create ID --->
-			<cfset arguments.thestruct.sf_id = createUUID("")>
+			<cfset arguments.thestruct.sf_id = replace(createUUID(),"-","","all")>
 			<!--- Insert --->
 			<cfquery datasource="#application.razuna.datasource#">
 			INSERT INTO #session.hostdbprefix#smart_folders

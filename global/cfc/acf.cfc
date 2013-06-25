@@ -349,6 +349,13 @@
 		<cfreturn verified />
 	</cffunction>
 	
+	<cffunction name="logConsole" access="public" output="false" hint="Console output">
+       <cfargument name="catch" type="any" required="true" default="true" >
+	      
+       <!--- Return --->
+       <cfreturn true />
+	</cffunction>
+	
 	<!--- create datasourcename --->
 	<cffunction name="createDatasource" access="public" output="false" hint="create datasourcename in coldfusion server">
 		<cfargument name="action" type="string" required="true">

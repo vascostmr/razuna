@@ -87,7 +87,7 @@
 
 <!--- READ BASKET --->
 <cffunction name="readbasket" output="false" returnType="query">
-	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 		SELECT /* #variables.cachetoken#readbasket */ c.cart_product_id, c.cart_file_type, c.cart_order_done, c.cart_order_email, c.cart_order_message, 
 			CASE 
 				WHEN c.cart_file_type = 'doc' 
@@ -216,7 +216,7 @@
 		<cfflush>
 	</cfif>
 	<!--- Create directory --->
-	<cfset basketname = createuuid("")>
+	<cfset basketname = replace(Createuuid(),"-","","all")>
 	<cfset arguments.thestruct.newpath = arguments.thestruct.thepath & "/outgoing/#basketname#">
 	<cfdirectory action="create" directory="#arguments.thestruct.newpath#" mode="775">
 	<!--- Read Basket --->
@@ -276,14 +276,19 @@
 	</cfif>
 	<!--- All done. Now zip up the folder --->
 	<cfif NOT structkeyexists(arguments.thestruct,"zipname")>
-		<cfset arguments.thestruct.zipname = "basket-" & createuuid("") & ".zip">
+		<cfset arguments.thestruct.zipname = "basket-" & replace(Createuuid(),"-","","all") & ".zip">
 	<cfelse>
 		<cfset arguments.thestruct.zipname = replacenocase(arguments.thestruct.zipname, " ", "_", "ALL")>
 		<cfset arguments.thestruct.zipname = arguments.thestruct.zipname & ".zip">
 	</cfif>
 	<!--- Zip the folder --->
 	<cfthread name="#basketname#" intstruct="#arguments.thestruct#">
-		<cfzip action="create" ZIPFILE="#attributes.intstruct.thepath#/outgoing/#attributes.intstruct.zipname#" source="#attributes.intstruct.newpath#" recurse="true" timeout="300" />
+		<cfinvoke component="cfmlengine" method="createZipFile">
+			<cfinvokeargument name="zipfile" value="#attributes.intstruct.thepath#/outgoing/#attributes.intstruct.zipname#">
+			<cfinvokeargument name="source" value="#attributes.intstruct.newpath#">
+			<cfinvokeargument name="recurse" value="true" >
+		</cfinvoke>
+		<!---<cfzip action="create" ZIPFILE="#attributes.intstruct.thepath#/outgoing/#attributes.intstruct.zipname#" source="#attributes.intstruct.newpath#" recurse="true" timeout="300" />--->
 	</cfthread>
 	<cfthread action="join" name="#basketname#" />
 	<!--- Remove the temp folder --->
@@ -321,9 +326,9 @@
 		<cfset theart = listlast(art, "-")>
 		<cfif arguments.thestruct.theid EQ thefileid>
 			<!--- Create thread  --->
-			<cfset ttd = createuuid()>
+			<cfset ttd = replace(Createuuid(),"-","","all")>
 			<!--- Query --->
-			<cfquery datasource="#variables.dsn#" name="arguments.thestruct.qry" cachedwithin="1" region="razcache">
+			<cfquery datasource="#variables.dsn#" name="arguments.thestruct.qry" cachedwithin="1">
 			SELECT /* #variables.cachetoken#writefiles */ file_extension, file_name, folder_id_r, file_name_org, link_kind, link_path_url, path_to_asset, cloud_url_org
 			FROM #session.hostdbprefix#files
 			WHERE file_id = <cfqueryparam value="#arguments.thestruct.theid#" cfsqltype="CF_SQL_VARCHAR">
@@ -392,7 +397,7 @@
 	<!--- Start the loop to get the different kinds of images --->
 	<cfloop delimiters="," list="#arguments.thestruct.artofimage#" index="art">
 		<!--- Create uuid for thread --->
-		<cfset thethreadid = createuuid("")>
+		<cfset thethreadid = replace(createuuid(),"-","","all")>
 		<!--- Put image id and art into variables --->
 		<cfset theimgid = listfirst(art, "-")>
 		<cfset theart = listlast(art, "-")>
@@ -593,7 +598,7 @@
 			<cfset arguments.thestruct.thenewname = thenewname>
 			<cfset arguments.thestruct.thefname = thefname>
 			<!--- Create uuid for thread --->
-			<cfset wvt = createuuid("")>
+			<cfset wvt = replace(createuuid(),"-","","all")>
 			<!--- Local --->
 			<cfif application.razuna.storage EQ "local" AND qry.link_kind EQ "">
 				<cfthread name="#wvt#" intstruct="#arguments.thestruct#">
@@ -799,7 +804,7 @@
 <!--- Read Orders --->
 <cffunction name="get_orders" output="false">
 	<!--- Read orders --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 	SELECT /* #variables.cachetoken#get_orders */ cart_id, cart_order_date, cart_order_done
 	FROM #session.hostdbprefix#cart
 	WHERE cart_order_done IS NOT NULL

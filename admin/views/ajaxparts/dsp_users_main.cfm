@@ -61,6 +61,7 @@
 						<th nowrap="nowrap">eMail</th>
 						<th colspan="2"></th>
 					</tr>
+					</cfoutput>
 					<cfoutput query="qry_users" group="user_id">
 						<tr>
 							<!--- <td valign="top" nowrap width="1%"><input type="checkbox" name="theuserid" value="#user_id#" /></td> --->
@@ -82,7 +83,7 @@
 		</div>
 		<div id="tadd"></div>
 	</div>
-</cfoutput>
+
 
 <!--- Activate the Tabs --->
 <script language="JavaScript" type="text/javascript">

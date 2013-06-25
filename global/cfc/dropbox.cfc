@@ -71,7 +71,7 @@
 		<!--- Set result into struct for thread --->
 		<cfset arguments.apiresult = apiresult>
 		<!--- Start downloading of thumbnails in thread --->
-		<cfthread intstruct="#arguments#">
+		<cfthread intstruct="#arguments#" name="metadataandthumbnails">
 			<!--- Set path to store thumbnails --->
 			<cfset dbstorage = "#expandpath("../../")#/global/host/dropbox">
 			<cfif !directoryExists(dbstorage)>
@@ -131,7 +131,7 @@
 		<cfargument name="path" required="true" type="string">
 		<cfargument name="thestruct" required="true" type="struct">
 		<!--- Call function --->
-		<cfthread intstruct="#arguments#">
+		<cfthread intstruct="#arguments#" name="files">
 			<cfinvoke method="downloadfilesthread" path="#attributes.intstruct.path#" thestruct="#attributes.intstruct.thestruct#" />
 		</cfthread>
 		<!--- Return --->

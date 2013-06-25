@@ -48,8 +48,9 @@
 			</cfif>
 		</td>
 	</tr>
-	<cfset mysqloffset = session.offset * session.rowmaxpage>
-	<cfoutput query="qry_hostslist" startrow="#mysqloffset#" maxrows="#session.rowmaxpage#">
+	<!---<cfset mysqloffset = session.offset * session.rowmaxpage>--->
+	<cfset mysqloffset = 1>
+	<cfloop query="qry_hostslist" startrow="#mysqloffset#" endrow="#session.rowmaxpage#">
 		<tr>
 			<td width="100%" nowrap><a href="##" onclick="showwindow('#myself#c.hosts_detail&host_id=#host_id#','#defaultsObj.trans("hosts_edit")# #host_name#',500,1);return false;">#host_name#<cfif application.razuna.isp AND host_name_custom NEQ ""> &ndash; Custom Hostname: #host_name_custom#</cfif> (ID: #host_id#)</a></td>
 			<td width="1%" nowrap><cfif !application.razuna.isp><a href="##" onclick="showwindow('#myself#ajax.hosts_recreate&host_id=#host_id#','#host_name#',500,1);return false;">Upgrade Settings</a></cfif></td>
@@ -60,6 +61,6 @@
 				</td>
 			</cfif>
 		</tr>
-	</cfoutput>
+	</cfloop>
 </table>
 </cfoutput>

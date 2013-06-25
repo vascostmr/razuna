@@ -271,7 +271,7 @@
 		<cfqueryparam cfsqltype="cf_sql_varchar" value="#cloud_url_version.theurl#">,
 		<cfqueryparam cfsqltype="cf_sql_varchar" value="#thethumbname#">,
 		<cfqueryparam cfsqltype="cf_sql_varchar" value="#qry.hashtag#">,
-		<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
+		<cfqueryparam value="#replace(createuuid(),"-","","all")#" CFSQLType="CF_SQL_VARCHAR">
 		<!--- For images --->
 		<cfif arguments.thestruct.type EQ "img">
 		,
@@ -419,7 +419,7 @@
 	<cfset cloud_url_version.theurl = "">
 	<cfset cloud_url_org.newepoch = 0>
 	<cfset thumbnailname = "">
-	<cfset arguments.thestruct.therandom = createuuid("")>
+	<cfset arguments.thestruct.therandom = replace(createuuid(),"-","","all"))>
 	<!--- Get windows or not --->
 	<cfinvoke component="global" method="iswindows" returnVariable="iswindows" />
 	<!--- Set Exiftool --->
@@ -618,7 +618,7 @@
 		<!--- Nirvanix --->
 		<cfelseif application.razuna.storage EQ "nirvanix">
 			<cfset arguments.thestruct.newversion = qryversion.newversion>
-			<cfset mtt = createuuid("")>
+			<cfset mtt = replace(createuuid(),"-","","all")>
 			<!--- Move the file to the versions directory --->
 			<cfthread name="#mtt#" intstruct="#arguments.thestruct#">
 				<!--- Move --->
@@ -670,7 +670,7 @@
 		<!--- Amazon --->
 		<cfelseif application.razuna.storage EQ "amazon">
 			<cfset arguments.thestruct.newversion = qryversion.newversion>
-			<cfset mtt = createuuid("")>
+			<cfset mtt = replace(createuuid(),"-","","all")>
 			<!--- Move the file to the versions directory --->
 			<cfthread name="#mtt#" intstruct="#arguments.thestruct#">
 				<!--- Move --->
@@ -740,7 +740,7 @@
 		<cfqueryparam cfsqltype="cf_sql_varchar" value="#cloud_url_version.theurl#">,
 		<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.thestruct.thumbnailname_existing#">,
 		<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.thestruct.qryfilelocal.hashtag#">,
-		<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
+		<cfqueryparam value="#replace(createuuid(),"-","","all")#" CFSQLType="CF_SQL_VARCHAR">
 		<!--- For images --->
 		<cfif arguments.thestruct.type EQ "img">
 			,

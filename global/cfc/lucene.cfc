@@ -27,7 +27,7 @@
 
 	<!--- Check if collection exists for this host --->
 	<cffunction name="exists" access="public" output="false">
-		<cfthread>
+		<cfthread action="run" name="exists" >
 			<cftry>
 				<!--- Get the collection --->
 				<cfset CollectionStatus(session.hostid)>
@@ -138,7 +138,35 @@
 				</cfquery>
 				<!--- Indexing --->
 				<cflock name="searchLock_#session.hostid#" type="exclusive" timeout="600">
-					<cfscript>
+					<cfset args = {}>
+					<cfset args.custommap = {}>
+					<cfset args.collection = session.hostid>
+					<!---query : qry_all,--->
+					<cfset args.qry = arguments.qry>
+					<cfset args.category = "thecategory">
+					<cfset args.categoryTree = "id">
+					<cfset args.key = "id">			
+					<cfset args.title = "id">			
+					<cfset args.body = "id,filename,filenameorg,keywords,description,rawmetadata,theext,author,rights,authorsposition,captionwriter,webstatement,rightsmarked,labels,customfieldvalue,folderpath,folder">			
+					<cfset args.custommap.id = "id">
+					<cfset args.custommap.filename = "filename">				
+					<cfset args.custommap.filenameorg = "filenameorg">				
+					<cfset args.custommap.keywords = "keywords">				
+					<cfset args.custommap.description = "description">
+					<cfset args.custommap.rawmetadata = "rawmetadata">				
+					<cfset args.custommap.extension = "theext">				
+					<cfset args.custommap.author = "author">				
+					<cfset args.custommap.rights = "rights">
+					<cfset args.custommap.authorsposition = "authorsposition">				
+					<cfset args.custommap.captionwriter = "captionwriter">				 
+					<cfset args.custommap.webstatement = "webstatement">				 
+					<cfset args.custommap.rightsmarked = "rightsmarked">				 
+					<cfset args.custommap.labels = "labels">				
+					<cfset args.custommap.customfieldvalue = "customfieldvalue">				
+					<cfset args.custommap.folderpath = "folderpath">				
+					<cfset args.custommap.folder = "folder">
+					<cfset results = CollectionIndexCustom(argumentCollection=args)>
+					<!---<cfscript>
 						args = {
 						collection : session.hostid,
 						query : qry_all,
@@ -168,7 +196,7 @@
 							}
 						};
 						results = CollectionIndexCustom( argumentCollection=args );
-					</cfscript>
+					</cfscript>--->
 				</cflock>
 			<!--- FOR IMAGES --->
 			<cfelseif arguments.category EQ "img">
@@ -234,7 +262,61 @@
 				</cfquery>
 				<!--- Indexing --->
 				<cflock name="searchLock_#session.hostid#" type="exclusive" timeout="600">
-					<cfscript>
+					<cfset args = {}>
+					<cfset args.custommap = {}>
+					<cfset args.collection = session.hostid>
+					<cfset args.query = qry_all>	
+					<cfset args.category = "thecategory">	
+					<cfset args.categoryTree = "id">	
+					<cfset args.key = "id">
+					<cfset args.title = "id">	
+					<cfset args.body = "id,filename,filenameorg,keywords,description,rawmetadata,theext,subjectcode,creator,title,authorsposition,captionwriter,ciadrextadr,category,supplementalcategories,urgency,ciadrcity,ciadrctry,location,ciadrpcode,ciemailwork,ciurlwork,citelwork,intellectualgenre,instructions,source,usageterms,copyrightstatus,transmissionreference,webstatement,headline,datecreated,city,ciadrregion,country,countrycode,scene,state,credit,rights,labels,customfieldvalue,folderpath,folder">	
+					<cfset args.custommap.id = "id">	
+					<cfset args.custommap.filename = "filename">	
+					<cfset args.custommap.filenameorg = "filenameorg">		
+					<cfset args.custommap.keywords = "keywords">		
+					<cfset args.custommap.description = "description">		
+					<cfset args.custommap.rawmetadata = "rawmetadata">		
+					<cfset args.custommap.extension = "theext">		
+					<cfset args.custommap.subjectcode = "subjectcode">		
+					<cfset args.custommap.creator = "creator">		
+					<cfset args.custommap.title = "title">		
+					<cfset args.custommap.authorsposition = "authorsposition">		
+					<cfset args.custommap.captionwriter = "captionwriter">		 
+					<cfset args.custommap.ciadrextadr = "ciadrextadr">		 
+					<cfset args.custommap.category = "category">		 
+					<cfset args.custommap.supplementalcategories = "supplementalcategories">		
+					<cfset args.custommap.urgency = "urgency">		 
+					<cfset args.custommap.ciadrcity = "ciadrcity">		
+					<cfset args.custommap.ciadrctry = "ciadrctry">		 
+					<cfset args.custommap.location = "location">		 
+					<cfset args.custommap.ciadrpcode = "ciadrpcode">		 
+					<cfset args.custommap.ciemailwork = "ciemailwork">		 
+					<cfset args.custommap.ciurlwork = "ciurlwork">		 
+					<cfset args.custommap.citelwork = "citelwork">		
+					<cfset args.custommap.intellectualgenre = "intellectualgenre">		 
+					<cfset args.custommap.instructions = "instructions">		 
+					<cfset args.custommap.source = "source">		 
+					<cfset args.custommap.usageterms = "usageterms">
+					<cfset args.custommap.copyrightstatus = "copyrightstatus">		
+					<cfset args.custommap.transmissionreference = "transmissionreference">		 
+					<cfset args.custommap.webstatement = "webstatement">		 
+					<cfset args.custommap.headline = "headline">		 
+					<cfset args.custommap.datecreated = "datecreated">		 
+					<cfset args.custommap.city = "city">		 
+					<cfset args.custommap.ciadrregion = "ciadrregion">		 
+					<cfset args.custommap.country = "country">		 
+					<cfset args.custommap.countrycode = "countrycode">		 
+					<cfset args.custommap.scene = "scene">		 
+					<cfset args.custommap.state = "state">		 
+					<cfset args.custommap.credit = "credit">		 
+					<cfset args.custommap.rights = "rights">		 
+					<cfset args.custommap.labels = "labels">		
+					<cfset args.custommap.customfieldvalue = "customfieldvalue">		
+					<cfset args.custommap.folderpath = "folderpath">		
+					<cfset args.custommap.folder = "folder">		
+					<cfset results = CollectionIndexCustom( argumentCollection=args )>		
+					<!---<cfscript>
 						args = {
 						collection : session.hostid,
 						query : qry_all,
@@ -291,7 +373,7 @@
 							}
 						};
 						results = CollectionIndexCustom( argumentCollection=args );
-					</cfscript>
+					</cfscript>--->
 				</cflock>
 			<!--- FOR VIDEOS --->
 			<cfelseif arguments.category EQ "vid">
@@ -404,7 +486,28 @@
 			<cfif arguments.category EQ "vid" OR arguments.category EQ "aud">
 				<!--- Indexing --->
 				<cflock name="searchLock_#session.hostid#" type="exclusive" timeout="600">
-					<cfscript>
+					<cfset args = {}>
+					<cfset args.custommap ={}>
+					<cfset args.collection = session.hostid>
+					<cfset args.query = qry_all>
+					<cfset args.category = "thecategory">
+					<cfset args.categoryTree = "id">
+					<cfset args.key = "id">
+					<cfset args.title = "id">
+					<cfset args.body = "id,filename,filenameorg,keywords,description,rawmetadata,theext,labels,customfieldvalue,folderpath,folder">
+					<cfset args.custommap.id = "id">
+					<cfset args.custommap.filename = "filename">	
+					<cfset args.custommap.filenameorg = "filenameorg">	
+					<cfset args.custommap.keywords = "keywords">	
+					<cfset args.custommap.description = "description">	
+					<cfset args.custommap.rawmetadata = "rawmetadata">	
+					<cfset args.custommap.extension = "theext">	
+					<cfset args.custommap.labels = "labels">	
+					<cfset args.custommap.customfieldvalue = "customfieldvalue">	
+					<cfset args.custommap.folderpath = "folderpath">	
+					<cfset args.custommap.folder = "folder">	
+					<cfset results = CollectionIndexCustom( argumentCollection=args )>	
+					<!---<cfscript>
 					args = {
 					collection : session.hostid,
 					query : qry_all,
@@ -428,7 +531,7 @@
 						}
 					};
 					results = CollectionIndexCustom( argumentCollection=args );
-					</cfscript>
+					</cfscript>--->
 				</cflock>
 			</cfif>
 			<cfcatch type="any">
@@ -661,7 +764,7 @@
 		<cfoutput><strong>Starting the Re-Indexing process...</strong><br><br></cfoutput>
 		<cfflush>
 		<!--- Param --->
-		<cfset application.razuna.processid = createuuid("")>
+		<cfset application.razuna.processid = replace(createuuid(),"-","","all")>
 		<cfset arguments.thestruct.rebuild = 1>
 		<!--- Set time for remove --->
 		<cfset removetime = DateAdd("h", -24, "#now()#")>

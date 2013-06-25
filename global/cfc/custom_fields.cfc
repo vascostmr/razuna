@@ -31,7 +31,7 @@
 		<!--- Get the cachetoken for here --->
 		<cfset variables.cachetoken = getcachetoken("general")>
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getcustomfields */ c.cf_id, c.cf_type, c.cf_order, c.cf_enabled, c.cf_show, ct.cf_text
 		FROM #session.hostdbprefix#custom_fields c, #session.hostdbprefix#custom_fields_text ct
 		WHERE c.cf_id = ct.cf_id_r
@@ -119,7 +119,7 @@
 	<!--- Get the cachetoken for here --->
 	<cfset variables.cachetoken = getcachetoken("general")>
 	<!--- Query --->
-	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 	SELECT /* #variables.cachetoken#getfields */ c.cf_id, c.cf_type, c.cf_order, c.cf_select_list, c.cf_edit, ct.cf_text, cv.cf_value, c.cf_in_form
 	FROM #session.hostdbprefix#custom_fields_text ct, #session.hostdbprefix#custom_fields c 
 	LEFT JOIN #session.hostdbprefix#custom_fields_values cv ON cv.cf_id_r = c.cf_id AND cv.asset_id_r = '#arguments.thestruct.file_id#'
@@ -151,7 +151,7 @@
 		<!--- Get the cachetoken for here --->
 		<cfset variables.cachetoken = getcachetoken("general")>
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getfieldssearch */ c.cf_id, c.cf_type, c.cf_order, c.cf_select_list, ct.cf_text
 		FROM #session.hostdbprefix#custom_fields_text ct, #session.hostdbprefix#custom_fields c 
 		WHERE c.cf_id = ct.cf_id_r
@@ -187,7 +187,7 @@
 		<!--- Get the cachetoken for here --->
 		<cfset variables.cachetoken = getcachetoken("general")>
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getdetailcustomfields */ c.cf_id, c.cf_type, c.cf_order, c.cf_show, c.cf_enabled, c.cf_group, 
 		c.cf_edit, c.cf_select_list, ct.cf_text, ct.lang_id_r, c.cf_in_form
 		FROM #session.hostdbprefix#custom_fields_text ct, #session.hostdbprefix#custom_fields c

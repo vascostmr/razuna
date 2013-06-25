@@ -81,7 +81,7 @@
 	<cfargument name="thestruct" type="struct">
 	<!--- Loop over the file_id (important when working on more then one image) --->
 	<!--- <cfinvoke method="xmpwrite" thestruct="#arguments.thestruct#" /> --->
-	<cfthread intstruct="#arguments.thestruct#">
+	<cfthread intstruct="#arguments.thestruct#" name="xmpwrite">
 		<cfinvoke method="xmpwrite" thestruct="#attributes.intstruct#" />
 	</cfthread>
 </cffunction>
@@ -496,7 +496,7 @@
 		<!--- Storage: Nirvanix --->
 		<cfelseif application.razuna.storage EQ "nirvanix">
 			<!--- Create temp directory --->
-			<cfset arguments.thestruct.tempfolder = createuuid("")>
+			<cfset arguments.thestruct.tempfolder = replace(createuuid(),"-","","all")>
 			<cfdirectory action="create" directory="#arguments.thestruct.thepath#/incoming/#arguments.thestruct.tempfolder#" mode="775">
 			<cfset arguments.thestruct.qryfile.path = "#arguments.thestruct.thepath#/incoming/#arguments.thestruct.tempfolder#">
 			<!--- LOCATION OF XMP FILE --->
@@ -514,7 +514,7 @@
 			<!--- Download image --->
 			<cfhttp url="http://services.nirvanix.com/#arguments.thestruct.nvxsession#/razuna/#session.hostid#/#arguments.thestruct.path_to_asset#/#arguments.thestruct.filenameorg#" file="#arguments.thestruct.filenameorg#" path="#arguments.thestruct.thepath#/incoming/#arguments.thestruct.tempfolder#"></cfhttp>
 			<!--- Remove file on Nirvanix or else we get errors during uploading --->
-			<cfset var remtt = createUUID("")>
+			<cfset var remtt = replace(createuuid(),"-","","all")>
 			<cfthread name="#remtt#" intstruct="#arguments.thestruct#">
 				<cfinvoke component="nirvanix" method="DeleteFiles">
 					<cfinvokeargument name="filePath" value="/#attributes.intstruct.path_to_asset#/#attributes.intstruct.filenameorg#">
@@ -530,7 +530,7 @@
 				<cfset var md5hash = hashbinary(arguments.thestruct.thesource)>
 			</cfif>
 			<!--- Upload file again to its original position --->
-			<cfset var uptt = createUUID("")>
+			<cfset var uptt = replace(createuuid(),"-","","all")>
 			<cfthread name="#uptt#" intstruct="#arguments.thestruct#">
 				<cfinvoke component="nirvanix" method="Upload">
 					<cfinvokeargument name="destFolderPath" value="/#attributes.intstruct.path_to_asset#">
@@ -1277,7 +1277,7 @@
 	<!--- Start the thread for updating --->
 	<!--- <cfset tt = CreateUUid()> --->
 	<!--- <cfinvoke method="metatofilethread" thestruct="#arguments.thestruct#" /> --->
-	<cfthread intstruct="#arguments.thestruct#">
+	<cfthread intstruct="#arguments.thestruct#" name="metatofile">
 		<cfinvoke method="metatofilethread" thestruct="#attributes.intstruct#" />
 	</cfthread>
 </cffunction>
@@ -1420,7 +1420,7 @@
 	<!--- Storage: Nirvanix --->
 	<cfelseif application.razuna.storage EQ "nirvanix" OR application.razuna.storage EQ "amazon">
 		<!--- Create temp directory --->
-		<cfset arguments.thestruct.tempfolder = createuuid("")>
+		<cfset arguments.thestruct.tempfolder = replace(createuuid(),"-","","all")>
 		<cfdirectory action="create" directory="#arguments.thestruct.thepath#/incoming/#arguments.thestruct.tempfolder#" mode="775">
 		<cfset arguments.thestruct.qryfile.path = "#arguments.thestruct.thepath#/incoming/#arguments.thestruct.tempfolder#">
 		<!--- Set the source --->
@@ -1994,7 +1994,7 @@
 			INSERT INTO #session.hostdbprefix##thedb#
 			(id_inc, host_id, lang_id_r, #theidr#)
 			VALUES (
-				<cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#createuuid("")#">,
+				<cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#replace(createuuid(),"-","","all")#">,
 				<cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">,
 				<cfqueryparam cfsqltype="cf_sql_numeric" value="1">,
 				<cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#theid#">

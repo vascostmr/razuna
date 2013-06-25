@@ -32,7 +32,7 @@
 	<cffunction name="getwidgets" output="true" access="public">
 		<cfargument name="thestruct" type="struct">
 		<!--- Query --->
-		<cfquery dataSource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery dataSource="#variables.dsn#" name="qry" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getwidgets */ widget_id, widget_name, widget_description
 		FROM #session.hostdbprefix#widgets
 		WHERE host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
@@ -49,7 +49,7 @@
 		<!--- Params --->
 		<cfparam name="arguments.thestruct.external" default="f">
 		<!--- Query --->
-		<cfquery dataSource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery dataSource="#variables.dsn#" name="qry" cachedwithin="1">
 		SELECT /* #variables.cachetoken#detailwidget */ widget_id, col_id_r, folder_id_r, widget_name, widget_description, widget_permission, widget_password, widget_style, widget_dl_org, widget_uploading, widget_dl_thumb
 		FROM #session.hostdbprefix#widgets
 		WHERE widget_id = <cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#arguments.thestruct.widget_id#">
@@ -69,7 +69,7 @@
 		<!--- If this is a new widget insert else update --->
 		<cfif arguments.thestruct.widget_id EQ 0>
 			<!--- Create new ID --->
-			<cfset var newid = createuuid("")>
+			<cfset var newid = replace(createUUID(),"-","","all")>
 			<!--- Insert --->
 			<cfquery dataSource="#variables.dsn#">
 			INSERT INTO #session.hostdbprefix#widgets

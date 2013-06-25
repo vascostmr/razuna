@@ -44,7 +44,7 @@
 			<cfset var theperl = "perl">
 		</cfif>
 		<!--- Temp ID --->
-		<cfset var tid = createUUID("") & theext>
+		<cfset var tid = replace(createUUID(),"-","","all") & theext>
 		<!--- Path to executable --->
 		<cfset var exe = "#expandPath("../")#akamai/perl/">
 		<!--- Write Execute --->
@@ -83,7 +83,7 @@
 			<cfset var thecurl = "curl">
 		</cfif>
 		<!--- Temp ID --->
-		<cfset var p = createUUID("") & theext>
+		<cfset var p = replace(createUUID(),"-","","all") & theext>
 		<cfset var t = "#getTempDirectory()##p#">
 		<!--- Write Execute --->
 		<cfset var e = "#thecurl# --data-binary @#arguments.theasset# #arguments.theurl##thetoken#">
@@ -117,7 +117,7 @@
 			<cfset var thecurl = "curl">
 		</cfif>
 		<!--- Temp ID --->
-		<cfset var p = createUUID("") & theext>
+		<cfset var p = replace(createUUID(),"-","","all") & theext>
 		<cfset var t = "#getTempDirectory()##p#">
 		<!--- Write Execute --->
 		<cfset var e = "#thecurl# -XDELETE #arguments.theurl##thetoken#">

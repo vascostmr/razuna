@@ -94,7 +94,7 @@
 	<!--- Add labels --->
 	<cffunction name="label_add_all" output="true" access="public">
 		<cfargument name="thestruct" type="struct">
-		<cfthread intstruct="#arguments.thestruct#">
+		<cfthread intstruct="#arguments.thestruct#" name="addlabel">
 			<cfinvoke method="label_add_all_thread" thestruct="#attributes.intstruct#" />
 		</cfthread>
 	</cffunction>
@@ -163,7 +163,7 @@
 	<cffunction name="label_add_batch" output="false" access="public">
 		<cfargument name="thestruct" type="struct">
 		<!--- Loop over files_ids --->
-		<cfthread intstruct="#arguments.thestruct#">
+		<cfthread intstruct="#arguments.thestruct#" name="addbatch">
 			<cfloop list="#attributes.intstruct.file_ids#" index="i">
 				<cfset attributes.intstruct.fileid = listfirst(i,"-")>
 				<cfset attributes.intstruct.thetype = listlast(i,"-")>
@@ -179,7 +179,7 @@
 	<cffunction name="label_add" output="false" access="public">
 		<cfargument name="thestruct" type="struct">
 		<!--- ID --->
-		<cfset var theid = createuuid("")>
+		<cfset var theid = replace(createuuid(),"-","","all")>
 		<cfset var thelabel = replace(arguments.thestruct.thelab,"'","","all")>
 		<!--- Insert into Label DB --->
 		<cfquery datasource="#application.razuna.datasource#">
@@ -238,7 +238,7 @@
 		<cfset var st = structnew()>
 		<cfset var l = "">
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getalllabels */ label_text, label_path, label_id
 		FROM #session.hostdbprefix#labels
 		WHERE host_id = <cfqueryparam value="#session.hostid#" cfsqltype="cf_sql_numeric" />
@@ -265,7 +265,7 @@
 		<!--- Param --->
 		<cfset var l = "">
 		<!--- Query ct table --->
-		<cfquery datasource="#application.razuna.datasource#" name="qryct" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qryct" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getlabels */ ct_label_id
 		FROM ct_labels
 		WHERE ct_id_r = <cfqueryparam value="#arguments.theid#" cfsqltype="cf_sql_varchar" />
@@ -274,7 +274,7 @@
 		</cfquery>
 		<!--- Query --->
 		<cfif qryct.recordcount NEQ 0>
-			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 			SELECT /* #variables.cachetoken#getlabels2 */ label_id
 			FROM #session.hostdbprefix#labels
 			WHERE label_id IN (<cfqueryparam value="#valuelist(qryct.ct_label_id)#" cfsqltype="cf_sql_varchar" list="true" />)
@@ -295,7 +295,7 @@
 		<!--- Param --->
 		<cfset var l = "">
 		<!--- Query ct table --->
-		<cfquery datasource="#application.razuna.datasource#" name="qryct" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qryct" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getlabelstextexport */ ct_label_id
 		FROM ct_labels
 		WHERE ct_id_r = <cfqueryparam value="#arguments.theid#" cfsqltype="cf_sql_varchar" />
@@ -304,7 +304,7 @@
 		</cfquery>
 		<!--- Query --->
 		<cfif qryct.recordcount NEQ 0>
-			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 			SELECT /* #variables.cachetoken#getlabelstextexport2 */ label_path
 			FROM #session.hostdbprefix#labels
 			WHERE label_id IN (<cfqueryparam value="#valuelist(qryct.ct_label_id)#" cfsqltype="cf_sql_varchar" list="true" />)
@@ -352,7 +352,7 @@
 		<!--- Get the cachetoken for here --->
 		<cfset variables.cachetoken = getcachetoken("labels")>
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 		SELECT /* #variables.cachetoken#labels_dropdown */ label_id, label_id_r, label_path, label_text
 		FROM #session.hostdbprefix#labels
 		WHERE host_id = <cfqueryparam value="#session.hostid#" cfsqltype="cf_sql_numeric" />
@@ -370,7 +370,7 @@
 		<!--- Get the cachetoken for here --->
 		<cfset variables.cachetoken = getcachetoken("labels")>
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 		SELECT /* #variables.cachetoken#labels_query */ l.label_text, l.label_id,
 			(
 				SELECT count(ct.ct_label_id)
@@ -407,7 +407,7 @@
 	<cffunction name="getlabeltext" output="false" access="public">
 		<cfargument name="theid" type="string">
 		<!--- Query ct table --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getlabeltext */ label_text
 		FROM #session.hostdbprefix#labels
 		WHERE label_id = <cfqueryparam value="#arguments.theid#" cfsqltype="cf_sql_varchar" />
@@ -421,7 +421,7 @@
 	<cffunction name="labels_count" output="false" access="public">
 		<cfargument name="label_id" type="string">
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 		SELECT DISTINCT /* #variables.cachetoken#labels_count */
 			(
 				SELECT count(ct_label_id)
@@ -465,7 +465,7 @@
 		<cfif arguments.labels_count.count_assets LTE session.rowmaxpage>
 			<cfset session.offset = 0>
 		</cfif>
-		<cfset var offset = session.offset * session.rowmaxpage>
+		<cfset var off_set = session.offset * session.rowmaxpage>
 		<cfif session.offset EQ 0>
 			<cfset var min = 0>
 			<cfset var max = session.rowmaxpage>
@@ -496,7 +496,7 @@
 		<cfset variables.cachetoken = getcachetoken("labels")>
 		<!--- Get assets --->
 		<cfif arguments.label_kind EQ "assets">
-			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 			<cfif variables.database EQ "oracle">
 				SELECT rn, id,filename,folder_id_r,size,hashtag,ext,filename_org,kind,is_available,date_create,date_change,link_kind,link_path_url,
 				path_to_asset,cloud_url	<cfif !arguments.fromapi>,permfolder</cfif>
@@ -615,7 +615,7 @@
 			</cfloop>
 		<!--- Get folders --->
 		<cfelseif arguments.label_kind EQ "folders">
-			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 			SELECT /* #variables.cachetoken#getlabelsfolders */ f.folder_id, f.folder_name, f.folder_id_r, f.folder_is_collection, '' AS perm
 			FROM #session.hostdbprefix#folders f, ct_labels ct
 			WHERE ct.ct_label_id = <cfqueryparam value="#arguments.label_id#" cfsqltype="cf_sql_varchar" />
@@ -631,7 +631,7 @@
 		<!--- Get collections --->
 		<cfelseif arguments.label_kind EQ "collections">
 			<!--- Query for collections and get permissions --->
-			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1" region="razcache">
+			<cfquery datasource="#application.razuna.datasource#" name="qry" cachedwithin="1">
 			SELECT /* #variables.cachetoken#getlabelscol */ c.col_id, c.folder_id_r, ct.col_name, '' AS perm
 			FROM ct_labels ctl, #session.hostdbprefix#collections c
 			LEFT JOIN #session.hostdbprefix#collections_text ct ON c.col_id = ct.col_id_r 
@@ -728,7 +728,7 @@
 		<cfset var thelabel = replace(arguments.thestruct.label_text,"'","","all")>
 		<!--- If label_id EQ 0 --->
 		<cfif arguments.thestruct.label_id EQ 0>
-			<cfset arguments.thestruct.label_id = createuuid("")>
+			<cfset arguments.thestruct.label_id = replace(createUUID(),"-","","all")>
 			<!--- Insert --->
 			<cfquery datasource="#application.razuna.datasource#">
 			INSERT INTO #session.hostdbprefix#labels

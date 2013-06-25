@@ -47,7 +47,7 @@
 <script type="text/javascript" src="#dynpath#/global/js/jquery.validate.min.js?_v=#attributes.cachetag#"></script>
 <script type="text/javascript" src="#dynpath#/global/js/jquery.form.min.js?_v=#attributes.cachetag#"></script>
 <script type="text/javascript" src="#dynpath#/global/host/dam/js/login.min.js?_v=#attributes.cachetag#"></script>
-<cfif jr_enable EQ "true"><cfinclude template="../../js/janrain.cfm" runonce="true"></cfif>
+<cfif jr_enable EQ "true"><cfinclude template="../../js/janrain.cfm"></cfif>
 <link rel="SHORTCUT ICON" href="favicon.ico" />
 <link rel="apple-touch-icon" href="#dynpath#/global/host/dam/images/razuna_icon_114.png" />
 <cfif directoryExists("#ExpandPath("../..")#global/host/login/#session.hostid#")><cfdirectory action="list" directory="#ExpandPath("../..")#global/host/login/#session.hostid#" listinfo="name" type="file" name="theimg" /><cfelse><cfset theimg.recordcount=0></cfif>

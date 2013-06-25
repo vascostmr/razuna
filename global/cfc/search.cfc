@@ -104,7 +104,7 @@
 			<cfset cattree = querynew("categorytree")>
 		</cfif>
 		<!--- Grab the result and query file db --->
-		<cfquery datasource="#variables.dsn#" name="qrymain" cachedwithin="1" region="razcache">
+		<cfquery datasource="#variables.dsn#" name="qrymain" cachedwithin="1">
 		SELECT /* #variables.cachetoken#search_files */ f.file_id id, f.file_name filename, f.folder_id_r, '' as groupid,
 		f.file_extension ext, f.file_name_org filename_org, f.file_type as kind, f.is_available,
 		f.file_create_time date_create, f.file_change_date date_change, f.link_kind, f.link_path_url,
@@ -260,7 +260,7 @@
 			<!--- Loop over files and get labels and add to qry --->
 			<cfloop query="qry">
 				<!--- Query labels --->
-				<cfquery name="qry_l" datasource="#application.razuna.datasource#" cachedwithin="1" region="razcache">
+				<cfquery name="qry_l" datasource="#application.razuna.datasource#" cachedwithin="1">
 				SELECT /* #variables.cachetokenlabels#getallassetslabels */ ct_label_id
 				FROM ct_labels
 				WHERE ct_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#id#">
@@ -360,7 +360,7 @@
 			<cfset cattree = querynew("categorytree")>
 		</cfif>
 		<!--- Grab the result and query file db --->
-		<cfquery datasource="#variables.dsn#" name="qrymain" cachedwithin="1" region="razcache">
+		<cfquery datasource="#variables.dsn#" name="qrymain" cachedwithin="1">
 		SELECT /* #variables.cachetoken#search_images */ i.img_id id, i.img_filename filename, i.folder_id_r, i.img_group groupid,
 		i.thumb_extension ext, i.img_filename_org filename_org, 'img' as kind, i.is_available,
 		i.img_create_time date_create, i.img_change_date date_change, i.link_kind, i.link_path_url,
@@ -495,7 +495,7 @@
 			<!--- Loop over files and get labels and add to qry --->
 			<cfloop query="qry">
 				<!--- Query labels --->
-				<cfquery name="qry_l" datasource="#application.razuna.datasource#" cachedwithin="1" region="razcache">
+				<cfquery name="qry_l" datasource="#application.razuna.datasource#" cachedwithin="1">
 				SELECT /* #variables.cachetokenlabels#getallassetslabels */ ct_label_id
 				FROM ct_labels
 				WHERE ct_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#id#">
@@ -595,7 +595,7 @@
 			<cfset cattree = querynew("categorytree")>
 		</cfif>
 		<!--- Grab the result and query file db --->
-		<cfquery datasource="#variables.dsn#" name="qrymain" cachedwithin="1" region="razcache">
+		<cfquery datasource="#variables.dsn#" name="qrymain" cachedwithin="1">
 		SELECT /* #variables.cachetoken#search_videos */ v.vid_id id, v.vid_filename filename, v.folder_id_r, v.vid_group groupid,
 		v.vid_extension ext, v.vid_name_image filename_org, 'vid' as kind, v.is_available,
 		v.vid_create_time date_create, v.vid_change_date date_change, v.link_kind, v.link_path_url,
@@ -727,7 +727,7 @@
 			<!--- Loop over files and get labels and add to qry --->
 			<cfloop query="qry">
 				<!--- Query labels --->
-				<cfquery name="qry_l" datasource="#application.razuna.datasource#" cachedwithin="1" region="razcache">
+				<cfquery name="qry_l" datasource="#application.razuna.datasource#" cachedwithin="1">
 				SELECT /* #variables.cachetokenlabels#getallassetslabels */ ct_label_id
 				FROM ct_labels
 				WHERE ct_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#id#">
@@ -827,7 +827,7 @@
 			<cfset cattree = querynew("categorytree")>
 		</cfif>
 		<!--- Grab the result and query file db --->
-		<cfquery datasource="#variables.dsn#" name="qrymain" cachedWithin="1" region="razcache">
+		<cfquery datasource="#variables.dsn#" name="qrymain" cachedWithin="1">
 		SELECT /* #variables.cachetoken#search_audios */ a.aud_id id, a.aud_name filename, a.folder_id_r, a.aud_group groupid,
 		a.aud_extension ext, a.aud_name_org filename_org, 'aud' as kind, a.is_available,
 		a.aud_create_time date_create, a.aud_change_date date_change, a.link_kind, a.link_path_url,
@@ -959,7 +959,7 @@
 			<!--- Loop over files and get labels and add to qry --->
 			<cfloop query="qry">
 				<!--- Query labels --->
-				<cfquery name="qry_l" datasource="#application.razuna.datasource#" cachedwithin="1" region="razcache">
+				<cfquery name="qry_l" datasource="#application.razuna.datasource#" cachedwithin="1">
 				SELECT /* #variables.cachetokenlabels#getallassetslabels */ ct_label_id
 				FROM ct_labels
 				WHERE ct_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#id#">
@@ -990,7 +990,7 @@
 		<!--- The function must return suggestions as an array. ---> 
 		<cfset var myarray = ArrayNew(1)> 
 		<!--- Query --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedWithin="1" region="razcache">
+		<cfquery datasource="#application.razuna.datasource#" name="qry" cachedWithin="1">
 		SELECT /* #variables.cachetokenlogs#search */ log_search_for
 		FROM #session.hostdbprefix#log_search
 		WHERE lower(log_search_for) LIKE <cfqueryparam cfsqltype="cf_sql_varchar" value="%#lcase(arguments.searchtext)#%">

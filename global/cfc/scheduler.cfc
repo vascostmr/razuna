@@ -510,7 +510,7 @@
 			<cfabort>
 		</cfif>
 		<!--- Create a temp directory in the incoming folder and move all files in this one --->
-		<cfset var tempid = createuuid("")>
+		<cfset var tempid = replace(createuuid(),"-","","all")>
 		<cfset var tempdir = arguments.incomingpath & "/task_" & tempid>
 		<!--- Check if we need to do recursive or not --->
 		<cfif doit.qry_detail.sched_server_recurse>

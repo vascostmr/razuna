@@ -38,7 +38,7 @@
 	<cfparam default="0" name="arguments.thestruct.folder_id">
 	<cfparam default="false" name="arguments.thestruct.released">
 	<!--- Query --->
-	<cfquery datasource="#variables.dsn#" name="qrylist" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qrylist" cachedwithin="1">
 	SELECT /* #variables.cachetoken#getAllcol */ c.col_id, c.change_date, ct.col_name, c.col_released,
 	<!--- Permission follow but not for sysadmin and admin --->
 	<cfif not Request.securityObj.CheckSystemAdminUser() and not Request.securityObj.CheckAdministratorUser()>
@@ -76,7 +76,7 @@
 	</cfquery>
 	<!--- Get descriptions --->
 	<cfif qry.collist.recordcount NEQ 0>
-		<cfquery datasource="#variables.dsn#" name="qry.collistdesc" cachedwithin="1" region="razcache">
+		<cfquery datasource="#variables.dsn#" name="qry.collistdesc" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getAlldesccol */ col_id_r, col_desc, lang_id_r
 		FROM #session.hostdbprefix#collections_text
 		WHERE col_id_r IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#valuelist(qry.collist.col_id)#" list="Yes">)
@@ -91,7 +91,7 @@
 	<cfargument name="col_id" required="true" type="string">
 	<!--- init local vars --->
 	<cfset var qry = 0>
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 	SELECT /* #variables.cachetoken#content_collection */ file_id_r, col_file_type, col_item_order, col_file_format
 	FROM #session.hostdbprefix#collections_ct_files
 	WHERE col_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#arguments.col_id#">
@@ -117,7 +117,7 @@
 	<!--- Collection not here thus continue --->
 	<cfif here.recordcount EQ 0>
 		<!--- Create a new ID --->
-		<cfset var newcolid = createuuid("")>
+		<cfset var newcolid = replace(createuuid(),"-","","all")>
 		<!--- Param --->
 		<cfset var col_shared = "F">
 		<cfset var share_dl_org = "F">
@@ -321,7 +321,7 @@
 	<!--- If there is no session for webgroups set --->
 	<cfparam default="0" name="session.thegroupofuser">
 	<!--- Query --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 	SELECT /* #variables.cachetoken#detailscol */ ct.col_name, ct.col_desc, ct.col_keywords, ct.lang_id_r, c.col_shared, c.col_name_shared, c.share_dl_org, 
 	c.share_dl_thumb, c.share_comments, c.col_released, c.share_upload, c.share_order, c.share_order_user
 	<!--- Permfolder --->
@@ -379,7 +379,7 @@
 <cffunction name="get_assets" output="false">
 	<cfargument name="thestruct" type="struct">
 	<!--- Query --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 	SELECT /* #variables.cachetoken#get_assetscol */ ct.col_id_r, ct.file_id_r as cart_product_id, ct.col_file_type, ct.col_item_order, ct.col_file_format,
 		CASE 
 			WHEN ct.col_file_type = 'doc' 
@@ -1230,7 +1230,7 @@
 	<cfset thegroups = 0>
 	<!--- Query --->
 	<cfif arguments.qrygroup.recordcount NEQ 0>
-		<cfquery datasource="#variables.dsn#" name="thegroups" cachedwithin="1" region="razcache">
+		<cfquery datasource="#variables.dsn#" name="thegroups" cachedwithin="1">
 		SELECT /* #variables.cachetoken#getcollectiongroups */ grp_id_r, grp_permission
 		FROM #session.hostdbprefix#collections_groups
 		WHERE col_id_r = <cfqueryparam value="#arguments.col_id#" cfsqltype="CF_SQL_VARCHAR">
@@ -1243,7 +1243,7 @@
 <!--- GET THE GROUPS FOR THIS FOLDER ZERO --->
 <cffunction name="getcollectiongroupszero" output="false">
 	<cfargument name="col_id" default="" required="yes" type="string">
-	<cfquery datasource="#variables.dsn#" name="thegroups" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="thegroups" cachedwithin="1">
 	SELECT /* #variables.cachetoken#getcollectiongroupszero */ grp_id_r, grp_permission
 	FROM #session.hostdbprefix#collections_groups
 	WHERE col_id_r = <cfqueryparam value="#arguments.col_id#" cfsqltype="CF_SQL_VARCHAR">
@@ -1264,7 +1264,7 @@
 		<cfset var thelist = 0>
 	</cfif>
 	<!--- Query --->
-	<cfquery datasource="#variables.dsn#" name="qry.qry_files" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry.qry_files" cachedwithin="1">
 	SELECT DISTINCT /* #variables.cachetoken#getallassetscol */ i.img_id id, i.img_filename filename, i.folder_id_r, i.thumb_extension ext, i.img_filename_org filename_org, i.is_available,
 	'img' as kind, it.img_description description, it.img_keywords keywords, link_kind, link_path_url, i.path_to_asset, i.cloud_url, i.cloud_url_org,
 	'0' as vheight, '0' as vwidth, i.hashtag,
@@ -1423,7 +1423,7 @@
 	<!--- This is called if we copy at the same time --->
 	<cfif arguments.thestruct.copycol>
 		<!--- New ID for collection --->
-		<cfset var newid = createUUID("")>
+		<cfset var newid = replace(createuuid(),"-","","all")>
 		<!--- Copy the main record --->
 		<cfquery datasource="#application.razuna.datasource#">
 		INSERT INTO #session.hostdbprefix#collections
@@ -1501,7 +1501,7 @@
 	<!--- Get all --->
 	<cfinvoke method="get_trash_files" thestruct="#arguments.thestruct#" returnvariable="arguments.qry" />
 	<!--- Thread --->
-	<cfthread instruct="#arguments#">
+	<cfthread instruct="#arguments#" name="remove_all">
 		<!--- Loop over the query --->
 		<cfloop query="attributes.instruct.qry">
 			<!--- Check that users has NOT only read access --->

@@ -1719,11 +1719,11 @@ WHERE host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#
 
 <!--- Get Backup DB --->
 <cffunction name="get_backup" output="false">
-	<cfargument name="hostid" type="numeric">
+	<cfargument name="hostid" type="any">
 	<cfquery datasource="razuna_backup" name="qry">
 	SELECT back_id, back_date, host_id
 	FROM backup_status
-	WHERE host_id = <cfqueryparam CFSQLType="CF_SQL_NUMERIC" value="#arguments.hostid#">
+	WHERE host_id = #arguments.hostid#
 	ORDER BY back_date DESC
 	</cfquery>
 	<cfreturn qry />

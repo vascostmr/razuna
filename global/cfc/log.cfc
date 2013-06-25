@@ -43,7 +43,7 @@
 	<cfset arguments.thestruct.logsection = arguments.logsection>
 	<cfset arguments.thestruct.http_user_agent = cgi.http_user_agent>
 	<cfset arguments.thestruct.remote_addr = cgi.remote_addr>
-	<cfthread intstruct="#arguments.thestruct#">
+	<cfthread intstruct="#arguments.thestruct#" name="logusers">
 		<cfquery datasource="#attributes.intstruct.dsn#">
 		INSERT INTO #session.hostdbprefix#log_users
 		(log_id,log_user,log_action,log_date,log_time,log_desc,log_browser,log_ip,log_timestamp,log_section,host_id)
@@ -72,7 +72,7 @@
 	<cfargument name="thestruct" type="struct" required="yes" />
 	<cfparam name="arguments.thestruct.logaction" default="" />
 	<!--- Get all log entries --->
-	<cfquery datasource="#variables.dsn#" name="thetotal" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="thetotal" cachedwithin="1">
 	SELECT /* #variables.cachetoken#get_log_users */ log_id
 	FROM #session.hostdbprefix#log_users
 	</cfquery>
@@ -90,7 +90,7 @@
 	<!--- MySQL Offset --->
 	<cfset var mysqloffset = session.offset_log * session.rowmaxpage_log>
 	<!--- Query --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 		<!--- Oracle --->
 		<cfif variables.database EQ "oracle">
 			SELECT /* #variables.cachetoken#get_log_users2 */ rn, log_user, log_action, log_date, log_time, log_desc, log_browser, log_ip, log_timestamp, thetotal
@@ -174,7 +174,7 @@
 	<cfargument name="thestruct" type="struct" required="yes" />
 	<cfparam name="arguments.thestruct.logaction" default="" />
 	<!--- Get all log entries --->
-	<cfquery datasource="#variables.dsn#" name="thetotal" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="thetotal" cachedwithin="1">
 	SELECT /* #variables.cachetoken#get_log_assets */ log_id
 	FROM #session.hostdbprefix#log_assets
 	<cfif structKeyExists(arguments.thestruct,"id") AND arguments.thestruct.id NEQ 0>
@@ -199,7 +199,7 @@
 		<cfset arguments.thestruct.id = 0>
 	</cfif>
 	<!--- Query --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 		<!--- Oracle --->
 		<cfif variables.database EQ "oracle">
 			SELECT /* #variables.cachetoken#get_log_assets2 */ rn, log_user, log_action, log_date, log_time, log_desc, log_browser, log_ip, log_file_type, 
@@ -306,7 +306,7 @@
 	<cfargument name="thestruct" type="struct" required="yes" />
 	<cfparam name="arguments.thestruct.logaction" default="" />
 	<!--- Get all log entries --->
-	<cfquery datasource="#variables.dsn#" name="thetotal" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="thetotal" cachedwithin="1">
 	SELECT /* #variables.cachetoken#get_log_folders */ log_id
 	FROM #session.hostdbprefix#log_folders
 	</cfquery>
@@ -324,7 +324,7 @@
 	<!--- MySQL Offset --->
 	<cfset var mysqloffset = session.offset_log * session.rowmaxpage_log>
 	<!--- Query --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 		<!--- Oracle --->
 		<cfif variables.database EQ "oracle">
 			SELECT /* #variables.cachetoken#get_log_folders2 */ rn, log_user, log_action, log_date, log_time, log_desc, log_browser, log_ip, log_timestamp, 
@@ -409,7 +409,7 @@
 <cffunction name="get_log_searches" output="false" access="public">
 	<cfargument name="thestruct" type="struct" required="yes" />
 	<!--- Get all log entries --->
-	<cfquery datasource="#variables.dsn#" name="thetotal" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="thetotal" cachedwithin="1">
 	SELECT /* #variables.cachetoken#get_log_searches */ log_id
 	FROM #session.hostdbprefix#log_search
 	</cfquery>
@@ -427,7 +427,7 @@
 	<!--- MySQL Offset --->
 	<cfset var mysqloffset = session.offset_log * session.rowmaxpage_log>
 	<!--- Query --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 		<!--- Oracle --->
 		<cfif variables.database EQ "oracle">
 			SELECT /* #variables.cachetoken#get_log_searches2 */ rn, log_user, log_date, log_time, log_search_for, log_search_from, log_founditems, log_browser, log_ip, log_timestamp, 
@@ -497,7 +497,7 @@
 	<cfargument name="thestruct" type="struct" required="yes" />
 	<cfparam name="arguments.thestruct.what" default="" />
 	<!--- Query --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 	SELECT /* #variables.cachetoken#get_log_searches_sum */ log_search_for, count(log_search_for) count_words, sum(log_founditems) found
 	FROM #session.hostdbprefix#log_search
 	WHERE host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
@@ -515,7 +515,7 @@
 <cffunction name="get_log_errors" output="false" access="public">
 	<cfargument name="thestruct" type="struct" required="yes" />
 	<!--- Get all log entries --->
-	<cfquery datasource="#variables.dsn#" name="thetotal" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="thetotal" cachedwithin="1">
 	SELECT /* #variables.cachetoken#get_log_errors */ id
 	FROM #session.hostdbprefix#errors
 	</cfquery>
@@ -533,7 +533,7 @@
 	<!--- MySQL Offset --->
 	<cfset var mysqloffset = session.offset_log * session.rowmaxpage_log>
 	<!--- Query --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 		<!--- Oracle --->
 		<cfif variables.database EQ "oracle">
 			SELECT /* #variables.cachetoken#get_log_errors2 */ rn, id, err_date, thetotal
@@ -619,7 +619,7 @@
 	AND host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
 	</cfquery>
 	<!--- Write error to system --->
-	<cfset var tf = "#createuuid()#.html">
+	<cfset var tf = "#replace(createuuid(),"-","","all")#.html">
 	<cfset var t = filewrite("#GetTempDirectory()#/#tf#", qry.err_text)>
 	<!--- Send the mail --->
 	<cfif arguments.thestruct.qrysettings.set2_email_server EQ "">
@@ -649,7 +649,7 @@
 		<cfset arguments.thestruct.id = 0>
 	</cfif>
 	<!--- Qry --->
-	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1" region="razcache">
+	<cfquery datasource="#variables.dsn#" name="qry" cachedwithin="1">
 	SELECT /* #variables.cachetoken#log_search */ l.LOG_ACTION, l.LOG_DESC, <cfif arguments.thestruct.logtype EQ "log_assets">l.LOG_FILE_TYPE,</cfif> l.LOG_TIMESTAMP, u.user_first_name, u.user_last_name
 	FROM #session.hostdbprefix##arguments.thestruct.logtype# l LEFT JOIN users u ON l.log_user = u.user_id
 	WHERE lower(l.log_desc) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#lcase(arguments.thestruct.searchtext)#%">

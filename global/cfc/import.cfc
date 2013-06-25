@@ -1104,7 +1104,7 @@
 					<cfset arguments.thestruct.qrydetail.lucene_key = found.lucene_key>
 					<cfset arguments.thestruct.qrydetail.link_path_url = found.link_path_url>
 					<cfset arguments.thestruct.id = found.img_id>
-					<cfthread intstruct="#arguments.thestruct#">
+					<cfthread intstruct="#arguments.thestruct#" name="#arguments.thestruct.id#">
 						<!--- Lucene: Delete Records --->
 						<cfinvoke component="lucene" method="index_delete" thestruct="#attributes.intstruct#" assetid="#attributes.intstruct.id#" category="img">
 						<!--- Lucene: Update Records --->
@@ -1281,7 +1281,7 @@
 				<cfset arguments.thestruct.qrydetail.lucene_key = found.lucene_key>
 				<cfset arguments.thestruct.qrydetail.link_path_url = found.link_path_url>
 				<cfset arguments.thestruct.id = found.vid_id>
-				<cfthread intstruct="#arguments.thestruct#">
+				<cfthread intstruct="#arguments.thestruct#" name="#arguments.thestruct.id#">
 					<!--- Lucene: Delete Records --->
 					<cfinvoke component="lucene" method="index_delete" thestruct="#attributes.intstruct#" assetid="#attributes.intstruct.id#" category="vid">
 					<!--- Lucene: Update Records --->
@@ -1451,7 +1451,7 @@
 				<cfset arguments.thestruct.qrydetail.lucene_key = found.lucene_key>
 				<cfset arguments.thestruct.qrydetail.link_path_url = found.link_path_url>
 				<cfset arguments.thestruct.id = found.aud_id>
-				<cfthread intstruct="#arguments.thestruct#">
+				<cfthread intstruct="#arguments.thestruct#" name="#arguments.thestruct.id#">
 					<!--- Lucene: Delete Records --->
 					<cfinvoke component="lucene" method="index_delete" thestruct="#attributes.intstruct#" assetid="#attributes.intstruct.id#" category="aud">
 					<!--- Lucene: Update Records --->
@@ -1764,7 +1764,7 @@
 				<cfset arguments.thestruct.qrydetail.lucene_key = found.lucene_key>
 				<cfset arguments.thestruct.qrydetail.link_path_url = found.link_path_url>
 				<cfset arguments.thestruct.id = found.file_id>
-				<cfthread intstruct="#arguments.thestruct#">
+				<cfthread intstruct="#arguments.thestruct#" name="#arguments.thestruct.id#">
 					<!--- Lucene: Delete Records --->
 					<cfinvoke component="lucene" method="index_delete" thestruct="#attributes.intstruct#" assetid="#attributes.intstruct.id#" category="doc">
 					<!--- Lucene: Update Records --->
@@ -1800,7 +1800,7 @@
 			<!--- If not we add it or else we simply update the ct db --->
 			<cfif labhere.recordcount EQ 0>
 				<!--- Create uuid --->
-				<cfset theid = createuuid("")>
+				<cfset theid = replace(createuuid(),"-","","all")>
 				<!--- Insert --->
 				<cfquery dataSource="#application.razuna.datasource#">
 				INSERT INTO #session.hostdbprefix#labels
