@@ -41,7 +41,7 @@
 	AND (vid_group IS NULL OR vid_group = '')
 	AND host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
 	</cfquery>
-		<!--- todo : filter for file-extension --->
+		<!--- todo : filter for file-extension  --->
 	<cfreturn qLocal.folderCount />
 </cffunction>
 

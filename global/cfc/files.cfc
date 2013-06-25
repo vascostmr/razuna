@@ -32,7 +32,7 @@
 <cffunction name="getFolderCount" description="COUNT ALL FILES IN A FOLDER" output="false" access="public" returntype="numeric">
 	<cfargument name="folder_id" required="true" type="string">
 	<cfargument name="file_extension" required="false" type="string" default="">
-	<!--- init local vars --->
+	<!--- init local vars  --->
 	<cfset var qLocal = 0>
 	<cfquery datasource="#Variables.dsn#" name="qLocal" cachedwithin="1">
 	SELECT /* #variables.cachetoken#getFolderCountfiles */ COUNT(*) AS folderCount

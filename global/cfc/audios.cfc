@@ -50,7 +50,7 @@
 	<cfelse>
 		<cfset thefolderlist = arguments.folder_id & ",">
 	</cfif>
-	<!--- Set the session for offset correctly if the total count of assets in lower the the total rowmaxpage --->
+	<!--- Set the session for offset correctly if the total count of assets in lower the the total rowmaxpage  --->
 	<cfif arguments.thestruct.qry_filecount LTE session.rowmaxpage>
 		<cfset session.offset = 0>
 	</cfif>
