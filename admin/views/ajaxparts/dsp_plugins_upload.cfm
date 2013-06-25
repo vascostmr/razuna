@@ -33,7 +33,7 @@
 <head>
 <body>
 <cfform action="#myself#c.plugins_upload" name="upme" method="post" enctype="multipart/form-data">
-<cfinput size="50" type="file" name="thefile" validate="regular_expression" pattern="[a-zA-Z0-9_-]+.zip" validateat="onSubmit" required="true" message="Must be a ZIP archive!" />
+<cfinput size="50" type="file" name="thefile" validate="regular_expression" pattern="[a-zA-Z0-9_-]+.zip" required="true" message="Must be a ZIP archive!" />
 <cfinput type="submit" name="save" value="Upload" class="button"> 
 </cfform>
 <cfif structkeyexists(form,"fieldnames")>Plugin has been uploaded successfully. <a href="##" onclick="top.$('##rightside').load('index.cfm?fa=c.plugins');">Please refresh.</a></cfif>

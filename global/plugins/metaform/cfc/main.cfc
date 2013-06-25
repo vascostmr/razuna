@@ -54,8 +54,9 @@
 			<cfif application.razuna.thedatabase EQ "mysql">#tableoptions#</cfif>
 			</cfquery>
 			<cfcatch type="database">
-				<cfset consoleoutput(true)>
-				<cfset console(cfcatch)>
+				<!--- Consoleoutput --->
+				<cfinvoke component="global.cfc.cfmlengine" method="logConsole" catch="#cfcatch#" >
+				</cfinvoke>
 				Maybe add an alter or update execution in here
 			</cfcatch>
 		</cftry>

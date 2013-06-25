@@ -124,6 +124,7 @@
 			</cfquery>
 			<!--- Reset cache --->
 			<!--- <cfset resetcachetoken("settings")> --->
+			<!--- Consoleoutput --->
 			<cfcatch type="database">
 				<cfinvoke component="cfmlengine" method="logConsole" catch="#cfcatch#" >
 				</cfinvoke>
@@ -192,7 +193,10 @@
 		<!--- Upload file into plugin directory (will fail if name is already there) --->
 		<cffile action="upload" destination="#p#" nameconflict="error" filefield="thefile" result="thefile">
 		<!--- Unzip the file --->
-		<cfset unzip(destination="#p#", zipfile="#p#/#thefile.serverFile#")>
+		<cfinvoke component="cfmlengine" method="extractZipFile" returnvariable="return_value">
+			<cfinvokeargument name="ZIPFILE" value="#p#/#thefile.serverFile#">
+			<cfinvokeargument name="destination" value="#p#">
+		</cfinvoke>
 		<!--- Return --->
 		<cfreturn />
 	</cffunction>

@@ -1381,7 +1381,7 @@ Comment:<br>
 		<cfquery dbtype="query" name="contents">
 		SELECT *
 		FROM contents
-		WHERE size != 0
+		<!---WHERE size != 0--->
 		AND attributes != 'H'
 		AND name != 'thumbs.db'
 		AND name NOT LIKE '.DS_STORE%'

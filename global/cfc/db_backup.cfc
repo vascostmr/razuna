@@ -41,8 +41,9 @@
 			) 
 			</cfquery>
 			<cfcatch type="database">
-				<cfset consoleoutput(true)>
-				<cfset console(cfcatch)>
+				<!--- Consoleoutput --->
+				<cfinvoke component="cfmlengine" method="logConsole" catch="#cfcatch#" >
+				</cfinvoke>
 			</cfcatch>
 		</cftry>
 		<!--- Look into the information schema and get all the tables --->
