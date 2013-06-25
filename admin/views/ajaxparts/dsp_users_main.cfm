@@ -34,7 +34,7 @@
 				<li><a href="##tsearch" onclick="showwindow('#myself#c.users_detail&add=T&user_id=0','#defaultsObj.trans("user_add")#',550,1);">#defaultsObj.trans("user_add")#</a></li>
 			</ul>
 		</cfoutput>
-		<!--- Search Panel --->
+		<!--- Search Panel  --->
 		<div id="tsearch">
 			<cfoutput>
 				<form name="usearch" id="usearch" onsubmit="searchme();return false;">
