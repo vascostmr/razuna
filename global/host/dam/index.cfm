@@ -29,8 +29,8 @@
 	sessiontimeout="#CreateTimeSpan(0,3,0,0)#"
 	setClientCookies="yes"
 >
-<cferror type="exception" template="error.cfm">
-<cferror type="request" template="error_request.cfm">
+<!---<cferror type="exception" template="error.cfm">
+<cferror type="request" template="error_request.cfm">--->
 <!--- Decide on production or dev mode for FB --->
 <cfif structKeyExists(application,"fusebox") AND cgi.http_host DOES NOT CONTAIN "local">
 	<cfset application.fusebox.mode = "production">

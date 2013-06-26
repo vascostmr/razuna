@@ -1152,6 +1152,7 @@
 			<cfinvokeargument name="zipfile" value="#arguments.thestruct.thepath#/outgoing/#newnamenoext#.zip">
 			<cfinvokeargument name="source" value="#arguments.thestruct.thepath#/outgoing/#newname#">
 			<cfinvokeargument name="recurse" value="true" >
+			<cfinvokeargument name="timeout" value="300">
 		</cfinvoke>	
 		<!---<cfzip action="create" ZIPFILE="#arguments.thestruct.thepath#/outgoing/#newnamenoext#.zip" source="#arguments.thestruct.thepath#/outgoing/#newname#" recurse="true" timeout="300" />--->
 		<!--- Remove the file --->

@@ -419,7 +419,7 @@
 	<cfset cloud_url_version.theurl = "">
 	<cfset cloud_url_org.newepoch = 0>
 	<cfset thumbnailname = "">
-	<cfset arguments.thestruct.therandom = replace(createuuid(),"-","","all"))>
+	<cfset arguments.thestruct.therandom = replace(createuuid(),"-","","all")>
 	<!--- Get windows or not --->
 	<cfinvoke component="global" method="iswindows" returnVariable="iswindows" />
 	<!--- Set Exiftool --->

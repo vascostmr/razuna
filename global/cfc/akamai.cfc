@@ -124,7 +124,7 @@
 		<!--- Write script --->
 		<cffile action="write" file="#t#" output="#e#" mode="777" />
 		<!--- Execute --->
-		<cfexecute name="#t#" variable="cf" timeout="900" errorVariable="y" />
+		<cfexecute name="#t#" variable="cf" timeout="900"  />
 		<!--- Delete script --->
 		<cffile action="delete" file="#t#" />
 		<!--- Log  --->

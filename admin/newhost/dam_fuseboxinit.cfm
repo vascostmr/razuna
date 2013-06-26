@@ -95,7 +95,7 @@ WHERE lower(host_name) = <cfqueryparam cfsqltype="cf_sql_varchar" value="##lcase
 </cfif>
 
 <!--- Cart Session --->
-<cfparam name="session.thecart" default="##createuuid("")##">
+<cfparam name="session.thecart" default="##replace(createuuid(),"-","","all")##">
 
 <!--- Component : SECURITY : stored in request scope for better performance--->
 <cfinvoke component="global.cfc.security" method="init" returnvariable="Request.securityobj" dsn="##application.razuna.datasource##" />
