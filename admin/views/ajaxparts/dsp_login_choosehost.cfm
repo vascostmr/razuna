@@ -28,6 +28,6 @@
 <cfset session.hostid = userhosts.host_id>
 <cfset session.host_count = 1>
 <script type="text/javascript">
-	location.href='index.cfm?fa=c.main&_v=<cfoutput>#createuuid("")#</cfoutput>' ;
+	location.href='index.cfm?fa=c.main&_v=<cfoutput>#replace(createuuid(),"-","","all" )#</cfoutput>' ;
 	/* &c=' + parseInt((Math.random() * 99999999)) */
 </script>

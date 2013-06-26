@@ -136,7 +136,7 @@
 			// Get values
 			var thepath = $('##folder_path').val();
 			// Open window
-			window.open('#myself#c.asset_add_path&theid=#attributes.folder_id#&v=#createuuid("")#&av=true&folder_path=' + escape(thepath) );
+			window.open('#myself#c.asset_add_path&theid=#attributes.folder_id#&v=#replace(createuuid(),"-","","all" )#&av=true&folder_path=' + escape(thepath) );
 		}
 	</script>
 

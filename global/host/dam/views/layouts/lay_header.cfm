@@ -36,7 +36,7 @@
 	</form>
 	<div style="float:left;">
 		<div style="float:left;width:290px;">
-			<a href="#myself#c.main&_v=#createuuid('')#">
+			<a href="#myself#c.main&_v=#replace(createuuid(),'-','','all')#">
 				<cfif fileexists("#ExpandPath("../..")#global/host/logo/#session.hostid#/logo.jpg")>
 					<img src="#dynpath#/global/host/logo/#session.hostid#/logo.jpg" width="200" height="29" border="0" style="padding:0px 0px 0px 15px;">
 				<cfelse>
@@ -142,7 +142,7 @@
 					<p><hr></p>
 				</cfif>
 				<!--- Log off --->
-				<p><a href="#myself#c.logout&_v=#createuuid('')#">#myFusebox.getApplicationData().defaults.trans("logoff")#</a></p>
+				<p><a href="#myself#c.logout&_v=#replace(createuuid(),'-','','all')#">#myFusebox.getApplicationData().defaults.trans("logoff")#</a></p>
 			</div>
 		</div>
 		<div style="width:auto;float:right;padding:7px 0px 0px 0px;">
