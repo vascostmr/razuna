@@ -27,7 +27,7 @@
 	<cfdirectory action="delete" directory="#ExpandPath("../..")#/global/host/logo/#session.hostid#" recurse="true">
 </cfif>
 <cfoutput>
-	<cfif directoryexists("#ExpandPath("../..")#global/host/logo/#session.hostid#") AND fileexists("#ExpandPath("../..")#global/host/logo/#session.hostid#/logo.jpg")>
+	<cfif directoryexists("#ExpandPath("../..")#/global/host/logo/#session.hostid#") AND fileexists("#ExpandPath("../..")#/global/host/logo/#session.hostid#/logo.jpg")>
 		<img src="#dynpath#/global/host/logo/#session.hostid#/logo.jpg" width="200" height="29" border="0">
 	<cfelse>
 		<img src="#dynpath#/global/host/dam/images/razuna_logo-200.png" width="200" height="29" border="0">

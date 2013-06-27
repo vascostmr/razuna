@@ -23,30 +23,35 @@
 * along with Razuna. If not, see <http://www.razuna.com/licenses/>.
 *
 --->
-<cfoutput>
 	<div style="padding-bottom:10px;float:left;">
-		<strong>Total: #qry_users.recordcount# users</strong>
+		<cfoutput>
+			<strong>Total: #qry_users.recordcount# users</strong>
+		</cfoutput>
 	</div>
 	<div style="padding-bottom:10px;float:right;">
-		<div style="padding-top:4px;"><a href="##" onclick="$('##theusersearch').toggle('slow');" style="text-decoration:underline;padding-right:5px;">Search</a> | <a href="##" onclick="showwindow('#myself#c.users_detail&add=T&user_id=0','#myFusebox.getApplicationData().defaults.trans("user_add")#',600,1);" style="text-decoration:underline;padding-right:5px;padding-left:5px;">#myFusebox.getApplicationData().defaults.trans("user_add")#</a> | <a href="##" onclick="showwindow('#myself#ajax.users_import','Import',600,1);" style="text-decoration:underline;padding-right:5px;padding-left:5px;">Import</a> | <a href="##" onclick="showwindow('#myself#ajax.users_export','Export',600,1);" style="text-decoration:underline;padding-right:5px;padding-left:5px;">Export</a></div>
+		<cfoutput>
+			<div style="padding-top:4px;"><a href="##" onclick="$('##theusersearch').toggle('slow');" style="text-decoration:underline;padding-right:5px;">Search</a> | <a href="##" onclick="showwindow('#myself#c.users_detail&add=T&user_id=0','#myFusebox.getApplicationData().defaults.trans("user_add")#',600,1);" style="text-decoration:underline;padding-right:5px;padding-left:5px;">#myFusebox.getApplicationData().defaults.trans("user_add")#</a> | <a href="##" onclick="showwindow('#myself#ajax.users_import','Import',600,1);" style="text-decoration:underline;padding-right:5px;padding-left:5px;">Import</a> | <a href="##" onclick="showwindow('#myself#ajax.users_export','Export',600,1);" style="text-decoration:underline;padding-right:5px;padding-left:5px;">Export</a></div>
+		</cfoutput>
 	</div>
 	<!--- The search --->
 	<div id="theusersearch" style="display:none;clear:both;float:right;">
-		<form name="usearch" onsubmit="usersearch();return false;">
-			<table border="0" cellspacing="0" cellpadding="0" class="grid">
-				<tr>
-					<td>#myFusebox.getApplicationData().defaults.trans("username")#</td>
-					<td>#myFusebox.getApplicationData().defaults.trans("user_company")#</td>
-					<td colspan="2">eMail</td>
-				</tr>
-				<tr>
-					<td><input type="text" size="25" name="user_login_name" id="user_login_name2" /></td>
-					<td><input type="text" size="25" name="user_company" id="user_company2" /></td>
-					<td><input type="text" size="25" name="user_email" id="user_email2" /></td>
-					<td><input type="submit" name="Button" value="#myFusebox.getApplicationData().defaults.trans("user_search")#" class="button" /></td>
-				</tr>
-			</table>
-		</form>
+		<cfoutput>
+			<form name="usearch" onsubmit="usersearch();return false;">
+				<table border="0" cellspacing="0" cellpadding="0" class="grid">
+					<tr>
+						<td>#myFusebox.getApplicationData().defaults.trans("username")#</td>
+						<td>#myFusebox.getApplicationData().defaults.trans("user_company")#</td>
+						<td colspan="2">eMail</td>
+					</tr>
+					<tr>
+						<td><input type="text" size="25" name="user_login_name" id="user_login_name2" /></td>
+						<td><input type="text" size="25" name="user_company" id="user_company2" /></td>
+						<td><input type="text" size="25" name="user_email" id="user_email2" /></td>
+						<td><input type="submit" name="Button" value="#myFusebox.getApplicationData().defaults.trans("user_search")#" class="button" /></td>
+					</tr>
+				</table>
+			</form>
+		</cfoutput>
 	</div>
 	<!--- Clear --->
 	<div style="clear:both;"></div>
@@ -56,44 +61,52 @@
 		<input type="hidden" name="fa" value="c.users_remove_select">
 		<input type="hidden" name="allusers" id="allusers" value="false">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="grid">
-				<tr>
-					<td colspan="7" style="padding-left:0px;margin-left:0px;">
-						<!--- Select all link --->
-						<div style="float:left;">
-							<a href="##" onclick="selectusers();return false;" id="selectalluserslink">#myFusebox.getApplicationData().defaults.trans("select_all")#</a>
-							<a href="##" id="selectdelete" style="display:none;padding-left:15px;" onclick="$('##form_users_list').submit();">Delete</a>
-						</div>
-						<!--- Next and back --->
-						<div style="float:right;">
-							<cfif session.offset GTE 1>
-								<!--- For Back --->
-								<cfset newoffset = session.offset - 1>
-								<a href="##" onclick="backforthusers(#newoffset#);">&lt; #myFusebox.getApplicationData().defaults.trans("back")#</a> |
-							</cfif>
-							<cfset showoffset = session.offset * session.rowmaxpage>
-							<cfset shownextrecord = (session.offset + 1) * session.rowmaxpage>
-							<cfif qry_users.recordcount GT session.rowmaxpage>#showoffset# - #shownextrecord#</cfif>
-							<cfif qry_users.recordcount GT session.rowmaxpage AND NOT shownextrecord GTE qry_users.recordcount> | 
-								<!--- For Next --->
-								<cfset newoffset = session.offset + 1>
-								<a href="##" onclick="backforthusers(#newoffset#);">#myFusebox.getApplicationData().defaults.trans("next")# &gt;</a>
-							</cfif>
-						</div>
-					</td>
-				</tr>
+				<cfoutput>
+					<tr>
+						<td colspan="7" style="padding-left:0px;margin-left:0px;">
+							<!--- Select all link --->
+							<div style="float:left;">
+								<a href="##" onclick="selectusers();return false;" id="selectalluserslink">#myFusebox.getApplicationData().defaults.trans("select_all")#</a>
+								<a href="##" id="selectdelete" style="display:none;padding-left:15px;" onclick="$('##form_users_list').submit();">Delete</a>
+							</div>
+							<!--- Next and back --->
+							<div style="float:right;">
+								<cfif session.offset GTE 1>
+									<!--- For Back --->
+									<cfset newoffset = session.offset - 1>
+									<a href="##" onclick="backforthusers(#newoffset#);">&lt; #myFusebox.getApplicationData().defaults.trans("back")#</a> |
+								</cfif>
+								<cfset showoffset = session.offset * session.rowmaxpage>
+								<cfset shownextrecord = (session.offset + 1) * session.rowmaxpage>
+								<cfif qry_users.recordcount GT session.rowmaxpage>#showoffset# - #shownextrecord#</cfif>
+								<cfif qry_users.recordcount GT session.rowmaxpage AND NOT shownextrecord GTE qry_users.recordcount> | 
+									<!--- For Next --->
+									<cfset newoffset = session.offset + 1>
+									<a href="##" onclick="backforthusers(#newoffset#);">#myFusebox.getApplicationData().defaults.trans("next")# &gt;</a>
+								</cfif>
+							</div>
+						</td>
+					</tr>
+				</cfoutput>
 				<!--- The div to show selection --->
 				<div id="showuserselect" style="display:none;"></div>
 				<!--- User list below --->
-		 		<tr>
-					<th></th>
-					<th>#myFusebox.getApplicationData().defaults.trans("username")#</th>
-					<th nowrap="true">#myFusebox.getApplicationData().defaults.trans("user_first_name")# #myFusebox.getApplicationData().defaults.trans("user_last_name")#</th>
-					<th>#myFusebox.getApplicationData().defaults.trans("user_company")#</th>
-					<th>eMail</th>
-					<th colspan="2"></th>
-				</tr>
+				<cfoutput>
+			 		<tr>
+						<th></th>
+						<th>#myFusebox.getApplicationData().defaults.trans("username")#</th>
+						<th nowrap="true">#myFusebox.getApplicationData().defaults.trans("user_first_name")# #myFusebox.getApplicationData().defaults.trans("user_last_name")#</th>
+						<th>#myFusebox.getApplicationData().defaults.trans("user_company")#</th>
+						<th>eMail</th>
+						<th colspan="2"></th>
+					</tr>
+				</cfoutput>
 				<!--- For paging --->
 				<cfset mysqloffset = session.offset * session.rowmaxpage>
+				<!--- check mysqloffset is 0 --->
+				<cfif mysqloffset EQ 0>
+					<cfset mysqloffset = 1>
+				</cfif>
 				<!--- Output --->
 				<cfoutput query="qry_users" group="user_id" startrow="#mysqloffset#" maxrows="#session.rowmaxpage#">
 					<tr class="list">
@@ -115,11 +128,40 @@
 		<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 100px 0;"></span><strong>Are you sure you want to delete these users?</strong><br />
 		All the user information will be permanently erased. There is no undo.</p>
 	</div>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			// If there are no checkboxes (meaning only admin users) then hide the select all
-			if ( $('input[type=checkbox]').length == 0 ){
-				$('##selectalluserslink').css('display','none');
+	<cfoutput>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				// If there are no checkboxes (meaning only admin users) then hide the select all
+				if ( $('input[type=checkbox]').length == 0 ){
+					$('##selectalluserslink').css('display','none');
+				}
+			});
+			// Select users
+			function selectusers(){
+				// Select current page
+				$('input[type=checkbox]').each( function(){ 
+					if (this.checked){
+						// select none
+						$(this).attr('checked',false);
+						// Change link
+						$('##selectalluserslink').text('Select all');
+					}
+					else {
+						// select all
+						$(this).attr('checked','checked');
+						// Change link
+						$('##selectalluserslink').text('Select none');
+					}
+					
+				});
+				// Set the div correct
+				$('##showuserselect').html('<strong>All users on this page are selected</strong><br /><a href="##" onclick="selectallusers();return false;">Select all of your #qry_users.recordcount# users</a> (Note: Users in group "Administrator" are never selected!)');
+				// Show select all div
+				$('##showuserselect').toggle('slow');
+				// Hide / show delete
+				$('##selectdelete').toggle();
+				// Set selectall input field to false
+				$('##allusers').val('false');
 			}
 		});
 		// Select users
