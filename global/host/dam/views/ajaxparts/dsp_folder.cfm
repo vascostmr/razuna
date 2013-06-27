@@ -28,7 +28,7 @@
 		<ul>
 			<!--- If we are a collection show the list of collections else the content of folder --->
 			<cfif attributes.iscol EQ "F">
-				<li><a href="##content" onclick="loadcontent('content','#myself##xfa.fcontent#&folder_id=#attributes.folder_id#&kind=all&iscol=#attributes.iscol#');" rel="prefetch prerender">#myFusebox.getApplicationData().defaults.trans("folder_content")# (#arraySum(qry_fileTotalAllTypes['cnt'])#)</a></li>
+				<li><a href="##content" onclick="loadcontent('content','#myself##xfa.fcontent#&folder_id=#attributes.folder_id#&kind=all&iscol=#attributes.iscol#');" rel="prefetch prerender">#myFusebox.getApplicationData().defaults.trans("folder_content")#(#arraysum(listtoarray(valuelist(qry_fileTotalAllTypes.cnt)))#)<!---(#arraySum(qry_fileTotalAllTypes['cnt'])#)---></a></li>
 				<cfloop query="qry_fileTotalAllTypes">
 					<cfif qry_fileTotalAllTypes.cnt GT 0>
 						<cfif ext EQ "img">
