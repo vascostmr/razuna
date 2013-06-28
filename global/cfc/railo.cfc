@@ -364,4 +364,11 @@
 		<!--- Return --->
 		<cfreturn true/>
 	</cffunction>
+	
+	<cffunction name="convertHashBinary" access="public" output="false" returntype="any" hint="Returns a hashbinary value">
+		<cfargument name="path" type="string" required="true" />
+		<cfset returnValue = hash('#arguments.path#')/>
+		<cfreturn returnValue />
+	</cffunction>
+		
 </cfcomponent>

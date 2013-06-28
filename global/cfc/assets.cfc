@@ -110,7 +110,7 @@
 	<cftry>
 		<!--- For scheduled tasks --->
 		<cfif structkeyexists(arguments.thestruct,"sched")>
-			<cfthread name="#replace(createUUID(),"-","","all")#" intstruct="#arguments.thestruct#">
+			<cfthread name="#replace(createuuid(),'-','','all' )#" intstruct="#arguments.thestruct#">
 				<cfinvoke method="addassetscheduledserverthread" thestruct="#attributes.intstruct#" />
 			</cfthread>
 		<!--- Normal processing --->
@@ -350,7 +350,7 @@
 					INSERT INTO #session.hostdbprefix#folders
 					(folder_id, folder_name,folder_level, folder_id_r, folder_main_id_r, folder_owner, folder_create_date, folder_change_date, folder_create_time, folder_change_time, host_id)
 					values (
-					<cfqueryparam value="#replace(createUUID(),"-","","all")#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#replace(createuuid(),'-','','all' )#" cfsqltype="CF_SQL_VARCHAR">,
 					<cfqueryparam value="#fname#" cfsqltype="cf_sql_varchar">,
 					<cfqueryparam value="#folder_level#" cfsqltype="cf_sql_integer" >,
 					<cfqueryparam value="#fidr#" cfsqltype="CF_SQL_VARCHAR">,
@@ -924,7 +924,10 @@
 			<cffile action="rename" source="#arguments.thestruct.theincomingtemppath#/#thefile.serverFile#" destination="#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#">
 			<!--- MD5 Hash --->
 			<cfif FileExists("#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#")>
-				<cfset var md5hash = hashbinary("#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#")>
+				<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+					<cfinvokeargument name="path" value="#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#">
+				</cfinvoke>
+				<!---<cfset var md5hash = hashbinary("#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#")>--->
 			</cfif>
 			<!--- Check if we have to check for md5 records --->
 			<cfinvoke component="settings" method="getmd5check" returnvariable="checkformd5" />
@@ -1104,7 +1107,7 @@
 					INSERT INTO #session.hostdbprefix#images_text
 					(id_inc, img_id_r, lang_id_r, host_id)
 					VALUES(
-					<cfqueryparam value="#replace(Createuuid(),"-","","all")#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#replace(createuuid(),'-','','all' )#" cfsqltype="CF_SQL_VARCHAR">,
 					<cfqueryparam value="#qry_file.tempid#" cfsqltype="CF_SQL_VARCHAR">, 
 					<cfqueryparam value="#langindex#" cfsqltype="cf_sql_numeric">,
 					<cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
@@ -1162,7 +1165,7 @@
 									INSERT INTO #session.hostdbprefix#videos_text
 									(id_inc, vid_id_r, lang_id_r, vid_description, vid_keywords, vid_title, host_id)
 									VALUES(
-									<cfqueryparam value="#replace(Createuuid(),"-","","all")#" cfsqltype="CF_SQL_VARCHAR">,
+									<cfqueryparam value="#replace(createuuid(),'-','','all' )#" cfsqltype="CF_SQL_VARCHAR">,
 									<cfqueryparam value="#qry_file.tempid#" cfsqltype="CF_SQL_VARCHAR">,
 									<cfqueryparam value="#langindex#" cfsqltype="cf_sql_numeric">,
 									<cfqueryparam value="#evaluate(desc)#" cfsqltype="cf_sql_varchar">,
@@ -1725,7 +1728,7 @@ This is the main function called directly by a single upload else from addassets
 		<!--- If this is a linked asset --->
 		<cfif arguments.thestruct.qryfile.link_kind EQ "lan">
 			<!--- Create var with temp directory to hold the thumbnail and images --->
-			<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),"-","","all")#">
+			<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),'-','','all' )#">
 			<cfset arguments.thestruct.theorgfileflat = "#arguments.thestruct.qryfile.path#[0]">
 			<cfset arguments.thestruct.theorgfile = arguments.thestruct.qryfile.path>
 			<cfset arguments.thestruct.theorgfileraw = arguments.thestruct.qryfile.path>
@@ -1735,7 +1738,7 @@ This is the main function called directly by a single upload else from addassets
 		<!--- For importpath --->
 		<cfelseif arguments.thestruct.importpath>
 			<!--- Create var with temp directory to hold the thumbnail and images --->
-			<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),"-","","all")#">
+			<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),'-','','all' )#">
 			<cfset arguments.thestruct.theorgfileflat = "#arguments.thestruct.qryfile.path#/#arguments.thestruct.qryfile.filename#[0]">
 			<cfset arguments.thestruct.theorgfile = "#arguments.thestruct.qryfile.path#/#arguments.thestruct.qryfile.filename#">
 			<cfset arguments.thestruct.theorgfileraw = "#arguments.thestruct.qryfile.path#/#arguments.thestruct.qryfile.filename#">
@@ -1773,7 +1776,7 @@ This is the main function called directly by a single upload else from addassets
 	<cfif !application.razuna.rfs>
 		<cfif arguments.thestruct.qryfile.extension EQ "PDF" AND arguments.thestruct.qryfile.link_kind NEQ "url">
 			<!--- Create a temp folder to hold the PDF images --->
-			<cfset arguments.thestruct.thepdfdirectory = "#arguments.thestruct.thetempdirectory#/#replace(createuuid(),"-","","all")#/razuna_pdf_images">
+			<cfset arguments.thestruct.thepdfdirectory = "#arguments.thestruct.thetempdirectory#/#replace(createuuid(),'-','','all' )#/razuna_pdf_images">
 			<!--- Create folder to hold the images --->
 			<cfdirectory action="create" directory="#arguments.thestruct.thepdfdirectory#" mode="775">
 			<!--- Script: Create thumbnail --->
@@ -1936,7 +1939,7 @@ This is the main function called directly by a single upload else from addassets
 					INSERT INTO #session.hostdbprefix#files_desc
 					(id_inc, file_id_r, lang_id_r, file_desc, file_keywords, host_id)
 					values(
-					<cfqueryparam value="#replace(Createuuid(),"-","","all")#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#replace(createuuid(),'-','','all' )#" cfsqltype="CF_SQL_VARCHAR">,
 					<cfqueryparam value="#arguments.thestruct.newid#" cfsqltype="CF_SQL_VARCHAR">,
 					<cfqueryparam value="#langindex#" cfsqltype="cf_sql_numeric">,
 					<cfqueryparam value="#thesubject#" cfsqltype="cf_sql_varchar">,
@@ -2326,7 +2329,7 @@ This is the main function called directly by a single upload else from addassets
 					<cfqueryparam value="thumb" cfsqltype="cf_sql_varchar">,
 					<cfqueryparam value="1" cfsqltype="cf_sql_varchar">,
 					<cfqueryparam value="1" cfsqltype="cf_sql_varchar">,
-					<cfqueryparam value="#replace(Createuuid(),"-","","all")#" CFSQLType="CF_SQL_VARCHAR">
+					<cfqueryparam value="#replace(createuuid(),'-','','all' )#" CFSQLType="CF_SQL_VARCHAR">
 					)
 					</cfquery>
 				</cftransaction>
@@ -2343,7 +2346,7 @@ This is the main function called directly by a single upload else from addassets
 					<cfqueryparam value="org" cfsqltype="cf_sql_varchar">,
 					<cfqueryparam value="0" cfsqltype="cf_sql_varchar">,
 					<cfqueryparam value="1" cfsqltype="cf_sql_varchar">,
-					<cfqueryparam value="#replace(Createuuid(),"-","","all")#" CFSQLType="CF_SQL_VARCHAR">
+					<cfqueryparam value="#replace(createuuid(),'-','','all' )#" CFSQLType="CF_SQL_VARCHAR">
 					)
 					</cfquery>
 				</cftransaction>
@@ -2459,7 +2462,7 @@ This is the main function called directly by a single upload else from addassets
 				<cfset arguments.thestruct.thesource = replacenocase(arguments.thestruct.thesource,"'","\'","all")>
 			</cfif>
 			<!--- Create var with temp directory --->
-			<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),"-","","all")#">
+			<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),'-','','all' )#">
 			<!--- Create temp folder --->
 			<cfdirectory action="create" directory="#arguments.thestruct.thetempdirectory#" mode="775">
 			<cfset arguments.thestruct.thesourceraw = arguments.thestruct.qryfile.path>
@@ -2473,7 +2476,7 @@ This is the main function called directly by a single upload else from addassets
 				<cfset arguments.thestruct.thesource = replacenocase(arguments.thestruct.thesource,"'","\'","all")>
 			</cfif>
 			<!--- Create var with temp directory --->
-			<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),"-","","all")#">
+			<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),'-','','all' )#">
 			<!--- Create temp folder --->
 			<cfdirectory action="create" directory="#arguments.thestruct.thetempdirectory#" mode="775">
 			<cfset arguments.thestruct.thesourceraw = "#arguments.thestruct.qryfile.path#/#arguments.thestruct.qryfile.filename#">
@@ -3062,7 +3065,7 @@ This is the main function called directly by a single upload else from addassets
 			<!--- if importpath --->
 			<cfif arguments.thestruct.importpath NEQ "">
 				<!--- Create var with temp directory --->
-				<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),"-","","all")#">
+				<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),'-','','all' )#">
 				<!--- Create temp folder --->
 				<cfdirectory action="create" directory="#arguments.thestruct.thetempdirectory#" mode="775">
 			</cfif>
@@ -3279,7 +3282,7 @@ This is the main function called directly by a single upload else from addassets
 		<cfqueryparam value="org" cfsqltype="cf_sql_varchar">,
 		<cfqueryparam value="0" cfsqltype="cf_sql_varchar">,
 		<cfqueryparam value="1" cfsqltype="cf_sql_varchar">,
-		<cfqueryparam value="#replace(Createuuid(),"-","","all")#" CFSQLType="CF_SQL_VARCHAR">
+		<cfqueryparam value="#replace(createuuid(),'-','','all' )#" CFSQLType="CF_SQL_VARCHAR">
 		)
 		</cfquery>
 		<!--- Add the rest of informations to the video db --->
@@ -3500,7 +3503,7 @@ This is the main function called directly by a single upload else from addassets
 			INSERT INTO #session.hostdbprefix#folders
 			(folder_id, folder_name, folder_id_r, folder_main_id_r, folder_owner, folder_create_date, folder_change_date, folder_create_time, folder_change_time, host_id)
 			values (
-			<cfqueryparam value="#replace(createuuid(),"-","","all")#" cfsqltype="CF_SQL_VARCHAR">,
+			<cfqueryparam value="#replace(createuuid(),'-','','all' )#" cfsqltype="CF_SQL_VARCHAR">,
 			<cfqueryparam value="#fname#" cfsqltype="cf_sql_varchar">,
 			<cfqueryparam value="#fidr#" cfsqltype="CF_SQL_VARCHAR">,
 			<cfqueryparam value="#folders.folder_main_id_r#" cfsqltype="CF_SQL_VARCHAR">,
@@ -3830,7 +3833,7 @@ This is the main function called directly by a single upload else from addassets
 			<!--- Set the correct path --->
 			<cfif arguments.thestruct.qryfile.link_kind EQ "lan">
 				<!--- Create var with temp directory --->
-				<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),"-","","all")#">
+				<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),'-','','all' )#">
 				<cfset arguments.thestruct.theorgfile = "#arguments.thestruct.qryfile.path#">
 				<cfset arguments.thestruct.theorgfileraw = arguments.thestruct.qryfile.path>
 				<!--- Create temp folder --->
@@ -3838,7 +3841,7 @@ This is the main function called directly by a single upload else from addassets
 			<!--- if importpath --->
 			<cfelseif arguments.thestruct.importpath NEQ "">
 				<!--- Create var with temp directory --->
-				<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),"-","","all")#">
+				<cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#replace(createuuid(),'-','','all' )#">
 				<cfset arguments.thestruct.theorgfile = "#arguments.thestruct.qryfile.path#/#arguments.thestruct.qryfile.filename#">
 				<cfset arguments.thestruct.theorgfileraw = "#arguments.thestruct.qryfile.path#/#arguments.thestruct.qryfile.filename#">
 				<!--- Create temp folder --->
@@ -3966,7 +3969,7 @@ This is the main function called directly by a single upload else from addassets
 						(id_inc, aud_id_r, lang_id_r, 
 						aud_description, aud_keywords, host_id)
 						values(
-						<cfqueryparam value="#replace(Createuuid(),"-","","all")#" cfsqltype="CF_SQL_VARCHAR">,
+						<cfqueryparam value="#replace(createuuid(),'-','','all' )#" cfsqltype="CF_SQL_VARCHAR">,
 						<cfqueryparam value="#arguments.thestruct.newid#" cfsqltype="CF_SQL_VARCHAR">,
 						<cfqueryparam value="#langindex#" cfsqltype="cf_sql_numeric">,
 						<cfqueryparam value="#evaluate(desc)#" cfsqltype="cf_sql_varchar">,
@@ -4199,7 +4202,7 @@ This is the main function called directly by a single upload else from addassets
 		<cfqueryparam value="org" cfsqltype="cf_sql_varchar">,
 		<cfqueryparam value="0" cfsqltype="cf_sql_varchar">,
 		<cfqueryparam value="1" cfsqltype="cf_sql_varchar">,
-		<cfqueryparam value="#replace(Createuuid(),"-","","all")#" CFSQLType="CF_SQL_VARCHAR">
+		<cfqueryparam value="#replace(createuuid(),'-','','all' )#" CFSQLType="CF_SQL_VARCHAR">
 		)
 		</cfquery>
 		<!--- If there are metadata fields then add them here --->
