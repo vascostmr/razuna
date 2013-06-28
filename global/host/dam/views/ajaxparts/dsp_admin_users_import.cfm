@@ -23,7 +23,7 @@
 * along with Razuna. If not, see <http://www.razuna.com/licenses/>.
 *
 --->
-<cfset tempid = createuuid('')>
+<cfset tempid = replace(createuuid(),"-","","all")>
 <cfoutput>	
 	<div>
 		<form name="form_meta_imp" id="form_meta_imp" method="post" action="#self#" target="_blank">

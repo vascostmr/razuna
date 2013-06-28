@@ -1561,7 +1561,8 @@
 			<cfif folderIDs NEQ ''>
 				<cfinvoke method="getAssetsDetails" folder_id="#folderIDs#" returnvariable="flag">
 				<!--- Update The "in_collection" Field With The Flag Returned From getAssetsDetails --->
-				<cfif flag.recordcount NEQ 0>
+				<!---<cfif flag.recordcount NEQ 0>--->
+				<cfif flag>
 					<cfset temp = QuerySetCell(qry, "in_collection", flag, currentRow  )>
 				</cfif>
 			</cfif>

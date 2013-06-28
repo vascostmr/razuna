@@ -23,59 +23,64 @@
 * along with Razuna. If not, see <http://www.razuna.com/licenses/>.
 *
 --->
-<cfoutput>
-	<cfset thestorage = "#cgi.context_path#/assets/#session.hostid#/">
-	<!---<cfif isDefined('attributes.trash.is_trash') AND attributes.trash.is_trash EQ "intrash">--->
-		<cfif isDefined('attributes.type') AND attributes.type EQ 'movefolder'>
-			<!--- Open choose folder window automatically --->
-			<script type="text/javascript">
-				showwindow('#myself#c.move_file&type=#attributes.type#&loaddiv=#attributes.loaddiv#&kind=#attributes.kind#&thetype=#attributes.thetype#&folder_id=#attributes.folder_id#&folder_level=#attributes.folder_level#&fromtrash=true','#myFusebox.getApplicationData().defaults.trans("restore_folder")#', 550, 1);
-			</script>
-		</cfif>
-	<cfif structKeyExists(attributes,'is_trash') AND attributes.is_trash EQ "intrash">
-		<!--- set session file id --->
-		<cfif attributes.thetype EQ 'img'>
-			<cfset session.thefileid = ",#attributes.id#-img,">
-		<cfelseif attributes.thetype EQ 'aud'>
-			<cfset session.thefileid = ",#attributes.id#-aud,">
-		<cfelseif attributes.thetype EQ 'vid'>
-			<cfset session.thefileid = ",#attributes.id#-vid,">
-		<cfelseif attributes.thetype EQ 'doc'>
-			<cfset session.thefileid = ",#attributes.id#-file,">	
-		</cfif>
-		<cfif attributes.type EQ 'restorefile'>
-			<!--- Open choose folder window automatically --->
-			<script type="text/javascript">
-				showwindow('#myself#c.restore_file&type=#attributes.type#&loaddiv=#attributes.loaddiv#&kind=#attributes.kind#&thetype=#attributes.thetype#&folder_id=#attributes.folder_id#&fromtrash=true','#myFusebox.getApplicationData().defaults.trans("restore_file")#', 550, 1);
-			</script>
-		</cfif>
-	</cfif>
-	<!--- Show button and next back --->
-	<cfif qry_trash.recordcount NEQ 0>
-		<div style="float:left;">
-			<button class="button" onclick="$('##rightside').load('#myself#c.trash_remove_all&col=false');">#myFusebox.getApplicationData().defaults.trans("empty_trash")#</button>
-		</div>
-		<div style="float:right;">
-			<cfif session.offset GTE 1>
-				<!--- For Back --->
-				<cfset newoffset = session.offset - 1>
-				<a href="##" onclick="backnexttrash(#newoffset#);">&lt; #myFusebox.getApplicationData().defaults.trans("back")#</a> |
+	<cfoutput>
+		<cfset thestorage = "#cgi.context_path#/assets/#session.hostid#/">
+		<!---<cfif isDefined('attributes.trash.is_trash') AND attributes.trash.is_trash EQ "intrash">--->
+			<cfif isDefined('attributes.type') AND attributes.type EQ 'movefolder'>
+				<!--- Open choose folder window automatically --->
+				<script type="text/javascript">
+					showwindow('#myself#c.move_file&type=#attributes.type#&loaddiv=#attributes.loaddiv#&kind=#attributes.kind#&thetype=#attributes.thetype#&folder_id=#attributes.folder_id#&folder_level=#attributes.folder_level#&fromtrash=true','#myFusebox.getApplicationData().defaults.trans("restore_folder")#', 550, 1);
+				</script>
 			</cfif>
-			<cfset showoffset = session.offset * session.rowmaxpage>
-			<cfset shownextrecord = (session.offset + 1) * session.rowmaxpage>
-			<cfif qry_trash.recordcount GT session.rowmaxpage>#showoffset# - #shownextrecord#</cfif>
-			<cfif qry_trash.recordcount GT session.rowmaxpage AND NOT shownextrecord GTE qry_trash.recordcount> | 
-				<!--- For Next --->
-				<cfset newoffset = session.offset + 1>
-				<a href="##" onclick="backnexttrash(#newoffset#);">#myFusebox.getApplicationData().defaults.trans("next")# &gt;</a>
+		<cfif structKeyExists(attributes,'is_trash') AND attributes.is_trash EQ "intrash">
+			<!--- set session file id --->
+			<cfif attributes.thetype EQ 'img'>
+				<cfset session.thefileid = ",#attributes.id#-img,">
+			<cfelseif attributes.thetype EQ 'aud'>
+				<cfset session.thefileid = ",#attributes.id#-aud,">
+			<cfelseif attributes.thetype EQ 'vid'>
+				<cfset session.thefileid = ",#attributes.id#-vid,">
+			<cfelseif attributes.thetype EQ 'doc'>
+				<cfset session.thefileid = ",#attributes.id#-file,">	
 			</cfif>
-		</div>
-	</cfif>
+			<cfif attributes.type EQ 'restorefile'>
+				<!--- Open choose folder window automatically --->
+				<script type="text/javascript">
+					showwindow('#myself#c.restore_file&type=#attributes.type#&loaddiv=#attributes.loaddiv#&kind=#attributes.kind#&thetype=#attributes.thetype#&folder_id=#attributes.folder_id#&fromtrash=true','#myFusebox.getApplicationData().defaults.trans("restore_file")#', 550, 1);
+				</script>
+			</cfif>
+		</cfif>
+		<!--- Show button and next back --->
+		<cfif qry_trash.recordcount NEQ 0>
+			<div style="float:left;">
+				<button class="button" onclick="$('##rightside').load('#myself#c.trash_remove_all&col=false');">#myFusebox.getApplicationData().defaults.trans("empty_trash")#</button>
+			</div>
+			<div style="float:right;">
+				<cfif session.offset GTE 1>
+					<!--- For Back --->
+					<cfset newoffset = session.offset - 1>
+					<a href="##" onclick="backnexttrash(#newoffset#);">&lt; #myFusebox.getApplicationData().defaults.trans("back")#</a> |
+				</cfif>
+				<cfset showoffset = session.offset * session.rowmaxpage>
+				<cfset shownextrecord = (session.offset + 1) * session.rowmaxpage>
+				<cfif qry_trash.recordcount GT session.rowmaxpage>#showoffset# - #shownextrecord#</cfif>
+				<cfif qry_trash.recordcount GT session.rowmaxpage AND NOT shownextrecord GTE qry_trash.recordcount> | 
+					<!--- For Next --->
+					<cfset newoffset = session.offset + 1>
+					<a href="##" onclick="backnexttrash(#newoffset#);">#myFusebox.getApplicationData().defaults.trans("next")# &gt;</a>
+				</cfif>
+			</div>
+		</cfif>
+	</cfoutput>
 	<table border="0" cellpadding="0" cellspacing="0" width="100%" class="grid">
 		<tr>
 			<td style="border:0px;" id="selectme">
 				<!--- For paging --->
 				<cfset mysqloffset = session.offset * session.rowmaxpage>
+				<!--- check  mysqloffset is 0 --->
+				<cfif mysqloffset EQ 0>
+					<cfset mysqloffset = 1>
+				</cfif>
 				<!--- Show trash images --->
 				<cfoutput query="qry_trash" startrow="#mysqloffset#" maxrows="#session.rowmaxpage#">
 					<div class="assetbox">
@@ -151,11 +156,12 @@
 		</tr>
 	</table>
 	<!--- JS --->
-	<script type="text/javascript">
-		// Change the pagelist
-		function backnexttrash(theoffset){
-			// Load
-			$('##rightside').load('#myself#c.folder_explorer_trash&offset=' + theoffset);
-		}
-	</script>
-</cfoutput>
+	<cfoutput>
+		<script type="text/javascript">
+			// Change the pagelist
+			function backnexttrash(theoffset){
+				// Load
+				$('##rightside').load('#myself#c.folder_explorer_trash&offset=' + theoffset);
+			}
+		</script>
+	</cfoutput>

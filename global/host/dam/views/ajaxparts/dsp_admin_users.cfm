@@ -163,7 +163,6 @@
 				// Set selectall input field to false
 				$('##allusers').val('false');
 			}
-		});
 		// Select users
 		function selectusers(){
 			// Select current page
