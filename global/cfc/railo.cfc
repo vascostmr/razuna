@@ -370,5 +370,40 @@
 		<cfset returnValue = hash('#arguments.path#')/>
 		<cfreturn returnValue />
 	</cffunction>
+	
+	  <!--- set spreadsheet column width --->
+	<cffunction name="setSpreadsheetwidth" access="public" output="false" hint="set Spreadsheet column width in coldfusion">
+		<cfargument name="columnName" type="string" required="true">
+		<cfargument name="sxls" type="string" required="true">
+		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 1, 225)>
+		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 2, 225)>
+		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 3, 225)>
+		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 4, 225)>
+		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 5, 225)>
+		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 6, 225)>
+		<cfreturn true>
+	</cffunction>
+	
+	<!--- query delete column --->
+	<cffunction name="Query_Deletecolumn" access="public" output="false" hint="query delete column">
+		<cfargument name="theqry" type="query" required="true">
+		<cfargument name="thecolumn" type="string" required="true">
+		<!--- set list variable --->
+		<cfset var thecolumns = "">
+		<cfloop list="#arguments.theqry.ColumnList#" index="Idx">
+			<cfset var temp = findNoCase(Idx,arguments.thecolumn)>
+			<!--- check the columns --->
+			<cfif temp EQ 0>
+				<cfset thecolumns = listAppend(thecolumns,Idx)>
+			</cfif>
+		</cfloop>
+		<!--- extent the query --->
+		<cfquery dbtype="query" name="remove">
+			select #thecolumns#
+			from arguments.theqry
+		</cfquery>
+		<!--- Return --->
+		<cfreturn remove>
+	</cffunction>
 		
 </cfcomponent>

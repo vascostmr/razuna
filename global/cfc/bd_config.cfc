@@ -603,5 +603,29 @@
 		<cfreturn returnValue />
 	</cffunction>
 	
+	 <!--- set spreadsheet column width --->
+	<cffunction name="setSpreadsheetwidth" access="public" output="false" hint="set Spreadsheet column width in coldfusion">
+		<cfargument name="columnName" type="string" required="true">
+		<cfargument name="sxls" type="string" required="true">
+		<cfset SpreadsheetColumnfittosize(arguments.sxls, "1-#len(arguments.columnName)#")>
+		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 1, 5000)>
+		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 2, 5000)>
+		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 3, 5000)>
+		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 4, 10000)>
+		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 5, 3000)>
+		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 6, 10000)>
+		<cfreturn true>
+	</cffunction>
+	
+	<!--- query delete column --->
+	<cffunction name="Query_Deletecolumn" access="public" output="false" hint="query delete column">
+		<cfargument name="theqry" type="query" required="true">
+		<cfargument name="column_list" type="string" required="true">
+		<!--- Remove the user_id column --->
+		<cfset QueryDeletecolumn( arguments.theqry, "#arguments.column_list#" )>
+		<!--- Return --->
+		<cfreturn arguments.theqry>
+	</cffunction>
+	
 	
 </cfcomponent>

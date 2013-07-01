@@ -36,13 +36,13 @@
 <cfinput type="hidden" name="uploadnow" value="T">
 <cfinput type="hidden" name="thefield" value="thefile">
 <cfif !structKeyExists(attributes,"loginimg") AND !structKeyExists(attributes,"favicon")>
-	<cfinput size="50" type="file" name="thefile" validate="regular_expression" pattern="logo.jpg" validateat="onSubmit" required="true" message="Name your file logo.jpg!" />
+	<cfinput size="50" type="file" name="thefile" validate="regular_expression" pattern="logo.jpg"  required="true" message="Name your file logo.jpg!" />
 <cfelseif structKeyExists(attributes,"favicon")>
 	<cfinput type="hidden" name="favicon" value="true">
-	<cfinput size="50" type="file" name="thefile" validate="regular_expression" pattern="favicon.ico" validateat="onSubmit" required="true" message="Name your file favicon.ico!" />
+	<cfinput size="50" type="file" name="thefile" validate="regular_expression" pattern="favicon.ico"  required="true" message="Name your file favicon.ico!" />
 <cfelse>
 	<cfinput type="hidden" name="loginimg" value="true">
-	<cfinput size="50" type="file" name="thefile" validate="regular_expression" pattern="[*.jpg|*.gif|*.png]" validateat="onSubmit" required="true" message="Only jpg, gif and png formats please!" />
+	<cfinput size="50" type="file" name="thefile" validate="regular_expression" pattern="[*.jpg|*.gif|*.png]"  required="true" message="Only jpg, gif and png formats please!" />
 </cfif>
 <cfinput type="submit" name="save" value="Upload" class="button"> 
 </cfform>

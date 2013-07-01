@@ -579,7 +579,11 @@
 		<cfset QuerySetcell(qry, "groupid", valuelist(qrygrp.ct_g_u_grp_id), currentrow )>
 	</cfloop>
 	<!--- Remove the user_id column --->
-	<cfset QueryDeletecolumn( qry, "user_id" )>
+	<cfinvoke component="cfmlengine" method="Query_Deletecolumn" returnvariable="qry">
+		<cfinvokeargument name="theqry" value="#qry#">
+		<cfinvokeargument name="thecolumn" value="user_id">
+	</cfinvoke>
+	<!---<cfset QueryDeletecolumn( qry, "user_id" )>--->
 	<!--- We got the query ready, continue export --->
 	<!--- CVS --->
 	<cfif arguments.thestruct.format EQ "csv">
@@ -625,13 +629,17 @@
 	<cfset var therows = "login_name,first_name,last_name,email,active,groupid,password">
 	<cfset SpreadsheetAddrow(sxls, therows, 1)>
 	<cfset SpreadsheetFormatRow(sxls, {bold=TRUE, alignment="left"}, 1)>
-	<cfset SpreadsheetColumnfittosize(sxls, "1-#len(therows)#")>
+	<cfinvoke component="cfmlengine" method="setSpreadsheetwidth">
+		<cfinvokeargument name="columnName" value="#therows#">
+		<cfinvokeargument name="sxls" value="#sxls#">
+	</cfinvoke>
+	<!---<cfset SpreadsheetColumnfittosize(sxls, "1-#len(therows)#")>
 	<cfset SpreadsheetSetcolumnwidth(sxls, 1, 5000)>
 	<cfset SpreadsheetSetcolumnwidth(sxls, 2, 5000)>
 	<cfset SpreadsheetSetcolumnwidth(sxls, 3, 5000)>
 	<cfset SpreadsheetSetcolumnwidth(sxls, 4, 10000)>
 	<cfset SpreadsheetSetcolumnwidth(sxls, 5, 3000)>
-	<cfset SpreadsheetSetcolumnwidth(sxls, 6, 10000)>
+	<cfset SpreadsheetSetcolumnwidth(sxls, 6, 10000)>--->
 	<!--- Add orders from query --->
 	<cfset SpreadsheetAddRows(sxls, arguments.theqry, 2)> 
 	<cfset SpreadsheetFormatrow(sxls, {textwrap=false, alignment="vertical_top"}, 2)>

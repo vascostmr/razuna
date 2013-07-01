@@ -1606,7 +1606,7 @@
 	<cfargument name="qry_all" type="Query">
 	<cfargument name="thestruct" type="struct">
 	<!--- Thread --->
-	<cfthread instruct="#arguments#" name="#arguments.thestruct.id#">
+	<cfthread instruct="#arguments#" name="trashremoveall">
 		<!--- Loop over the query --->
 		<cfloop query="attributes.instruct.qry_all">
 			<!--- Check that users has NOT only read access --->
