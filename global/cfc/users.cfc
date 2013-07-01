@@ -619,32 +619,11 @@
 	<cfargument name="thepath" type="string">
 	<cfargument name="theqry" type="query">
 	<cfargument name="theformat" type="string">
-	<!--- Create Spreadsheet --->
-	<cfif arguments.theformat EQ "xls">
-		<cfset var sxls = spreadsheetnew()>
-	<cfelseif arguments.theformat EQ "xlsx">
-		<cfset var sxls = spreadsheetnew(true)>
-	</cfif>
-	<!--- Create header row --->
-	<cfset var therows = "login_name,first_name,last_name,email,active,groupid,password">
-	<cfset SpreadsheetAddrow(sxls, therows, 1)>
-	<cfset SpreadsheetFormatRow(sxls, {bold=TRUE, alignment="left"}, 1)>
-	<cfinvoke component="cfmlengine" method="setSpreadsheetwidth">
-		<cfinvokeargument name="columnName" value="#therows#">
-		<cfinvokeargument name="sxls" value="#sxls#">
-	</cfinvoke>
-	<!---<cfset SpreadsheetColumnfittosize(sxls, "1-#len(therows)#")>
-	<cfset SpreadsheetSetcolumnwidth(sxls, 1, 5000)>
-	<cfset SpreadsheetSetcolumnwidth(sxls, 2, 5000)>
-	<cfset SpreadsheetSetcolumnwidth(sxls, 3, 5000)>
-	<cfset SpreadsheetSetcolumnwidth(sxls, 4, 10000)>
-	<cfset SpreadsheetSetcolumnwidth(sxls, 5, 3000)>
-	<cfset SpreadsheetSetcolumnwidth(sxls, 6, 10000)>--->
-	<!--- Add orders from query --->
-	<cfset SpreadsheetAddRows(sxls, arguments.theqry, 2)> 
-	<cfset SpreadsheetFormatrow(sxls, {textwrap=false, alignment="vertical_top"}, 2)>
-	<!--- Write file to file system --->
-	<cfset SpreadsheetWrite(sxls,"#arguments.thepath#/outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.#arguments.theformat#",true)>
+	<cfinvoke component="cfmlengine" method="create_Spreadsheet">
+		<cfinvokeargument name="thepath" value="#arguments.thepath#">
+		<cfinvokeargument name="theqry" value="#arguments.theqry#">
+		<cfinvokeargument name="theformat" value="#arguments.theformat#" >
+	</cfinvoke>	
 	<!--- Feedback --->
 	<cfoutput><p><a href="outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.#arguments.theformat#"><strong style="color:green;">Here is your downloadable file</strong></a></p></cfoutput>
 	<cfflush>

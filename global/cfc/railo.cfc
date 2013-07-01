@@ -371,16 +371,34 @@
 		<cfreturn returnValue />
 	</cffunction>
 	
-	  <!--- set spreadsheet column width --->
-	<cffunction name="setSpreadsheetwidth" access="public" output="false" hint="set Spreadsheet column width in coldfusion">
-		<cfargument name="columnName" type="string" required="true">
-		<cfargument name="sxls" type="string" required="true">
+	 <!--- Create spreadsheet --->
+	<cffunction name="create_Spreadsheet" access="public" output="false" hint="set Spreadsheet column width in coldfusion">
+		<cfargument name="thepath" type="string" required="true">
+		<cfargument name="theqry" type="query" required="true">
+		<cfargument name="theformat" type="string" required="true">
+		<!--- Create Spreadsheet --->
+		<cfif arguments.theformat EQ "xls">
+			<cfset var sxls = spreadsheetnew()>
+		<cfelseif arguments.theformat EQ "xlsx">
+			<cfset var sxls = spreadsheetnew(true)>
+		</cfif>
+		<!--- Create header row --->
+		<cfset var therows = "login_name,first_name,last_name,email,active,groupid,password">
+		<cfset SpreadsheetAddrow(sxls, therows,1)>
+		<cfset SpreadsheetFormatRow(sxls, {bold=TRUE, alignment="left"}, 1)>
+		<!--- Add orders from query --->
+		<cfloop query="arguments.theqry">
+			<cfset SpreadsheetAddRow(sxls,"#login_name#,#first_name#,#last_name#,#email#,#active#,#groupid#,#password#",2)>
+		</cfloop>
+		<cfset SpreadsheetFormatrow(sxls, {textwrap=false, alignment="vertical_top"}, 2)>
 		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 1, 225)>
 		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 2, 225)>
 		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 3, 225)>
 		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 4, 225)>
 		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 5, 225)>
 		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 6, 225)>
+		<!--- Write file to file system --->
+		<cfset SpreadsheetWrite(sxls,"#arguments.thepath#/outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.#arguments.theformat#",true)>
 		<cfreturn true>
 	</cffunction>
 	
