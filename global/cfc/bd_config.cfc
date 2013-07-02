@@ -643,5 +643,16 @@
 		<cfreturn arguments.theqry>
 	</cffunction>
 	
+	<!--- create csv --->
+	<cffunction name="create_csv" access="public" output="false" hint="create csv in openBD">
+		<cfargument name="thepath" type="string" required="true">
+		<cfargument name="theqry" type="query" required="true">
+		<!--- Create CSV --->
+		<cfset var csv = csvwrite(arguments.theqry)>
+		<!--- Write file to file system --->
+		<cffile action="write" file="#arguments.thepath#/outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.csv" output="#csv#" charset="utf-8" nameConflict="MakeUnique">
+		<cfreturn true>
+	</cffunction>
+	
 	
 </cfcomponent>

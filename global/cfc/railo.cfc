@@ -390,13 +390,13 @@
 		<cfloop query="arguments.theqry">
 			<cfset SpreadsheetAddRow(sxls,"#login_name#,#first_name#,#last_name#,#email#,#active#,#groupid#,#password#",2)>
 		</cfloop>
-		<cfset SpreadsheetFormatrow(sxls, {textwrap=false, alignment="vertical_top"}, 2)>
-		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 1, 225)>
-		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 2, 225)>
-		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 3, 225)>
-		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 4, 225)>
-		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 5, 225)>
-		<cfset SpreadsheetSetcolumnwidth(arguments.sxls, 6, 225)>
+		<!---<cfset SpreadsheetFormatrow(sxls, {textwrap=false, alignment="vertical_top"}, 2)>
+		<cfset SpreadsheetSetcolumnwidth(sxls, 1, 225)>
+		<cfset SpreadsheetSetcolumnwidth(sxls, 2, 225)>
+		<cfset SpreadsheetSetcolumnwidth(sxls, 3, 225)>
+		<cfset SpreadsheetSetcolumnwidth(sxls, 4, 225)>
+		<cfset SpreadsheetSetcolumnwidth(sxls, 5, 225)>
+		<cfset SpreadsheetSetcolumnwidth(sxls, 6, 225)>--->
 		<!--- Write file to file system --->
 		<cfset SpreadsheetWrite(sxls,"#arguments.thepath#/outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.#arguments.theformat#",true)>
 		<cfreturn true>
@@ -422,6 +422,26 @@
 		</cfquery>
 		<!--- Return --->
 		<cfreturn remove>
+	</cffunction>
+	
+	
+	<!--- create csv --->
+	<cffunction name="create_csv" access="public" output="false" hint="create csv in ACF">
+		<cfargument name="thepath" type="string" required="true">
+		<cfargument name="theqry" type="query" required="true">
+		<!--- Create header row --->
+		<cfset var therows = "login_name,first_name,last_name,email,active,groupid,password">
+		<cfset var crlf = Chr(10) & Chr(13)>
+		<!--- Create CSV --->
+		<cffile action="write" file="#arguments.thepath#/outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.csv" output="#therows#" addnewline="true">
+		<cfsavecontent variable="csv" >
+			<cfoutput query="arguments.theqry">
+				#login_name#,#first_name#,#last_name#,#email#,#active#,#groupid#,#password#
+			</cfoutput> 
+		</cfsavecontent>  	
+		<!--- Write file to file system --->
+		<cffile action="append" file="#arguments.thepath#/outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.csv" output="#csv#" charset="utf-8" nameConflict="MakeUnique" addnewline="true">
+		<cfreturn true>
 	</cffunction>
 		
 </cfcomponent>

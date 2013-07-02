@@ -588,6 +588,8 @@
 	<!--- CVS --->
 	<cfif arguments.thestruct.format EQ "csv">
 		<cfinvoke method="export_csv" thepath="#arguments.thestruct.thepath#" theqry="#qry#" />
+		<!--- Feedback --->
+		<cfoutput><p><a href="outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.csv"><strong style="color:green;">Here is your downloadable file</strong></a></p></cfoutput>
 	<!--- XLS --->
 	<cfelse>
 		<!--- Add custom fields to meta fields --->
@@ -601,13 +603,10 @@
 <cffunction name="export_csv" output="false">
 	<cfargument name="thepath" type="string">
 	<cfargument name="theqry" type="query">
-	<!--- Create CSV --->
-	<cfset var csv = csvwrite(arguments.theqry)>
-	<!--- Write file to file system --->
-	<cffile action="write" file="#arguments.thepath#/outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.csv" output="#csv#" charset="utf-8" nameConflict="MakeUnique">
-	<!--- Feedback --->
-	<cfoutput><p><a href="outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.csv"><strong style="color:green;">Here is your downloadable file</strong></a></p></cfoutput>
-	<cfflush>
+	<cfinvoke component="cfmlengine" method="create_csv">
+		<cfinvokeargument name="thepath" value="#arguments.thepath#">
+		<cfinvokeargument name="theqry" value="#arguments.theqry#">
+	</cfinvoke>
 	<!--- Call function to remove older files --->
 	<cfinvoke method="remove_files" thepath="#arguments.thepath#" />
 	<!--- Return --->
