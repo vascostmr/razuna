@@ -94,8 +94,8 @@
 							<div class="assetbox" style="text-align:center;">
 								<a href="##" onclick="loadcontent('rightside','#myself#c.share_content&fid=#session.fid#&folder_id=#folder_id#&folder_id_r=#folder_id_r#&jsessionid=#session.SessionID#');">
 									<div class="theimg">
-										<cfif directoryexists("#ExpandPath("../..")#/global/host/folderthumbnail/#session.hostid#/#folder_id#")>
-											<cfdirectory name="myDir" action="list" directory="#ExpandPath("../../")#/global/host/folderthumbnail/#session.hostid#/#folder_id#/" type="file">
+										<cfif directoryexists("#ExpandPath("../../")#global/host/folderthumbnail/#session.hostid#/#folder_id#")>
+											<cfdirectory name="myDir" action="list" directory="#ExpandPath("../../")#global/host/folderthumbnail/#session.hostid#/#folder_id#/" type="file">
 											<cfif myDir.RecordCount>
 												<img src="#dynpath#/global/host/folderthumbnail/#session.hostid#/#folder_id#/#myDir.name#" border="0"><br />
 											<cfelse>
@@ -179,7 +179,7 @@
 												<img src="#thestorage##path_to_asset#/#thethumb#" border="0">
 											</cfif>
 										<cfelse>
-											<cfif FileExists("#ExpandPath("../../")#/global/host/dam/images/icons/icon_#ext#.png") IS "no"><img src="#dynpath#/global/host/dam/images/icons/icon_txt.png" border="0"><cfelse><img src="#dynpath#/global/host/dam/images/icons/icon_#ext#.png" border="0"></cfif>
+											<cfif FileExists("#ExpandPath("../../")#global/host/dam/images/icons/icon_#ext#.png") IS "no"><img src="#dynpath#/global/host/dam/images/icons/icon_txt.png" border="0"><cfelse><img src="#dynpath#/global/host/dam/images/icons/icon_#ext#.png" border="0"></cfif>
 										</cfif>
 									</div>
 									<div>
@@ -288,7 +288,7 @@
 										<img src="#thestorage##path_to_asset#/#thethumb#" border="0">
 									</cfif>
 								<cfelse>
-									<cfif FileExists("#ExpandPath("../../")#/global/host/dam/images/icons/icon_#ext#.png") IS "no"><img src="#dynpath#/global/host/dam/images/icons/icon_txt.png" width="128" height="128" border="0"><cfelse><img src="#dynpath#/global/host/dam/images/icons/icon_#ext#.png" width="128" height="128" border="0"></cfif>
+									<cfif FileExists("#ExpandPath("../../")#global/host/dam/images/icons/icon_#ext#.png") IS "no"><img src="#dynpath#/global/host/dam/images/icons/icon_txt.png" width="128" height="128" border="0"><cfelse><img src="#dynpath#/global/host/dam/images/icons/icon_#ext#.png" width="128" height="128" border="0"></cfif>
 								</cfif>
 								<br><a href="##" onclick="loadcontent('shared_basket','#myself#c.basket_put_include&file_id=#id#-doc&thetype=#id#-doc&jsessionid=#session.SessionID#');flash_footer('basket');return false;" title="#myFusebox.getApplicationData().defaults.trans("put_in_basket")#">
 							</cfif>

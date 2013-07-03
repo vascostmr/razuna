@@ -59,7 +59,7 @@
 				<tr>
 					<td style="padding-top:15px;">
 						<div id="folderThumb_load" class="theimg">
-							<cfif directoryexists("#ExpandPath("../..")#/global/host/folderthumbnail/#session.hostid#/#attributes.folder_id#")>
+							<cfif directoryexists("#ExpandPath("../../")#global/host/folderthumbnail/#session.hostid#/#attributes.folder_id#")>
 								<cfdirectory name="myDir" action="list" directory="#ExpandPath("../../")#global/host/folderthumbnail/#session.hostid#/#attributes.folder_id#" type="file">
 								<cfif myDir.RecordCount>
 									<img src="#dynpath#/global/host/folderthumbnail/#session.hostid#/#attributes.folder_id#/#myDir.name#?#createuuid()#" border="0" height="100px" align="left">

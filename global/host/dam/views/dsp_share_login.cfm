@@ -29,7 +29,7 @@ Page output starts here
 <cfoutput>
 <div id="login_div" style="text-align:center;">
 	<span class="loginform_header">
-		<cfif fileexists("#ExpandPath("../..")#/global/host/logo/#session.hostid#/logo.jpg")>
+		<cfif fileexists("#ExpandPath("../../")#global/host/logo/#session.hostid#/logo.jpg")>
 			<img src="#dynpath#/global/host/logo/#session.hostid#/logo.jpg" border="0" />
 		<cfelse>
 			<img src="#dynpath#/global/host/dam/images/razuna_logo-200.png" width="200" height="29" border="0" style="padding:3px 0px 0px 5px;">

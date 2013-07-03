@@ -50,7 +50,7 @@
 <cfif jr_enable EQ "true"><cfinclude template="../../js/janrain.cfm"></cfif>
 <link rel="SHORTCUT ICON" href="favicon.ico" />
 <link rel="apple-touch-icon" href="#dynpath#/global/host/dam/images/razuna_icon_114.png" />
-<cfif directoryExists("#ExpandPath("../..")#/global/host/login/#session.hostid#")><cfdirectory action="list" directory="#ExpandPath("../..")#/global/host/login/#session.hostid#" listinfo="name" type="file" name="theimg" /><cfelse><cfset theimg.recordcount=0></cfif>
+<cfif directoryExists("#ExpandPath("../../")#global/host/login/#session.hostid#")><cfdirectory action="list" directory="#ExpandPath("../../")#global/host/login/#session.hostid#" listinfo="name" type="file" name="theimg" /><cfelse><cfset theimg.recordcount=0></cfif>
 <style>
 body{
 <cfif theimg.recordcount EQ 0>
@@ -67,7 +67,7 @@ body{
 }
 </style>
 <!--- Custom CSS --->
-<cfif fileexists("#ExpandPath("../..")#/global/host/dam/views/layouts/custom/custom.css")>
+<cfif fileexists("#ExpandPath("../../")#global/host/dam/views/layouts/custom/custom.css")>
   <link rel="stylesheet" type="text/css" href="#dynpath#/global/host/dam/views/layouts/custom/custom.css?_v=#attributes.cachetag#" />
 </cfif>
 </head>

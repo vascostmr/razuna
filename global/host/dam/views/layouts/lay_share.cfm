@@ -51,7 +51,7 @@
 <script type="text/javascript" src="#dynpath#/global/js/chosen/chosen.jquery.min.js?_v=#attributes.cachetag#"></script>
 <script type="text/javascript" src="#dynpath#/global/host/dam/js/global.js?_v=#attributes.cachetag#"></script>
 <!--- Favicon --->
-<cfif fileexists("#ExpandPath("../..")#/global/host/favicon/#session.hostid#/favicon.ico")>
+<cfif fileexists("#ExpandPath("../../")#global/host/favicon/#session.hostid#/favicon.ico")>
 	<link rel="SHORTCUT ICON" href="#dynpath#/global/host/favicon/#session.hostid#/favicon.ico" />
 <cfelse>
 	<link rel="SHORTCUT ICON" href="#dynpath#/global/host/dam/images/favicon.ico" />
@@ -73,7 +73,7 @@
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Helvetica Neue,Helvetica,Arial,Nimbus Sans L,sans-serif; font-size: 1em; }
 </style>
 <!--- Custom CSS --->
-<cfif fileexists("#ExpandPath("../..")#/global/host/dam/views/layouts/custom/custom.css")>
+<cfif fileexists("#ExpandPath("../../")#global/host/dam/views/layouts/custom/custom.css")>
 	<link rel="stylesheet" type="text/css" href="#dynpath#/global/host/dam/views/layouts/custom/custom.css?_v=#attributes.cachetag#" />
 </cfif>
 </head>
