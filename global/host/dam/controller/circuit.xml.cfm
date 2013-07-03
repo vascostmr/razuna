@@ -1354,6 +1354,7 @@
 		<set name="attributes.iscol" value="F" overwrite="false" />
 		<set name="attributes.trash" value="F" overwrite="false" />
 		<set name="attributes.showsubfolders" value="F" overwrite="false" />
+		<set name="attributes.released" value="false" overwrite="false" />
 		<!-- XFA -->
 		<xfa name="fproperties" value="c.folder_edit" />
 		<xfa name="fsharing" value="c.folder_sharing" />
