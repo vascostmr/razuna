@@ -67,7 +67,7 @@
 <script type="text/javascript" src="#dynpath#/global/js/jquery.formparams.js"></script>
 <script type="text/javascript" src="#dynpath#/global/js/jqtree/jquery.tree.min.js"></script>
 <!--- Favicon --->
-<cfif fileexists("#ExpandPath("../..")#global/host/favicon/#session.hostid#/favicon.ico")>
+<cfif fileexists("#ExpandPath("../..")#/global/host/favicon/#session.hostid#/favicon.ico")>
 	<link rel="SHORTCUT ICON" href="#dynpath#/global/host/favicon/#session.hostid#/favicon.ico" />
 <cfelse>
 	<link rel="SHORTCUT ICON" href="#dynpath#/global/host/dam/images/favicon.ico" />
@@ -115,7 +115,7 @@
 }
 </style>
 <!--- Custom CSS --->
-<cfif fileexists("#ExpandPath("../..")#global/host/dam/views/layouts/custom/custom.css")>
+<cfif fileexists("#ExpandPath("../..")#/global/host/dam/views/layouts/custom/custom.css")>
 	<link rel="stylesheet" type="text/css" href="#dynpath#/global/host/dam/views/layouts/custom/custom.css" />
 </cfif>
 </head>

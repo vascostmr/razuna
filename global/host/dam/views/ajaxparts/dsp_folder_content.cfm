@@ -64,8 +64,8 @@
 						<div class="assetbox" style="text-align:center;">
 							<a href="##" onclick="razunatreefocusbranch('#folder_id_r#','#folder_id#');loadcontent('rightside','index.cfm?fa=c.folder&folder_id=#folder_id#');">
 								<div class="theimg">
-									<cfif directoryexists("#ExpandPath("../..")#global/host/folderthumbnail/#session.hostid#/#folder_id#")>
-										<cfdirectory name="myDir" action="list" directory="#ExpandPath("../../")#global/host/folderthumbnail/#session.hostid#/#folder_id#/" type="file">
+									<cfif directoryexists("#ExpandPath("../..")#/global/host/folderthumbnail/#session.hostid#/#folder_id#")>
+										<cfdirectory name="myDir" action="list" directory="#ExpandPath("../../")#/global/host/folderthumbnail/#session.hostid#/#folder_id#/" type="file">
 										<cfif myDir.RecordCount>
 											<img src="#dynpath#/global/host/folderthumbnail/#session.hostid#/#folder_id#/#myDir.name#" border="0"><br />
 										<cfelse>
@@ -410,7 +410,7 @@
 											<img src="#dynpath#/assets/#session.hostid#/#path_to_asset#/#thethumb#" border="0">
 										</cfif>
 									<cfelse>
-										<cfif FileExists("#ExpandPath("../../")#global/host/dam/images/icons/icon_#ext#.png") IS "no"><img src="#dynpath#/global/host/dam/images/icons/icon_txt.png" border="0"><cfelse><img src="#dynpath#/global/host/dam/images/icons/icon_#ext#.png" width="120" height="120" border="0"></cfif>
+										<cfif FileExists("#ExpandPath("../../")#/global/host/dam/images/icons/icon_#ext#.png") IS "no"><img src="#dynpath#/global/host/dam/images/icons/icon_txt.png" border="0"><cfelse><img src="#dynpath#/global/host/dam/images/icons/icon_#ext#.png" width="120" height="120" border="0"></cfif>
 									</cfif>
 								</div>
 								</a>
@@ -780,7 +780,7 @@
 												<img src="#thestorage##path_to_asset#/#thethumb#" width="128" border="0">
 											</cfif>
 										<cfelse>
-											<cfif FileExists("#ExpandPath("../../")#global/host/dam/images/icons/icon_#ext#.png") IS "no"><img src="#dynpath#/global/host/dam/images/icons/icon_txt.png" width="128" height="128" border="0"><cfelse><img src="#dynpath#/global/host/dam/images/icons/icon_#ext#.png" width="128" height="128" border="0"></cfif>
+											<cfif FileExists("#ExpandPath("../../")#/global/host/dam/images/icons/icon_#ext#.png") IS "no"><img src="#dynpath#/global/host/dam/images/icons/icon_txt.png" width="128" height="128" border="0"><cfelse><img src="#dynpath#/global/host/dam/images/icons/icon_#ext#.png" width="128" height="128" border="0"></cfif>
 										</cfif>
 									</div>
 								</a>
@@ -1107,7 +1107,7 @@
 												<img src="#thestorage##path_to_asset#/#thethumb#" width="128" border="0">
 											</cfif>
 										<cfelse>
-											<cfif FileExists("#ExpandPath("../../")#global/host/dam/images/icons/icon_#ext#.png") IS "no"><img src="#dynpath#/global/host/dam/images/icons/icon_txt.png" width="128" height="128" border="0"><cfelse><img src="#dynpath#/global/host/dam/images/icons/icon_#ext#.png" width="128" height="128" border="0"></cfif>
+											<cfif FileExists("#ExpandPath("../../")#/global/host/dam/images/icons/icon_#ext#.png") IS "no"><img src="#dynpath#/global/host/dam/images/icons/icon_txt.png" width="128" height="128" border="0"><cfelse><img src="#dynpath#/global/host/dam/images/icons/icon_#ext#.png" width="128" height="128" border="0"></cfif>
 										</cfif>
 									</div>
 								</a>
