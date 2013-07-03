@@ -697,6 +697,83 @@
 	</cftry>
 </cffunction>
 
+<cffunction name="ConvertXmlToStruct" access="public" returntype="struct" output="false"
+				hint="Parse raw XML response body into ColdFusion structs and arrays and return it.">
+	<cfargument name="xmlNode" type="string" required="true" />
+	<cfargument name="str" type="struct" required="true" />
+	<!---Setup local variables for recurse: --->
+	<cfset var i = 0 />
+	<cfset var axml = arguments.xmlNode />
+	<cfset var astr = arguments.str />
+	<cfset var n = "" />
+	<cfset var tmpContainer = "" />
+	
+	<cfset axml = XmlSearch(XmlParse(arguments.xmlNode),"/node()")>
+	<cfset axml = axml[1] />
+	<!--- For each children of context node: --->
+	<cfloop from="1" to="#arrayLen(axml.XmlChildren)#" index="i">
+		<!--- Read XML node name without namespace: --->
+		<cfset n = replace(axml.XmlChildren[i].XmlName, axml.XmlChildren[i].XmlNsPrefix&":", "") />
+		<!---<cfset n = axml.XmlChildren[i].XmlName />--->
+		<!--- If key with that name exists within output struct ... --->
+		<cfif structKeyExists(astr, n)>
+			<!--- ... and is not an array... --->
+			<cfif not isArray(astr[n])>
+				<!--- ... get this item into temp variable, ... --->
+				<cfset tmpContainer = astr[n] />
+				<!--- ... setup array for this item beacuse we have multiple items with same name, ... --->
+				<cfset astr[n] = arrayNew(1) />
+				<!--- ... and reassing temp item as a first element of new array: --->
+				<cfset astr[n][1] = tmpContainer />
+			<cfelse>
+				<!--- Item is already an array: --->
+				
+			</cfif>
+			<cfif arrayLen(axml.XmlChildren[i].XmlChildren) gt 0>
+					<!--- recurse call: get complex item: --->
+					<cfset astr[n][arrayLen(astr[n])+1] = ConvertXmlToStruct(axml.XmlChildren[i], structNew()) />
+				<cfelse>
+					<!--- else: assign node value as last element of array: --->
+					<cfset astr[n][arrayLen(astr[n])+1] = axml.XmlChildren[i].XmlText />
+			</cfif>
+		<cfelse>
+			<!---
+				This is not a struct. This may be first tag with some name.
+				This may also be one and only tag with this name.
+			--->
+			<!---
+					If context child node has child nodes (which means it will be complex type): --->
+			<cfif arrayLen(axml.XmlChildren[i].XmlChildren) gt 0>
+				<!--- recurse call: get complex item: --->
+				<cfset astr[n] = ConvertXmlToStruct(axml.XmlChildren[i], structNew()) />
+			<cfelse>
+				<!--- else: assign node value as last element of array: --->
+				<!--- if there are any attributes on this element--->
+				<cfif IsStruct(aXml.XmlChildren[i].XmlAttributes) AND StructCount(aXml.XmlChildren[i].XmlAttributes) GT 0>
+					<!--- assign the text --->
+					<cfset astr[n] = axml.XmlChildren[i].XmlText />
+						<!--- check if there are no attributes with xmlns: , we dont want namespaces to be in the response--->
+					 <cfset attrib_list = StructKeylist(axml.XmlChildren[i].XmlAttributes) />
+					 <cfloop from="1" to="#listLen(attrib_list)#" index="attrib">
+						 <cfif ListgetAt(attrib_list,attrib) CONTAINS "xmlns:">
+							 <!--- remove any namespace attributes--->
+							<cfset Structdelete(axml.XmlChildren[i].XmlAttributes, listgetAt(attrib_list,attrib))>
+						 </cfif>
+					 </cfloop>
+					 <!--- if there are any atributes left, append them to the response--->
+					 <cfif StructCount(axml.XmlChildren[i].XmlAttributes) GT 0>
+						 <cfset astr[n&'_attributes'] = axml.XmlChildren[i].XmlAttributes />
+					</cfif>
+				<cfelse>
+					 <cfset astr[n] = axml.XmlChildren[i].XmlText />
+				</cfif>
+			</cfif>
+		</cfif>
+	</cfloop>
+	<!--- return struct: --->
+	<cfreturn astr />
+</cffunction>
+
 <!--- Read the XMP parse it --->
 <cffunction name="xmpparse" output="false">
 	<cfargument name="thestruct" type="struct">
@@ -774,128 +851,152 @@
 		</cfif>
 		<!--- Parse Metadata which is now XML --->
 		<!--- <cfset var thexml = xmlparse(ToString(themeta.getBytes(),'utf-8'))> --->
-		<cfset var thexml = xmlparse(themeta)>
-		<cfset thexml = xmlSearch(thexml, "//rdf:Description/")>
+		<cfset prodXML = xmlparse(themeta)>
+		<cfset prodXmlToStruct  = ConvertXmlToStruct(ToString(prodXML), structnew())>
+		<!---<cfset var thexml = xmlparse(themeta)>
+		<cfset thexml = xmlSearch(thexml, "//rdf:Description/")>--->
 		<!--- iptcsubjectcode --->
 		<cftry>
-			<cfset xmp.iptcsubjectcode = trim(#thexml[1]["XMP-iptcCore:SubjectCode"].xmltext#)>
+			<!---<cfset xmp.iptcsubjectcode = trim(#thexml[1]["XMP-iptcCore:SubjectCode"].xmltext#)>--->
+				<cfset xmp.iptcsubjectcode = trim(#prodXmlToStruct.Description.SubjectCode#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- scene --->
 		<cftry>
-			<cfset xmp.iptcscene = trim(#thexml[1]["XMP-iptcCore:Scene"].xmltext#)>
+			<!---<cfset xmp.iptcscene = trim(#thexml[1]["XMP-iptcCore:Scene"].xmltext#)>--->
+			<cfset xmp.iptcscene = trim(#prodXmlToStruct.Description.Scene#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- creator or IPTC:By-line --->
 		<cftry>
-			<cfset xmp.creator = trim(#thexml[1]["XMP-dc:Creator"].xmltext#)>
+			<!---<cfset xmp.creator = trim(#thexml[1]["XMP-dc:Creator"].xmltext#)>--->
+			<cfset xmp.creator = trim(#prodXmlToStruct.Description.Creator#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.creator EQ "">
 			<cftry>
-				<cfset xmp.creator = trim(#thexml[1]["IPTC:By-line"].xmltext#)>
+				<!---<cfset xmp.creator = trim(#thexml[1]["IPTC:By-line"].xmltext#)>--->
+				<cfset xmp.creator = trim(#prodXmlToStruct.Description.Evaluate(By-line)#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- document title --->
 		<cftry>
-			<cfset xmp.title = trim(#thexml[1]["XMP-dc:Title"].xmltext#)>
+			<!---<cfset xmp.title = trim(#thexml[1]["XMP-dc:Title"].xmltext#)>--->
+			<cfset xmp.title = trim(#prodXmlToStruct.Description.Title#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.title EQ "">
 			<cftry>
-				<cfset xmp.title = trim(#thexml[1]["IPTC:ObjectName"].xmltext#)>
+				<!---<cfset xmp.title = trim(#thexml[1]["IPTC:ObjectName"].xmltext#)>--->
+				<cfset xmp.title = trim(#prodXmlToStruct.Description.ObjectName#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- AuthorsPosition --->
 		<cftry>
-			<cfset xmp.authorstitle = trim(#thexml[1]["XMP-photoshop:AuthorsPosition"].xmltext#)>
+			<!---<cfset xmp.authorstitle = trim(#thexml[1]["XMP-photoshop:AuthorsPosition"].xmltext#)>--->
+			<cfset xmp.authorstitle = trim(#prodXmlToStruct.Description.AuthorsPosition#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.authorstitle EQ "">
 			<cftry>
-				<cfset xmp.authorstitle = trim(#thexml[1]["IPTC:By-lineTitle"].xmltext#)>
+				<!---<cfset xmp.authorstitle = trim(#thexml[1]["IPTC:By-lineTitle"].xmltext#)>--->
+				<cfset xmp.authorstitle = trim(#prodXmlToStruct.Description.Evaluate(By-lineTitle)#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- CaptionWriter --->
 		<cftry>
-			<cfset xmp.descwriter = trim(#thexml[1]["XMP-photoshop:CaptionWriter"].xmltext#)>
+			<!---<cfset xmp.descwriter = trim(#thexml[1]["XMP-photoshop:CaptionWriter"].xmltext#)>--->
+			<cfset xmp.descwriter = trim(#prodXmlToStruct.Description.CaptionWriter#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.descwriter EQ "">
 			<cftry>
-				<cfset xmp.descwriter = trim(#thexml[1]["IPTC:Writer-Editor"].xmltext#)>
+				<!---<cfset xmp.descwriter = trim(#thexml[1]["IPTC:Writer-Editor"].xmltext#)>--->
+				<cfset xmp.descwriter = trim(#prodXmlToStruct.Description.Evaluate(Writer-Editor)#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- iptcaddress --->
 		<cftry>
-			<cfset xmp.iptcaddress = trim(#thexml[1]["XMP-iptcCore:CreatorAddress"].xmltext#)>
+			<!---<cfset xmp.iptcaddress = trim(#thexml[1]["XMP-iptcCore:CreatorAddress"].xmltext#)>--->
+			<cfset xmp.iptcaddress = trim(#prodXmlToStruct.Description.CreatorAddress#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- Category --->
 		<cftry>
-			<cfset xmp.category = trim(#thexml[1]["XMP-photoshop:Category"].xmltext#)>
+			<!---<cfset xmp.category = trim(#thexml[1]["XMP-photoshop:Category"].xmltext#)>--->
+			<cfset xmp.category = trim(#prodXmlToStruct.Description.Category#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.category EQ "">
 			<cftry>
-				<cfset xmp.category = trim(#thexml[1]["IPTC:Category"].xmltext#)>
+				<!---<cfset xmp.category = trim(#thexml[1]["IPTC:Category"].xmltext#)>--->
+				<cfset xmp.category = trim(#prodXmlToStruct.Description.Category#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- Supplementalcategories --->
 		<cftry>
-			<cfset xmp.categorysub = trim(#thexml[1]["XMP-photoshop:SupplementalCategories"].xmltext#)>
+			<!---<cfset xmp.categorysub = trim(#thexml[1]["XMP-photoshop:SupplementalCategories"].xmltext#)>--->
+			<cfset xmp.categorysub = trim(#prodXmlToStruct.Description.SupplementalCategories#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.categorysub EQ "">
 			<cftry>
-				<cfset xmp.categorysub = trim(#thexml[1]["IPTC:SupplementalCategories"].xmltext#)>
+				<!---<cfset xmp.categorysub = trim(#thexml[1]["IPTC:SupplementalCategories"].xmltext#)>--->
+				<cfset xmp.categorysub = trim(#prodXmlToStruct.Description.SupplementalCategories#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- Urgency --->
 		<cftry>
-			<cfset xmp.urgency = trim(#thexml[1]["XMP-photoshop:Urgency"].xmltext#)>
+			<!---<cfset xmp.urgency = trim(#thexml[1]["XMP-photoshop:Urgency"].xmltext#)>--->
+			<cfset xmp.urgency = trim(#prodXmlToStruct.Description.Urgency#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.urgency EQ "">
 			<cftry>
-				<cfset xmp.urgency = trim(#thexml[1]["IPTC:Urgency"].xmltext#)>
+				<!---<cfset xmp.urgency = trim(#thexml[1]["IPTC:Urgency"].xmltext#)>--->
+				<cfset xmp.urgency = trim(#prodXmlToStruct.Description.Urgency#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- Description from XMP --->
 		<cftry>
-			<cfset xmp.description = trim(#thexml[1]["XMP-dc:Description"].xmltext#)>
+			<!---<cfset xmp.description = trim(#thexml[1]["XMP-dc:Description"].xmltext#)>--->
+			<cfset xmp.description = trim(#prodXmlToStruct.Description.Description#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.description EQ "">
 			<cftry>
-				<cfset xmp.description = trim(#thexml[1]["IPTC:Caption-Abstract"].xmltext#)>
+				<!---<cfset xmp.description = trim(#thexml[1]["IPTC:Caption-Abstract"].xmltext#)>--->
+				<cfset xmp.description = trim(#prodXmlToStruct.Description.Evaluate(Caption-Abstract)#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- Keywords from XMP (they are in the subject param) --->
 		<cftry>
-			<cfset x = thexml[1]["XMP-dc:Subject"]["rdf:Bag"]["rdf:li"]>
+			<!---<cfset x = thexml[1]["XMP-dc:Subject"]["rdf:Bag"]["rdf:li"]>--->
+			<cfset x = trim(#prodXmlToStruct.Description.Subject[1]#)>
 			<cfcatch type="any">
-				<cfset x = newarray(1)>
+				<cfset x = arraynew(1)>
 			</cfcatch>
 		</cftry>
 		<cftry>
-			<cfset y = thexml[1]["IPTC:Keywords"]["rdf:Bag"]["rdf:li"]>
+			<!---<cfset y = thexml[1]["IPTC:Keywords"]["rdf:Bag"]["rdf:li"]>--->
+			<cfset y = trim(#prodXmlToStruct.Description.Keywords[1]#)>
 			<cfcatch type="any">
-				<cfset y = newarray(1)>
+				<cfset y = arraynew(1)>
 			</cfcatch>
 		</cftry>
 		<!--- If subject XML is empty then check for single keyword --->
 		<cfif arraylen(x) EQ 0>
 			<cftry>
-				<cfset xmp.keywords = thexml[1]["XMP-dc:Subject"].xmltext>
+				<!---<cfset xmp.keywords = thexml[1]["XMP-dc:Subject"].xmltext>--->
+				<cfset xmp.keywords = trim(#prodXmlToStruct.Description.Subject#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		<cfelse>
@@ -908,7 +1009,8 @@
 		</cfif>
 		<cfif arraylen(y) EQ 0>
 			<cftry>
-				<cfset xmp.keywords = thexml[1]["IPTC:Keywords"].xmltext>
+				<!---<cfset xmp.keywords = thexml[1]["IPTC:Keywords"].xmltext>--->
+				<cfset xmp.keywords = trim(#prodXmlToStruct.Description.Keywords#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		<cfelse>
@@ -922,336 +1024,400 @@
 		</cfif>
 		<!--- city --->
 		<cftry>
-			<cfset xmp.iptccity = trim(#thexml[1]["XMP-iptcCore:CreatorCity"].xmltext#)>
+			<!---<cfset xmp.iptccity = trim(#thexml[1]["XMP-iptcCore:CreatorCity"].xmltext#)>--->
+			<cfset xmp.iptccity = trim(#prodXmlToStruct.Description.CreatorCity#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- state --->
 		<cftry>
-			<cfset xmp.iptcstate = trim(#thexml[1]["XMP-iptcCore:CreatorRegion"].xmltext#)>
+			<!---<cfset xmp.iptcstate = trim(#thexml[1]["XMP-iptcCore:CreatorRegion"].xmltext#)>--->
+			<cfset xmp.iptcstate = trim(#prodXmlToStruct.Description.CreatorRegion#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- country --->
 		<cftry>
-			<cfset xmp.iptccountry = trim(#thexml[1]["XMP-iptcCore:CreatorCountry"].xmltext#)>
+			<!---<cfset xmp.iptccountry = trim(#thexml[1]["XMP-iptcCore:CreatorCountry"].xmltext#)>--->
+			<cfset xmp.iptccountry = trim(#prodXmlToStruct.Description.CreatorCountry#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- location --->
 		<cftry>
-			<cfset xmp.iptclocation = trim(#thexml[1]["XMP-iptcCore:Location"].xmltext#)>
+			<!---<cfset xmp.iptclocation = trim(#thexml[1]["XMP-iptcCore:Location"].xmltext#)>--->
+			<cfset xmp.iptclocation = trim(#prodXmlToStruct.Description.Location#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- zip --->
 		<cftry>
-			<cfset xmp.iptczip = trim(#thexml[1]["XMP-iptcCore:CreatorPostalCode"].xmltext#)>
+			<!---<cfset xmp.iptczip = trim(#thexml[1]["XMP-iptcCore:CreatorPostalCode"].xmltext#)>--->
+			<cfset xmp.iptczip = trim(#prodXmlToStruct.Description.CreatorPostalCode#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- email --->
 		<cftry>
-			<cfset xmp.iptcemail = trim(#thexml[1]["XMP-iptcCore:CreatorWorkEmail"].xmltext#)>
+			<!---<cfset xmp.iptcemail = trim(#thexml[1]["XMP-iptcCore:CreatorWorkEmail"].xmltext#)>--->
+			<cfset xmp.iptcemail = trim(#prodXmlToStruct.Description.CreatorWorkEmail#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- web --->
 		<cftry>
-			<cfset xmp.iptcwebsite = trim(#thexml[1]["XMP-iptcCore:CreatorWorkURL"].xmltext#)>
+			<!---<cfset xmp.iptcwebsite = trim(#thexml[1]["XMP-iptcCore:CreatorWorkURL"].xmltext#)>--->
+			<cfset xmp.iptcwebsite = trim(#prodXmlToStruct.Description.CreatorWorkURL#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- phone --->
 		<cftry>
-			<cfset xmp.iptcphone = trim(#thexml[1]["XMP-iptcCore:CreatorWorkTelephone"].xmltext#)>
+			<!---<cfset xmp.iptcphone = trim(#thexml[1]["XMP-iptcCore:CreatorWorkTelephone"].xmltext#)>--->
+			<cfset xmp.iptcphone = trim(#prodXmlToStruct.Description.CreatorWorkTelephone#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- IntellectualGenre --->
 		<cftry>
-			<cfset xmp.iptcintelgenre = trim(#thexml[1]["XMP-iptcCore:IntellectualGenre"].xmltext#)>
+			<!---<cfset xmp.iptcintelgenre = trim(#thexml[1]["XMP-iptcCore:IntellectualGenre"].xmltext#)>--->
+			<cfset xmp.iptcintelgenre = trim(#prodXmlToStruct.Description.IntellectualGenre#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- Instructions --->
 		<cftry>
-			<cfset xmp.iptcinstructions = trim(#thexml[1]["XMP-photoshop:Instructions"].xmltext#)>
+			<!---<cfset xmp.iptcinstructions = trim(#thexml[1]["XMP-photoshop:Instructions"].xmltext#)>--->
+			<cfset xmp.iptcinstructions = trim(#prodXmlToStruct.Description.Instructions#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.iptcinstructions EQ "">
 			<cftry>
-				<cfset xmp.iptcinstructions = trim(#thexml[1]["IPTC:SpecialInstructions"].xmltext#)>
+				<!---<cfset xmp.iptcinstructions = trim(#thexml[1]["IPTC:SpecialInstructions"].xmltext#)>--->
+				<cfset xmp.iptcinstructions = trim(#prodXmlToStruct.Description.SpecialInstructions#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- Credit --->
 		<cftry>
-			<cfset xmp.iptccredit = trim(#thexml[1]["XMP-photoshop:Credit"].xmltext#)>
+			<!---<cfset xmp.iptccredit = trim(#thexml[1]["XMP-photoshop:Credit"].xmltext#)>--->
+			<cfset xmp.iptccredit = trim(#prodXmlToStruct.Description.Credit#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.iptccredit EQ "">
 			<cftry>
-				<cfset xmp.iptccredit = trim(#thexml[1]["IPTC:Credit"].xmltext#)>
+				<!---<cfset xmp.iptccredit = trim(#thexml[1]["IPTC:Credit"].xmltext#)>--->
+				<cfset xmp.iptccredit = trim(#prodXmlToStruct.Description.Credit#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- Source --->
 		<cftry>
-			<cfset xmp.iptcsource = trim(#thexml[1]["XMP-photoshop:Source"].xmltext#)>
+			<!---<cfset xmp.iptcsource = trim(#thexml[1]["XMP-photoshop:Source"].xmltext#)>--->
+			<cfset xmp.iptcsource = trim(#prodXmlToStruct.Description.Source#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.iptcsource EQ "">
 			<cftry>
-				<cfset xmp.iptcsource = trim(#thexml[1]["IPTC:Source"].xmltext#)>
+				<!---<cfset xmp.iptcsource = trim(#thexml[1]["IPTC:Source"].xmltext#)>--->
+				<cfset xmp.iptcsource = trim(#prodXmlToStruct.Description.Source#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- UsageTerms --->
 		<cftry>
-			<cfset xmp.iptcusageterms = trim(#thexml[1]["XMP-xmpRights:UsageTerms"].xmltext#)>
+			<!---<cfset xmp.iptcusageterms = trim(#thexml[1]["XMP-xmpRights:UsageTerms"].xmltext#)>--->
+			<cfset xmp.iptcusageterms = trim(#prodXmlToStruct.Description.UsageTerms#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- Rights --->
 		<cftry>
-			<cfset xmp.copynotice = trim(#thexml[1]["XMP-dc:Rights"].xmltext#)>
+			<!---<cfset xmp.copynotice = trim(#thexml[1]["XMP-dc:Rights"].xmltext#)>--->
+			<cfset xmp.copynotice = trim(#prodXmlToStruct.Description.Rights#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.copynotice EQ "">
 			<cftry>
-				<cfset xmp.copynotice = trim(#thexml[1]["IPTC:CopyrightNotice"].xmltext#)>
+				<!---<cfset xmp.copynotice = trim(#thexml[1]["IPTC:CopyrightNotice"].xmltext#)>--->
+				<cfset xmp.copynotice = trim(#prodXmlToStruct.Description.CopyrightNotice#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- copyrightstatus --->
 		<cftry>
-			<cfset xmp.copystatus = trim(#thexml[1]["XMP-xmpRights:Marked"].xmltext#)>
+			<!---<cfset xmp.copystatus = trim(#thexml[1]["XMP-xmpRights:Marked"].xmltext#)>--->
+			<cfset xmp.copystatus = trim(#prodXmlToStruct.Description.Marked#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.copystatus EQ "">
 			<cftry>
-				<cfset xmp.copystatus = trim(#thexml[1]["Photoshop:CopyrightFlag"].xmltext#)>
+				<!---<cfset xmp.copystatus = trim(#thexml[1]["Photoshop:CopyrightFlag"].xmltext#)>--->
+				<cfset xmp.copystatus = trim(#prodXmlToStruct.Description.CopyrightFlag#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- TransmissionReference --->
 		<cftry>
-			<cfset xmp.iptcjobidentifier = trim(#thexml[1]["XMP-photoshop:TransmissionReference"].xmltext#)>
+			<!---<cfset xmp.iptcjobidentifier = trim(#thexml[1]["XMP-photoshop:TransmissionReference"].xmltext#)>--->
+			<cfset xmp.iptcjobidentifier = trim(#prodXmlToStruct.Description.TransmissionReference#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.iptcjobidentifier EQ "">
 			<cftry>
-				<cfset xmp.iptcjobidentifier = trim(#thexml[1]["IPTC:OriginalTransmissionReference"].xmltext#)>
+				<!---<cfset xmp.iptcjobidentifier = trim(#thexml[1]["IPTC:OriginalTransmissionReference"].xmltext#)>--->
+				<cfset xmp.iptcjobidentifier = trim(#prodXmlToStruct.Description.OriginalTransmissionReference#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- WebStatement --->
 		<cftry>
-			<cfset xmp.copyurl = trim(#thexml[1]["XMP-xmpRights:WebStatement"].xmltext#)>
+			<!---<cfset xmp.copyurl = trim(#thexml[1]["XMP-xmpRights:WebStatement"].xmltext#)>--->
+			<cfset xmp.copyurl = trim(#prodXmlToStruct.Description.WebStatement#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.copyurl EQ "">
 			<cftry>
-				<cfset xmp.copyurl = trim(#thexml[1]["Photoshop:URL"].xmltext#)>
+				<!---<cfset xmp.copyurl = trim(#thexml[1]["Photoshop:URL"].xmltext#)>--->
+				<cfset xmp.copyurl = trim(#prodXmlToStruct.Description.URL#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- headline --->
 		<cftry>
-			<cfset xmp.iptcheadline = trim(#thexml[1]["XMP-photoshop:Headline"].xmltext#)>
+			<!---<cfset xmp.iptcheadline = trim(#thexml[1]["XMP-photoshop:Headline"].xmltext#)>--->
+			<cfset xmp.iptcheadline = trim(#prodXmlToStruct.Description.Headline#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.iptcheadline EQ "">
 			<cftry>
-				<cfset xmp.iptcheadline = trim(#thexml[1]["IPTC:Headline"].xmltext#)>
+				<!---<cfset xmp.iptcheadline = trim(#thexml[1]["IPTC:Headline"].xmltext#)>--->
+				<cfset xmp.iptcheadline = trim(#prodXmlToStruct.Description.Headline#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- datecreated --->
 		<cftry>
-			<cfset xmp.iptcdatecreated = trim(#thexml[1]["XMP-photoshop:DateCreated"].xmltext#)>
+			<!---<cfset xmp.iptcdatecreated = trim(#thexml[1]["XMP-photoshop:DateCreated"].xmltext#)>--->
+			<cfset xmp.iptcdatecreated = trim(#prodXmlToStruct.Description.DateCreated#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.iptcdatecreated EQ "">
 			<cftry>
-				<cfset xmp.iptcdatecreated = trim(#thexml[1]["IPTC:DateCreated"].xmltext#)>
+				<!---<cfset xmp.iptcdatecreated = trim(#thexml[1]["IPTC:DateCreated"].xmltext#)>--->
+				<cfset xmp.iptcdatecreated = trim(#prodXmlToStruct.Description.DateCreated#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- city --->
 		<cftry>
-			<cfset xmp.iptcimagecity = trim(#thexml[1]["XMP-photoshop:City"].xmltext#)>
+			<!---<cfset xmp.iptcimagecity = trim(#thexml[1]["XMP-photoshop:City"].xmltext#)>--->
+			<cfset xmp.iptcimagecity = trim(#prodXmlToStruct.Description.City#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.iptcimagecity EQ "">
 			<cftry>
-				<cfset xmp.iptcimagecity = trim(#thexml[1]["IPTC:City"].xmltext#)>
+				<!---<cfset xmp.iptcimagecity = trim(#thexml[1]["IPTC:City"].xmltext#)>--->
+				<cfset xmp.iptcimagecity = trim(#prodXmlToStruct.Description.City#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- state --->
 		<cftry>
-			<cfset xmp.iptcimagestate = trim(#thexml[1]["XMP-photoshop:State"].xmltext#)>
+			<!---<cfset xmp.iptcimagestate = trim(#thexml[1]["XMP-photoshop:State"].xmltext#)>--->
+			<cfset xmp.iptcimagestate = trim(#prodXmlToStruct.Description.State#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.iptcimagestate EQ "">
 			<cftry>
-				<cfset xmp.iptcimagestate = trim(#thexml[1]["IPTC:Province-State"].xmltext#)>
+				<!---<cfset xmp.iptcimagestate = trim(#thexml[1]["IPTC:Province-State"].xmltext#)>--->
+				<cfset xmp.iptcimagestate = trim(#prodXmlToStruct.Description.Evaluate(Province-State)#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- country --->
 		<cftry>
-			<cfset xmp.iptcimagecountry = trim(#thexml[1]["XMP-photoshop:Country"].xmltext#)>
+			<!---<cfset xmp.iptcimagecountry = trim(#thexml[1]["XMP-photoshop:Country"].xmltext#)>--->
+			<cfset xmp.iptcimagecountry = trim(#prodXmlToStruct.Description.Country#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<cfif xmp.iptcimagecountry EQ "">
 			<cftry>
-				<cfset xmp.iptcimagecountry = trim(#thexml[1]["IPTC:Country-PrimaryLocationName"].xmltext#)>
+				<!---<cfset xmp.iptcimagecountry = trim(#thexml[1]["IPTC:Country-PrimaryLocationName"].xmltext#)>--->
+				<cfset xmp.iptcimagecountry = trim(#prodXmlToStruct.Description.Evaluate(Country-PrimaryLocationName)#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		</cfif>
 		<!--- countrycode --->
 		<cftry>
-			<cfset xmp.iptcimagecountrycode = trim(#thexml[1]["XMP-iptcCore:CountryCode"].xmltext#)>
+			<!---<cfset xmp.iptcimagecountrycode = trim(#thexml[1]["XMP-iptcCore:CountryCode"].xmltext#)>--->
+			<cfset xmp.iptcimagecountrycode = trim(#prodXmlToStruct.Description.CountryCode#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		
 		<!--- Get fileType --->
 		<cftry>
-			<cfset xmp.filetype = trim(#thexml[1]["File:FileType"].xmltext#)>
+			<!---<cfset xmp.filetype = trim(#thexml[1]["File:FileType"].xmltext#)>--->
+			<cfset xmp.filetype = trim(#prodXmlToStruct.Description.FileType#)>
 			<cfcatch type="any"></cfcatch>
 		</cftry>
 		<!--- Get information according to filetype --->
 		<cfif xmp.filetype EQ "psd">
 			<cftry>
-				<cfset xmp.orgwidth = trim(#thexml[1]["Photoshop:ImageWidth"].xmltext#)>
+				<!---<cfset xmp.orgwidth = trim(#thexml[1]["Photoshop:ImageWidth"].xmltext#)>--->
+				<cfset xmp.orgwidth = trim(#prodXmlToStruct.Description.ImageWidth#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cftry>
-				<cfset xmp.orgheight = trim(#thexml[1]["Photoshop:ImageHeight"].xmltext#)>
+				<!---<cfset xmp.orgheight = trim(#thexml[1]["Photoshop:ImageHeight"].xmltext#)>--->
+				<cfset xmp.orgheight = trim(#prodXmlToStruct.Description.ImageHeight#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cftry>
-				<cfset xmp.colorspace = trim(#thexml[1]["Photoshop:ColorMode"].xmltext#)>
+				<!---<cfset xmp.colorspace = trim(#thexml[1]["Photoshop:ColorMode"].xmltext#)>--->
+				<cfset xmp.colorspace = trim(#prodXmlToStruct.Description.ColorMode#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cftry>
-				<cfset xmp.xres = trim(#thexml[1]["Photoshop:XResolution"].xmltext#)>
+				<!---<cfset xmp.xres = trim(#thexml[1]["Photoshop:XResolution"].xmltext#)>--->
+				<cfset xmp.xres = trim(#prodXmlToStruct.Description.XResolution#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cftry>
-				<cfset xmp.yres = trim(#thexml[1]["Photoshop:YResolution"].xmltext#)>
+				<!---<cfset xmp.yres = trim(#thexml[1]["Photoshop:YResolution"].xmltext#)>--->
+				<cfset xmp.yres = trim(#prodXmlToStruct.Description.YResolution#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cftry>
-				<cfset xmp.resunit = trim(#thexml[1]["Photoshop:DisplayedUnitsX"].xmltext#)>
+				<!---<cfset xmp.resunit = trim(#thexml[1]["Photoshop:DisplayedUnitsX"].xmltext#)>--->
+				<cfset xmp.resunit = trim(#prodXmlToStruct.Description.DisplayedUnitsX#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		<cfelseif xmp.filetype EQ "png">
 			<cftry>
-				<cfset xmp.orgwidth = trim(#thexml[1]["PNG:ImageWidth"].xmltext#)>
+				<!---<cfset xmp.orgwidth = trim(#thexml[1]["PNG:ImageWidth"].xmltext#)>--->
+				<cfset xmp.orgwidth = trim(#prodXmlToStruct.Description.ImageWidth#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cftry>
-				<cfset xmp.orgheight = trim(#thexml[1]["PNG:ImageHeight"].xmltext#)>
+				<!---<cfset xmp.orgheight = trim(#thexml[1]["PNG:ImageHeight"].xmltext#)>--->
+				<cfset xmp.orgheight = trim(#prodXmlToStruct.Description.ImageHeight#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cftry>
-				<cfset xmp.colorspace = trim(#thexml[1]["PNG:ColorType"].xmltext#)>
+				<!---<cfset xmp.colorspace = trim(#thexml[1]["PNG:ColorType"].xmltext#)>--->
+				<cfset xmp.colorspace = trim(#prodXmlToStruct.Description.ColorType#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cftry>
-				<cfset xmp.xres = trim(#thexml[1]["PNG:PixelsPerUnitX"].xmltext#)>
+				<!---<cfset xmp.xres = trim(#thexml[1]["PNG:PixelsPerUnitX"].xmltext#)>--->
+				<cfset xmp.xres = trim(#prodXmlToStruct.Description.PixelsPerUnitX#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cftry>
-				<cfset xmp.yres = trim(#thexml[1]["PNG:PixelsPerUnitY"].xmltext#)>
+				<!---<cfset xmp.yres = trim(#thexml[1]["PNG:PixelsPerUnitY"].xmltext#)>--->
+				<cfset xmp.yres = trim(#prodXmlToStruct.Description.PixelsPerUnitY#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cftry>
-				<cfset xmp.resunit = trim(#thexml[1]["PNG:PixelUnits"].xmltext#)>
+				<!---<cfset xmp.resunit = trim(#thexml[1]["PNG:PixelUnits"].xmltext#)>--->
+				<cfset xmp.resunit = trim(#prodXmlToStruct.Description.PixelUnits#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 		<cfelse>
 			<!--- Width --->
 			<cftry>
-				<cfset xmp.orgwidth = trim(#thexml[1]["File:ImageWidth"].xmltext#)>
+				<!---<cfset xmp.orgwidth = trim(#thexml[1]["File:ImageWidth"].xmltext#)>--->
+				<cfset xmp.orgwidth = trim(#prodXmlToStruct.Description.ImageWidth#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cfif xmp.orgwidth EQ "">
 				<cftry>
-					<cfset xmp.orgwidth = trim(#thexml[1]["IFD0:ImageWidth"].xmltext#)>
+					<!---<cfset xmp.orgwidth = trim(#thexml[1]["IFD0:ImageWidth"].xmltext#)>--->
+					<cfset xmp.orgwidth = trim(#prodXmlToStruct.Description.ImageWidth#)>
 					<cfcatch type="any"></cfcatch>
 				</cftry>
 			</cfif>
 			<cfif xmp.orgwidth EQ "">
 				<cftry>
-					<cfset xmp.orgwidth = trim(#thexml[1]["ExifIFD:ExifImageWidth"].xmltext#)>
+					<!---<cfset xmp.orgwidth = trim(#thexml[1]["ExifIFD:ExifImageWidth"].xmltext#)>--->
+					<cfset xmp.orgwidth = trim(#prodXmlToStruct.Description.ExifImageWidth#)>
 					<cfcatch type="any"></cfcatch>
 				</cftry>
 			</cfif>
 			<cfif xmp.orgwidth EQ "">
 				<cftry>
-					<cfset xmp.orgwidth = trim(#thexml[1]["SubIFD1:ImageWidth"].xmltext#)>
+					<!---<cfset xmp.orgwidth = trim(#thexml[1]["SubIFD1:ImageWidth"].xmltext#)>--->
+					<cfset xmp.orgwidth = trim(#prodXmlToStruct.Description.ImageWidth#)>
 					<cfcatch type="any"></cfcatch>
 				</cftry>
 			</cfif>
 			<!--- Height --->
 			<cftry>
-				<cfset xmp.orgheight = trim(#thexml[1]["File:ImageHeight"].xmltext#)>
+				<!---<cfset xmp.orgheight = trim(#thexml[1]["File:ImageHeight"].xmltext#)>--->
+				<cfset xmp.orgheight = trim(#prodXmlToStruct.Description.ImageHeight#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cfif xmp.orgheight EQ "">
 				<cftry>
-					<cfset xmp.orgheight = trim(#thexml[1]["IFD0:ImageHeight"].xmltext#)>
+					<!---<cfset xmp.orgheight = trim(#thexml[1]["IFD0:ImageHeight"].xmltext#)>--->
+					<cfset xmp.orgheight = trim(#prodXmlToStruct.Description.ImageHeight#)>
 					<cfcatch type="any"></cfcatch>
 				</cftry>
 			</cfif>
 			<cfif xmp.orgheight EQ "">
 				<cftry>
-					<cfset xmp.orgheight = trim(#thexml[1]["ExifIFD:ExifImageHeight"].xmltext#)>
+					<!---<cfset xmp.orgheight = trim(#thexml[1]["ExifIFD:ExifImageHeight"].xmltext#)>--->
+					<cfset xmp.orgheight = trim(#prodXmlToStruct.Description.ExifImageHeight#)>
 					<cfcatch type="any"></cfcatch>
 				</cftry>
 			</cfif>
 			<cfif xmp.orgheight EQ "">
 				<cftry>
-					<cfset xmp.orgheight = trim(#thexml[1]["SubIFD1:ImageHeight"].xmltext#)>
+					<!---<cfset xmp.orgheight = trim(#thexml[1]["SubIFD1:ImageHeight"].xmltext#)>--->
+						<cfset xmp.orgheight = trim(#prodXmlToStruct.Description.ImageHeight#)>
 					<cfcatch type="any"></cfcatch>
 				</cftry>
 			</cfif>
 			<!--- ColorSpace --->
 			<cftry>
-				<cfset xmp.colorspace = trim(#thexml[1]["ICC-header:ColorSpaceData"].xmltext#)>
+				<!---<cfset xmp.colorspace = trim(#thexml[1]["ICC-header:ColorSpaceData"].xmltext#)>--->
+				<cfset xmp.colorspace = trim(#prodXmlToStruct.Description.ColorSpaceData#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cfif xmp.colorspace EQ "">
 				<cftry>
-					<cfset xmp.colorspace = trim(#thexml[1]["ExifIFD:ColorSpace"].xmltext#)>
+					<!---<cfset xmp.colorspace = trim(#thexml[1]["ExifIFD:ColorSpace"].xmltext#)>--->
+					<cfset xmp.colorspace = trim(#prodXmlToStruct.Description.ColorSpaceData#)>
 					<cfcatch type="any"></cfcatch>
 				</cftry>
 			</cfif>
 			<!--- Xresolution --->
 			<cftry>
-				<cfset xmp.xres = trim(#thexml[1]["IFD0:XResolution"].xmltext#)>
+				<!---<cfset xmp.xres = trim(#thexml[1]["IFD0:XResolution"].xmltext#)>--->
+				<cfset xmp.xres = trim(#prodXmlToStruct.Description.XResolution#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cfif xmp.xres EQ "">
 				<cftry>
-					<cfset xmp.xres = trim(#thexml[1]["JFIF:XResolution"].xmltext#)>
+					<!---<cfset xmp.xres = trim(#thexml[1]["JFIF:XResolution"].xmltext#)>--->
+					<cfset xmp.xres = trim(#prodXmlToStruct.Description.XResolution#)>
 					<cfcatch type="any"></cfcatch>
 				</cftry>
 			</cfif>
 			<!--- Yresolution --->
 			<cftry>
-				<cfset xmp.yres = trim(#thexml[1]["IFD0:YResolution"].xmltext#)>
+				<!---<cfset xmp.yres = trim(#thexml[1]["IFD0:YResolution"].xmltext#)>--->
+				<cfset xmp.yres = trim(#prodXmlToStruct.Description.YResolution#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cfif xmp.yres EQ "">
 				<cftry>
-					<cfset xmp.yres = trim(#thexml[1]["JFIF:YResolution"].xmltext#)>
+					<!---<cfset xmp.yres = trim(#thexml[1]["JFIF:YResolution"].xmltext#)>--->
+					<cfset xmp.yres = trim(#prodXmlToStruct.Description.YResolution#)>
 					<cfcatch type="any"></cfcatch>
 				</cftry>
 			</cfif>
 			<!--- Resolution Unit --->
 			<cftry>
-				<cfset xmp.resunit = trim(#thexml[1]["IFD0:ResolutionUnit"].xmltext#)>
+				<!---<cfset xmp.resunit = trim(#thexml[1]["IFD0:ResolutionUnit"].xmltext#)>--->
+				<cfset xmp.resunit = trim(#prodXmlToStruct.Description.ResolutionUnit#)>
 				<cfcatch type="any"></cfcatch>
 			</cftry>
 			<cfif xmp.resunit EQ "">
 				<cftry>
-					<cfset xmp.resunit = trim(#thexml[1]["JFIF:ResolutionUnit"].xmltext#)>
+					<!---<cfset xmp.resunit = trim(#thexml[1]["JFIF:ResolutionUnit"].xmltext#)>--->
+					<cfset xmp.resunit = trim(#prodXmlToStruct.Description.ResolutionUnit#)>
 					<cfcatch type="any"></cfcatch>
 				</cftry>
 			</cfif>
