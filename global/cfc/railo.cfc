@@ -372,10 +372,11 @@
 	</cffunction>
 	
 	 <!--- Create spreadsheet --->
-	<cffunction name="create_Spreadsheet" access="public" output="false" hint="set Spreadsheet column width in coldfusion">
+	<cffunction name="create_Spreadsheet" access="public" output="false" hint="Create spreadsheet in ACF">
 		<cfargument name="thepath" type="string" required="true">
 		<cfargument name="theqry" type="query" required="true">
 		<cfargument name="theformat" type="string" required="true">
+		<cfargument name="thename" type="string" required="true">
 		<!--- Create Spreadsheet --->
 		<cfif arguments.theformat EQ "xls">
 			<cfset var sxls = spreadsheetnew()>
@@ -383,13 +384,10 @@
 			<cfset var sxls = spreadsheetnew(true)>
 		</cfif>
 		<!--- Create header row --->
-		<cfset var therows = "login_name,first_name,last_name,email,active,groupid,password">
-		<cfset SpreadsheetAddrow(sxls, therows,1)>
-		<cfset SpreadsheetFormatRow(sxls, {bold=TRUE, alignment="left"}, 1)>
+		<cfset SpreadsheetAddrow(sxls, arguments.theqry.columnList,1)>
+		<cfset SpreadsheetFormatRow(sxls, {bold=TRUE, alignment="left"},1)>
 		<!--- Add orders from query --->
-		<cfloop query="arguments.theqry">
-			<cfset SpreadsheetAddRow(sxls,"#login_name#,#first_name#,#last_name#,#email#,#active#,#groupid#,#password#",2)>
-		</cfloop>
+		<cfset SpreadsheetAddRows(sxls,arguments.theqry,2)>
 		<!---<cfset SpreadsheetFormatrow(sxls, {textwrap=false, alignment="vertical_top"}, 2)>
 		<cfset SpreadsheetSetcolumnwidth(sxls, 1, 225)>
 		<cfset SpreadsheetSetcolumnwidth(sxls, 2, 225)>
@@ -398,7 +396,7 @@
 		<cfset SpreadsheetSetcolumnwidth(sxls, 5, 225)>
 		<cfset SpreadsheetSetcolumnwidth(sxls, 6, 225)>--->
 		<!--- Write file to file system --->
-		<cfset SpreadsheetWrite(sxls,"#arguments.thepath#/outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.#arguments.theformat#",true)>
+		<cfset SpreadsheetWrite(sxls,"#arguments.thepath#/outgoing/#arguments.thename#-#session.hostid#-#session.theuserid#.#arguments.theformat#",true)>
 		<cfreturn true>
 	</cffunction>
 	
@@ -429,18 +427,34 @@
 	<cffunction name="create_csv" access="public" output="false" hint="create csv in ACF">
 		<cfargument name="thepath" type="string" required="true">
 		<cfargument name="theqry" type="query" required="true">
-		<!--- Create header row --->
-		<cfset var therows = "login_name,first_name,last_name,email,active,groupid,password">
-		<cfset var crlf = Chr(10) & Chr(13)>
-		<!--- Create CSV --->
-		<cffile action="write" file="#arguments.thepath#/outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.csv" output="#therows#" addnewline="true">
-		<cfsavecontent variable="csv" >
-			<cfoutput query="arguments.theqry">
-				#login_name#,#first_name#,#last_name#,#email#,#active#,#groupid#,#password#
-			</cfoutput> 
-		</cfsavecontent>  	
+		<cfargument name="thename" type="string" required="true">
+		<cfscript>
+			var csv = "";
+		    var cols = "";
+		    var headers = "";
+		    var i = 1;
+		    var j = 1;
+		    //create columns
+		     cols = arguments.theqry.columnList;
+		     //create header
+    		 headers = cols;
+    		 headers = listToArray(headers);
+    		 for(i=1; i lte arrayLen(headers); i=i+1){
+        			csv = csv & headers[i] & ",";
+    			}
+    		//create new line
+    		csv = csv & chr(13) & chr(10);
+    		//set column values
+    		cols = listToArray(cols);
+    		 for(i=1; i lte arguments.theqry.recordCount; i=i+1){
+        			for(j=1; j lte arrayLen(cols); j=j+1){
+            			csv = csv & arguments.theqry[cols[j]][i] & ",";
+        			}        
+        			csv = csv & chr(13) & chr(10);
+    			}
+		</cfscript>
 		<!--- Write file to file system --->
-		<cffile action="append" file="#arguments.thepath#/outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.csv" output="#csv#" charset="utf-8" nameConflict="MakeUnique" addnewline="true">
+		<cffile action="write" file="#arguments.thepath#/outgoing/#arguments.thename#-#session.hostid#-#session.theuserid#.csv" output="#csv#" addnewline="true">
 		<cfreturn true>
 	</cffunction>
 		

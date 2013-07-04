@@ -604,10 +604,11 @@
 	</cffunction>
 	
 	<!--- createspreadsheet --->
-	<cffunction name="create_Spreadsheet" access="public" output="false" hint="set Spreadsheet column width in coldfusion">
+	<cffunction name="create_Spreadsheet" access="public" output="false" hint="Create spreadsheet in openBD">
 		<cfargument name="thepath" type="string" required="true">
 		<cfargument name="theqry" type="query" required="true">
 		<cfargument name="theformat" type="string" required="true">
+		<cfargument name="thename" type="string" required="true">
 		<!--- Create Spreadsheet --->
 		<cfif arguments.theformat EQ "xls">
 			<cfset var sxls = spreadsheetnew()>
@@ -615,21 +616,20 @@
 			<cfset var sxls = spreadsheetnew(true)>
 		</cfif>
 		<!--- Create header row --->
-		<cfset var therows = "login_name,first_name,last_name,email,active,groupid,password">
-		<cfset SpreadsheetAddrow(sxls, therows, 1)>
+		<cfset SpreadsheetAddrow(sxls, arguments.theqry.columnList, 1)>
 		<cfset SpreadsheetFormatRow(sxls, {bold=TRUE, alignment="left"}, 1)>
 		<cfset SpreadsheetColumnfittosize(sxls, "1-#len(therows)#")>
-		<cfset SpreadsheetSetcolumnwidth(sxls, 1, 5000)>
+		<!---<cfset SpreadsheetSetcolumnwidth(sxls, 1, 5000)>
 		<cfset SpreadsheetSetcolumnwidth(sxls, 2, 5000)>
 		<cfset SpreadsheetSetcolumnwidth(sxls, 3, 5000)>
 		<cfset SpreadsheetSetcolumnwidth(sxls, 4, 10000)>
 		<cfset SpreadsheetSetcolumnwidth(sxls, 5, 3000)>
-		<cfset SpreadsheetSetcolumnwidth(sxls, 6, 10000)>
+		<cfset SpreadsheetSetcolumnwidth(sxls, 6, 10000)>--->
 		<!--- Add orders from query --->
 		<cfset SpreadsheetAddRows(sxls, arguments.theqry, 2)> 
 		<cfset SpreadsheetFormatrow(sxls, {textwrap=false, alignment="vertical_top"}, 2)>
 		<!--- Write file to file system --->
-		<cfset SpreadsheetWrite(sxls,"#arguments.thepath#/outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.#arguments.theformat#",true)>
+		<cfset SpreadsheetWrite(sxls,"#arguments.thepath#/outgoing/#arguments.thename#-#session.hostid#-#session.theuserid#.#arguments.theformat#",true)>
 		<cfreturn true>
 	</cffunction>
 	
@@ -647,10 +647,11 @@
 	<cffunction name="create_csv" access="public" output="false" hint="create csv in openBD">
 		<cfargument name="thepath" type="string" required="true">
 		<cfargument name="theqry" type="query" required="true">
+		<cfargument name="thename" type="string" required="true">
 		<!--- Create CSV --->
 		<cfset var csv = csvwrite(arguments.theqry)>
 		<!--- Write file to file system --->
-		<cffile action="write" file="#arguments.thepath#/outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.csv" output="#csv#" charset="utf-8" nameConflict="MakeUnique">
+		<cffile action="write" file="#arguments.thepath#/outgoing/#arguments.thename#-#session.hostid#-#session.theuserid#.csv" output="#csv#" charset="utf-8" nameConflict="MakeUnique">
 		<cfreturn true>
 	</cffunction>
 	

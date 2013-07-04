@@ -603,9 +603,11 @@
 <cffunction name="export_csv" output="false">
 	<cfargument name="thepath" type="string">
 	<cfargument name="theqry" type="query">
+	<!--- Create CSV --->
 	<cfinvoke component="cfmlengine" method="create_csv">
 		<cfinvokeargument name="thepath" value="#arguments.thepath#">
 		<cfinvokeargument name="theqry" value="#arguments.theqry#">
+		<cfinvokeargument name="thename" value="razuna-users-export">
 	</cfinvoke>
 	<!--- Call function to remove older files --->
 	<cfinvoke method="remove_files" thepath="#arguments.thepath#" />
@@ -618,11 +620,13 @@
 	<cfargument name="thepath" type="string">
 	<cfargument name="theqry" type="query">
 	<cfargument name="theformat" type="string">
+	<!--- Creatre spreadsheet --->
 	<cfinvoke component="cfmlengine" method="create_Spreadsheet">
 		<cfinvokeargument name="thepath" value="#arguments.thepath#">
 		<cfinvokeargument name="theqry" value="#arguments.theqry#">
-		<cfinvokeargument name="theformat" value="#arguments.theformat#" >
-	</cfinvoke>	
+		<cfinvokeargument name="theformat" value="#arguments.theformat#">
+		<cfinvokeargument name="thename" value="razuna-users-export">
+	</cfinvoke>		
 	<!--- Feedback --->
 	<cfoutput><p><a href="outgoing/razuna-users-export-#session.hostid#-#session.theuserid#.#arguments.theformat#"><strong style="color:green;">Here is your downloadable file</strong></a></p></cfoutput>
 	<cfflush>

@@ -1818,7 +1818,9 @@
 	<!--- CVS --->
 	<cfif arguments.thestruct.format EQ "csv">
 		<cfinvoke method="export_csv" thestruct="#arguments.thestruct#" />
-	<!--- XLS --->
+		<!--- Feedback --->
+		<cfoutput><p><a href="outgoing/razuna-metadata-export-#session.hostid#-#session.theuserid#.csv"><strong style="color:green;">Here is your downloadable file</strong></a></p></cfoutput>
+		<!--- XLS --->
 	<cfelse>
 		<!--- Add custom fields to meta fields --->
 		<cfinvoke method="export_xls" thestruct="#arguments.thestruct#" />
@@ -1939,14 +1941,14 @@
 <cffunction name="export_csv" output="false">
 	<cfargument name="thestruct" type="struct">
 	<!--- Create CSV --->
-	<cfset var csv = csvwrite(arguments.thestruct.tq)>
-	<!--- Write file to file system --->
-	<cffile action="write" file="#arguments.thestruct.thepath#/outgoing/razuna-metadata-export-#session.hostid#-#session.theuserid#.csv" output="#csv#" charset="utf-8" nameConflict="MakeUnique">
+	<cfinvoke component="cfmlengine" method="create_csv">
+		<cfinvokeargument name="thepath" value="#arguments.thestruct.thepath#">
+		<cfinvokeargument name="theqry" value="#arguments.thestruct.tq#">
+		<cfinvokeargument name="thename" value="razuna-metadata-export">
+	</cfinvoke>
 	<!--- Serve the file --->
 	<!--- <cfcontent type="application/force-download" variable="#csv#"> --->
-	<!--- Feedback --->
-	<cfoutput><p><a href="outgoing/razuna-metadata-export-#session.hostid#-#session.theuserid#.csv"><strong style="color:green;">Here is your downloadable file</strong></a></p></cfoutput>
-	<cfflush>
+	<!---<cfflush>--->
 	<!--- Call function to remove older files --->
 	<cfinvoke method="remove_files" thestruct="#arguments.thestruct#" />
 	<!--- Return --->
@@ -1957,21 +1959,12 @@
 <cffunction name="export_xls" output="true">
 	<cfargument name="thestruct" type="struct">
 	<!--- Create Spreadsheet --->
-	<cfif arguments.thestruct.format EQ "xls">
-		<cfset var sxls = spreadsheetnew()>
-	<cfelseif arguments.thestruct.format EQ "xlsx">
-		<cfset var sxls = spreadsheetnew(true)>
-	</cfif>
-	<!--- Create header row --->
-	<cfset SpreadsheetAddrow(sxls, arguments.thestruct.meta_fields, 1)>
-	<cfset SpreadsheetFormatRow(sxls, {bold=TRUE, alignment="left"}, 1)>
-	<cfset SpreadsheetColumnfittosize(sxls, "1-#len(arguments.thestruct.meta_fields)#")>
-	<cfset SpreadsheetSetcolumnwidth(sxls, 1, 10000)>
-	<!--- Add orders from query --->
-	<cfset SpreadsheetAddRows(sxls, arguments.thestruct.tq, 2)> 
-	<cfset SpreadsheetFormatrow(sxls, {textwrap=false, alignment="vertical_top"}, 2)>
-	<!--- Write file to file system --->
-	<cfset SpreadsheetWrite(sxls,"#arguments.thestruct.thepath#/outgoing/razuna-metadata-export-#session.hostid#-#session.theuserid#.#arguments.thestruct.format#",true)>
+	<cfinvoke component="cfmlengine" method="create_Spreadsheet">
+		<cfinvokeargument name="thepath" value="#arguments.thestruct.thepath#">
+		<cfinvokeargument name="theqry" value="#arguments.thestruct.tq#">
+		<cfinvokeargument name="theformat" value="#arguments.thestruct.format#">
+		<cfinvokeargument name="thename" value="razuna-metadata-export">
+	</cfinvoke>
 	<!--- Serve the file --->
     <!--- <cfcontent type="application/force-download" variable="#SpreadsheetReadbinary(sxls)#"> --->
 	<!--- Feedback --->
