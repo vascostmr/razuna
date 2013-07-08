@@ -458,4 +458,36 @@
 		<cfreturn true>
 	</cffunction>
 		
+	<cffunction name="printPdf" access="public" output="false" >
+		<cfargument name="name" type="string" required="true" />
+		<cfargument name="value" type="string" required="true" />
+		<cfheader name="#arguments.name#" value="#arguments.value#" />
+		<!--- Return --->
+		<cfreturn true/>
+	</cffunction>
+	
+	<cffunction name="printPdfHeader" access="public" output="false" >
+		<cfargument name="header" type="string" required="true" />
+		<cfdocumentitem type="header" >
+			<div align="center">
+				<cfoutput>Razuna http://razuna.com #arguments.header#</cfoutput>
+			</div>
+		</cfdocumentitem>
+		<!--- Return --->
+		<cfreturn true/>
+	</cffunction>
+	
+	<cffunction name="printPdfFooter" access="public" output="false" >
+		<cfargument name="footer" type="string" required="true" />
+		<cfargument name="currentpage" type="any" required="true" />
+		<cfargument name="totalpages" type="any" required="true" />
+		<cfdocumentitem type="footer" >
+			<div align="center">
+				<cfoutput>Page #arguments.currentpage# of #arguments.totalpages# #arguments.footer#</cfoutput>
+			</div>
+		</cfdocumentitem>
+		<!--- Return --->
+		<cfreturn true/>
+	</cffunction>
+	
 </cfcomponent>

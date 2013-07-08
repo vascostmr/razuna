@@ -22,7 +22,23 @@
 		<cfset thebreak = 5>
 	</cfcase>
 </cfswitch>
+<cfinvoke component="global.cfc.cfmlengine" method="printPdf" >
+	<cfinvokeargument name="name" value="content-disposition">
+	<cfinvokeargument name="value" value="filename=#pdfname#">
+</cfinvoke>
 <cfdocument format="pdf" pagetype="#attributes.pagetype#" saveasname="#pdfname#" overwrite="true">
+
+<cfinvoke component="global.cfc.cfmlengine" method="printPdfHeader" >
+	<cfinvokeargument name="header" value="#attributes.header#">
+</cfinvoke>
+
+<cfif isDefined("cfdocument")>
+	<cfinvoke component="global.cfc.cfmlengine" method="printPdfFooter" >
+		<cfinvokeargument name="footer" value="#attributes.footer#">
+		<cfinvokeargument name="currentpage" value="#cfdocument.currentpagenumber#">
+		<cfinvokeargument name="totalpages" value="#cfdocument.totalpagecount#">
+	</cfinvoke>
+</cfif>
 <cfoutput>
 <style>
 @page{

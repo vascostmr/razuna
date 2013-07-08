@@ -471,4 +471,18 @@
 		<cfreturn true>
 	</cffunction>	
 
+	<cffunction name="printPdf" access="public" output="false" >
+		<!--- Return --->
+		<cfreturn true/>
+	</cffunction>
+	
+	<cffunction name="printPdfHeader" access="public" output="false" >
+		<!--- Return --->
+		<cfreturn true/>
+	</cffunction>
+	
+	<cffunction name="printPdfFooter" access="public" output="false" >
+		<!--- Return --->
+		<cfreturn true/>
+	</cffunction>
 </cfcomponent>

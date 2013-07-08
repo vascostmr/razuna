@@ -31,5 +31,6 @@
 	<cfcontent type="application/vnd.ms-excel" deleteFile="yes" file="#GetTempDirectory()#/#theview#" />
 <cfelseif attributes.thisview EQ "doc">
 	<cfheader name="content-disposition" value="filename=Razuna.doc" />
-	<cfcontent type="application/vnd.ms-word" variable="#theview#" />
+	<cfcontent type="application/vnd.ms-word" />
+	<cfoutput>#theview#</cfoutput>
 </cfif>
