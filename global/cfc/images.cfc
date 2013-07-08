@@ -1193,7 +1193,7 @@
 		<cfelse>
 			<cfset var thedpitags = " -Photoshop:XResolution=#thedpi# -Photoshop:YResolution=#thedpi# -IFD0:XResolution=#thedpi# -JFIF:XResolution=#thedpi# -IFD0:YResolution=#thedpi# -JFIF:YResolution=#thedpi#">
 		</cfif>
-		<cfexecute name="#theexif#" arguments="-TagsFromFile #theoriginalasset# -all:all#thedpitags# #theformatconv#" timeout="60" />
+		<cfexecute name="#theexif#" arguments="#theoriginalasset# -all:all#thedpitags# #theformatconv#" timeout="60" />
 		<!--- Get size of original and thumnail --->
 		<cfinvoke component="global" method="getfilesize" filepath="#thisfolder#/#arguments.thestruct.thenamenoext#.#theformat#" returnvariable="orgsize">
 		<cfinvoke component="global" method="getfilesize" filepath="#thisfolder#/thumb_#arguments.thestruct.file_id#.#arguments.thestruct.qry_settings_image.set2_img_format#" returnvariable="thumbsize">
@@ -1202,7 +1202,10 @@
 		<cfexecute name="#theexif#" arguments="-S -s -ImageWidth #theformatconv#" timeout="60" variable="thewidth" />
 		<!--- MD5 Hash --->
 		<cfif FileExists("#thisfolder#/#arguments.thestruct.thenamenoext#.#theformat#")>
-			<cfset var md5hash = hashbinary("#thisfolder#/#arguments.thestruct.thenamenoext#.#theformat#")>
+			<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+				<cfinvokeargument name="path" value="#thisfolder#/#arguments.thestruct.thenamenoext#.#theformat#">
+			</cfinvoke>
+			<!---<cfset var md5hash = hashbinary("#thisfolder#/#arguments.thestruct.thenamenoext#.#theformat#")>--->
 		</cfif>
 		<!---Create record--->
 		<cfquery datasource="#application.razuna.datasource#">

@@ -919,8 +919,8 @@
 				</cfif>
 			</cfif>
 			<!--- Rename the file so that we can remove any spaces --->
-			<cfinvoke component="global.cfc.global" method="convertname" returnvariable="arguments.thestruct.thefilename" thename="#thefile.serverFile#">
-			<cfinvoke component="global.cfc.global" method="convertname" returnvariable="arguments.thestruct.thefilenamenoext" thename="#thefile.serverFileName#">
+			<cfinvoke component="global" method="convertname" returnvariable="arguments.thestruct.thefilename" thename="#thefile.serverFile#">
+			<cfinvoke component="global" method="convertname" returnvariable="arguments.thestruct.thefilenamenoext" thename="#thefile.serverFileName#">
 			<cffile action="rename" source="#arguments.thestruct.theincomingtemppath#/#thefile.serverFile#" destination="#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#">
 			<!--- MD5 Hash --->
 			<cfif FileExists("#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#")>
@@ -3139,9 +3139,9 @@ This is the main function called directly by a single upload else from addassets
 			<cfset arguments.thestruct.theshex = gettempdirectory() & "/#thescript#ex.sh">
 			<!--- On Windows a bat --->
 			<cfif isWindows()>
-				<cfset arguments.thestruct.thesh = gettempdirectory() & "/#thescript#.bat">
-				<cfset arguments.thestruct.thesht = gettempdirectory() & "/#thescript#t.bat">
-				<cfset arguments.thestruct.theshex = gettempdirectory() & "/#thescript#ex.bat">
+				<cfset arguments.thestruct.thesh = gettempdirectory() & "#thescript#.bat">
+				<cfset arguments.thestruct.thesht = gettempdirectory() & "#thescript#t.bat">
+				<cfset arguments.thestruct.theshex = gettempdirectory() & "#thescript#ex.bat">
 			</cfif>
 			<!--- Write files --->
 			<cffile action="write" file="#arguments.thestruct.thesh#" output="#arguments.thestruct.theexif# -S -s -ImageWidth #arguments.thestruct.theorg#" mode="777">

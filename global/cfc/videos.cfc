@@ -1516,7 +1516,10 @@
 				<cfinvoke component="global" method="getfilesize" filepath="#thisfolder#/#previewvideo#" returnvariable="orgsize">
 				<!--- MD5 Hash --->
 				<cfif FileExists("#thisfolder#/#previewvideo#")>
-					<cfset var md5hash = hashbinary("#thisfolder#/#previewvideo#")>
+					<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+						<cfinvokeargument name="path" value="#thisfolder#/#previewvideo#">
+					</cfinvoke>
+					<!---<cfset var md5hash = hashbinary("#thisfolder#/#previewvideo#")>--->
 				</cfif>
 				<!--- Storage: Local --->
 				<cfif application.razuna.storage EQ "local">
