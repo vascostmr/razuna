@@ -497,7 +497,10 @@
 			<cfset arguments.thestruct.thumbnailname_existing = "thumb_#arguments.thestruct.qryfile.file_id#.#arguments.thestruct.qrysettings.set2_img_format#">
 			<cfset arguments.thestruct.thumbnailname_new = arguments.thestruct.thumbnailname_existing>
 			<!--- MD5 Hash --->
-			<cfset md5hash = hashbinary(arguments.thestruct.thesource)>
+			<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+				<cfinvokeargument name="path" value="arguments.thestruct.thesource">
+			</cfinvoke>
+			<!---<cfset md5hash = hashbinary(arguments.thestruct.thesource)>--->
 		<!--- Videos --->
 		<cfelseif arguments.thestruct.type EQ "vid">
 			<cfquery datasource="#arguments.thestruct.dsn#" name="arguments.thestruct.qryfilelocal">
@@ -553,7 +556,10 @@
 			<cfset arguments.thestruct.thumbnailname_existing = replacenocase(arguments.thestruct.qryfilelocal.file_name_org,".#arguments.thestruct.qryfilelocal.orgext#",".jpg","all")>
 			<cfset arguments.thestruct.thumbnailname_new = arguments.thestruct.thisvid.theorgimage>
 			<!--- MD5 Hash --->
-			<cfset md5hash = hashbinary("#arguments.thestruct.thisvid.finalpath#/#arguments.thestruct.qryfile.filename#")>
+			<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+				<cfinvokeargument name="path" value="#arguments.thestruct.thisvid.finalpath#/#arguments.thestruct.qryfile.filename#">
+			</cfinvoke>
+			<!---<cfset md5hash = hashbinary("#arguments.thestruct.thisvid.finalpath#/#arguments.thestruct.qryfile.filename#")>--->
 		<!--- Audios --->
 		<cfelseif arguments.thestruct.type EQ "aud">
 			<cfquery datasource="#arguments.thestruct.dsn#" name="arguments.thestruct.qryfilelocal">
@@ -576,7 +582,10 @@
 			<cfset arguments.thestruct.thumbnailname_existing = replacenocase(arguments.thestruct.qryfilelocal.file_name_org,".#arguments.thestruct.qryfilelocal.orgext#",".wav","all")>
 			<cfset arguments.thestruct.thumbnailname_new = "#arguments.thestruct.qryfile.filenamenoext#.wav">
 			<!--- MD5 Hash --->
-			<cfset md5hash = hashbinary('#arguments.thestruct.qryfile.path#/#arguments.thestruct.qryfile.filename#')>
+			<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+				<cfinvokeargument name="path" value="#arguments.thestruct.qryfile.path#/#arguments.thestruct.qryfile.filename#">
+			</cfinvoke>
+			<!---<cfset md5hash = hashbinary('#arguments.thestruct.qryfile.path#/#arguments.thestruct.qryfile.filename#')>--->
 		<!--- Documents --->
 		<cfelse>
 			<cfquery datasource="#arguments.thestruct.dsn#" name="arguments.thestruct.qryfilelocal">
@@ -589,7 +598,10 @@
 			<cfset arguments.thestruct.thumbnailname_existing = replacenocase(arguments.thestruct.qryfilelocal.file_name_org,".pdf",".jpg","all")>
 			<cfset arguments.thestruct.thumbnailname_new = "#arguments.thestruct.qryfile.filenamenoext#.jpg">
 			<!--- MD5 Hash --->
-			<cfset md5hash = hashbinary('#arguments.thestruct.qryfile.path#')>
+			<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+				<cfinvokeargument name="path" value="#arguments.thestruct.qryfile.path#">
+			</cfinvoke>	
+			<!---<cfset md5hash = hashbinary('#arguments.thestruct.qryfile.path#')>--->
 			<!--- Remove the filename from the path --->
 			<cfset arguments.thestruct.qryfile.path = replacenocase(arguments.thestruct.qryfile.path,"/#arguments.thestruct.qryfile.filename#","","one")>
 		</cfif>

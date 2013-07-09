@@ -483,7 +483,10 @@
 				</cfif>
 				<!--- MD5 hash file again since it has changed now --->
 				<cfif FileExists(arguments.thestruct.thesource)>
-					<cfset var md5hash = hashbinary(arguments.thestruct.thesource)>
+					<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+						<cfinvokeargument name="path" value="arguments.thestruct.thesource">
+					</cfinvoke>
+					<!---<cfset var md5hash = hashbinary(arguments.thestruct.thesource)>--->
 				</cfif>
 				<!--- Lucene: Delete Records --->
 				<cfinvoke component="lucene" method="index_delete" thestruct="#arguments.thestruct#" assetid="#arguments.thestruct.file_id#" category="img">
@@ -527,7 +530,10 @@
 			<cfexecute name="#theexe#" arguments="-@ #thexmpfile# -overwrite_original #arguments.thestruct.thepath#/incoming/#arguments.thestruct.tempfolder#/#arguments.thestruct.filenameorg#" timeout="10" />
 			<!--- MD5 hash file again since it has changed now --->
 			<cfif FileExists(arguments.thestruct.thesource)>
-				<cfset var md5hash = hashbinary(arguments.thestruct.thesource)>
+				<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+					<cfinvokeargument name="path" value="arguments.thestruct.thesource">
+				</cfinvoke>
+				<!---<cfset var md5hash = hashbinary(arguments.thestruct.thesource)>--->
 			</cfif>
 			<!--- Upload file again to its original position --->
 			<cfset var uptt = replace(createuuid(),"-","","all")>
@@ -1573,7 +1579,10 @@
 			</cfif>
 			<!--- MD5 hash file again since it has changed now --->
 			<cfif FileExists(arguments.thestruct.thesource)>
-				<cfset var md5hash = hashbinary(arguments.thestruct.thesource)>
+				<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+					<cfinvokeargument name="path" value="arguments.thestruct.thesource">
+				</cfinvoke>
+				<!---<cfset var md5hash = hashbinary(arguments.thestruct.thesource)>--->
 			</cfif>
 			<!--- Lucene: Delete Records --->
 			<cfinvoke component="lucene" method="index_delete" thestruct="#arguments.thestruct#" assetid="#arguments.thestruct.file_id#" category="doc">
@@ -1636,7 +1645,10 @@
 		</cfif>
 		<!--- MD5 hash file again since it has changed now --->
 		<cfif FileExists(arguments.thestruct.thesource)>
-			<cfset var md5hash = hashbinary(arguments.thestruct.thesource)>
+			<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+				<cfinvokeargument name="path" value="arguments.thestruct.thesource">
+			</cfinvoke>
+			<!---<cfset var md5hash = hashbinary(arguments.thestruct.thesource)>--->
 		</cfif>
 		<!--- Lucene: Delete Records --->
 		<cfinvoke component="lucene" method="index_delete" thestruct="#arguments.thestruct#" assetid="#arguments.thestruct.file_id#" category="doc">

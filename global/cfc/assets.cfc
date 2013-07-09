@@ -62,7 +62,10 @@
 		<cffile action="rename" source="#attributes.intstruct.theincomingtemppath#/#attributes.intstruct.thefile.serverFile#" destination="#attributes.intstruct.theincomingtemppath#/#thefilename#">
 		<!--- MD5 Hash --->
 		<cfif FileExists("#attributes.intstruct.theincomingtemppath#/#thefilename#")>
-			<cfset md5hash = hashbinary("#attributes.intstruct.theincomingtemppath#/#thefilename#")>
+			<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+				<cfinvokeargument name="path" value="#attributes.intstruct.theincomingtemppath#/#thefilename#">
+			</cfinvoke>
+			<!---<cfset md5hash = hashbinary("#attributes.intstruct.theincomingtemppath#/#thefilename#")>--->
 		</cfif>
 		<!--- Check if we have to check for md5 records --->
 		<cfinvoke component="settings" method="getmd5check" returnvariable="checkformd5" />
@@ -179,7 +182,10 @@
 		<cfinvoke component="global" method="getfilesize" filepath="#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#" returnvariable="orgsize">
 		<!--- MD5 Hash --->
 		<cfif FileExists("#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#")>
-			<cfset var md5hash = hashbinary("#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#")>
+			<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+				<cfinvokeargument name="path" value="#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#">
+			</cfinvoke>
+			<!---<cfset var md5hash = hashbinary("#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#")>--->
 		</cfif>
 		<!--- Check if we have to check for md5 records --->
 		<cfinvoke component="settings" method="getmd5check" returnvariable="checkformd5" />
@@ -404,7 +410,10 @@
 				<cfset arguments.thestruct.theincomingtemppath = "#directory#/#arguments.thestruct.thepathtoname#">
 				<!--- MD5 Hash --->
 				<cfif FileExists("#directory#/#arguments.thestruct.thepathtoname#/#newfilename#")>
-					<cfset var md5hash = hashbinary("#directory#/#arguments.thestruct.thepathtoname#/#newfilename#")>
+					<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+						<cfinvokeargument name="path" value="#directory#/#arguments.thestruct.thepathtoname#/#newfilename#">
+					</cfinvoke>
+					<!---<cfset var md5hash = hashbinary("#directory#/#arguments.thestruct.thepathtoname#/#newfilename#")>--->
 				</cfif>
 				<!--- Check if we have to check for md5 records --->
 				<cfinvoke component="settings" method="getmd5check" returnvariable="checkformd5" />
@@ -570,7 +579,10 @@
 						<cfinvoke component="global" method="getfilesize" filepath="#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#" returnvariable="orgsize">
 						<!--- MD5 Hash --->
 						<cfif FileExists("#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#")>
-							<cfset var md5hash = hashbinary("#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#")>
+							<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+								<cfinvokeargument name="path" value="#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#">
+							</cfinvoke>
+							<!---<cfset var md5hash = hashbinary("#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#")>--->
 						</cfif>
 						<!--- Check if we have to check for md5 records --->
 						<cfinvoke component="settings" method="getmd5check" returnvariable="checkformd5" />
@@ -698,7 +710,10 @@
 			<cfinvoke component="global" method="getfilesize" filepath="#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#" returnvariable="orgsize">
 			<!--- MD5 Hash --->
 			<cfif FileExists("#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#")>
-				<cfset var md5hash = hashbinary("#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#")>
+				<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+						<cfinvokeargument name="path" value="#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#">
+				</cfinvoke>
+				<!---<cfset var md5hash = hashbinary("#arguments.thestruct.theincomingtemppath#/#arguments.thestruct.thefilename#")>--->
 			</cfif>
 			<!--- Check if we have to check for md5 records --->
 			<cfinvoke component="settings" method="getmd5check" returnvariable="checkformd5" />
@@ -1292,7 +1307,10 @@
 			<cfset arguments.thestruct.lanorgname = listlast(arguments.thestruct.link_path_url,"/\")>
 			<!--- MD5 Hash --->
 			<cfif FileExists("#arguments.thestruct.link_path_url#")>
-				<cfset var md5hash = hashbinary("#arguments.thestruct.link_path_url#")>
+				<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+					<cfinvokeargument name="path" value="#arguments.thestruct.link_path_url#">
+				</cfinvoke>
+				<!---<cfset var md5hash = hashbinary("#arguments.thestruct.link_path_url#")>--->
 			</cfif>
 			<!--- Check if we have to check for md5 records --->
 			<cfinvoke component="settings" method="getmd5check" returnvariable="checkformd5" />
@@ -3557,7 +3575,10 @@ This is the main function called directly by a single upload else from addassets
 				<cfset arguments.thestruct.theincomingtemppath = "#directory#/#arguments.thestruct.thepathtoname#">
 				<!--- MD5 Hash --->
 				<cfif FileExists("#directory#/#arguments.thestruct.thepathtoname#/#newfilename#")>
-					<cfset var md5hash = hashbinary("#directory#/#arguments.thestruct.thepathtoname#/#newfilename#")>
+					<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+						<cfinvokeargument name="path" value="#directory#/#arguments.thestruct.thepathtoname#/#newfilename#">
+					</cfinvoke>
+					<!---<cfset var md5hash = hashbinary("#directory#/#arguments.thestruct.thepathtoname#/#newfilename#")>--->
 				</cfif>
 				<!--- Check if we have to check for md5 records --->
 				<cfinvoke component="settings" method="getmd5check" returnvariable="checkformd5" />
@@ -4755,7 +4776,10 @@ This is the main function called directly by a single upload else from addassets
 	</cfif>
 	<!--- MD5 Hash --->
 	<cfif FileExists("#arguments.thestruct.theincomingtemppath#/#thefile.serverFile#")>
-		<cfset arguments.thestruct.md5hash = hashbinary("#arguments.thestruct.theincomingtemppath#/#thefile.serverFile#")>
+		<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+			<cfinvokeargument name="path" value="#arguments.thestruct.theincomingtemppath#/#thefile.serverFile#">
+		</cfinvoke>
+		<!---<cfset arguments.thestruct.md5hash = hashbinary("#arguments.thestruct.theincomingtemppath#/#thefile.serverFile#")>--->
 	</cfif>
 	<!--- Query to get the settings --->
 	<cfquery datasource="#application.razuna.datasource#" name="arguments.thestruct.qrysettings">
@@ -5635,7 +5659,10 @@ This is the main function called directly by a single upload else from addassets
 		<cfset arguments.thestruct.thefilenameoriginal = arguments.thestruct.filename>
 		<!--- MD5 Hash --->
 		<cfif FileExists("#arguments.thestruct.thedir#/#arguments.thestruct.thefilename#")>
-			<cfset var md5hash = hashbinary("#arguments.thestruct.thedir#/#arguments.thestruct.thefilename#")>
+			<cfinvoke component="cfmlengine" method="convertHashBinary" returnvariable="md5hash">
+				<cfinvokeargument name="path" value="#arguments.thestruct.thedir#/#arguments.thestruct.thefilename#">
+			</cfinvoke>
+			<!---<cfset var md5hash = hashbinary("#arguments.thestruct.thedir#/#arguments.thestruct.thefilename#")>--->
 		</cfif>
 			<!--- Check if we have to check for md5 records --->
 			<cfinvoke component="settings" method="getmd5check" returnvariable="checkformd5" />
