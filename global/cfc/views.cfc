@@ -39,7 +39,7 @@
 <!--- The local host --->
 <cfset theurl = "#session.thehttp#" & cgi.HTTP_HOST>
 <!--- Create the RSS --->
-<cfsavecontent variable="view"><cfoutput><?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cfsavecontent variable="view"><?xml version="1.0" encoding="UTF-8" standalone="yes"?><cfoutput>
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
 <title>Razuna Feed (<cfif session.iscol EQ "F">Folder<cfelse>Collection</cfif>: #url.folder_id#)</title>

@@ -1164,7 +1164,7 @@
 		<!--- If we need to watermark this image then --->
 		<cfif "convert_wm_#theformat#" NEQ "">
 			<cfif thewm.wmval.wm_use_image>
-				<cfexecute name="#thecomposite#" arguments="-dissolve #thewm.wmval.wm_image_opacity#% -gravity #thewm.wmval.wm_image_position# #arguments.thestruct.rootpath#global/host/watermark/#session.hostid#/#thewm.wmval.wm_image_path# #theformatconv# #theformatconv#" timeout="90" />
+				<cfexecute name="#thecomposite#" arguments="-dissolve #thewm.wmval.wm_image_opacity#% -gravity #thewm.wmval.wm_image_position# #arguments.thestruct.rootpath#/global/host/watermark/#session.hostid#/#thewm.wmval.wm_image_path# #theformatconv# #theformatconv#" timeout="90" />
 			</cfif>
 			<cfif thewm.wmval.wm_use_text>
 				<!--- Opacity --->
@@ -1182,7 +1182,7 @@
 				<!--- Write script --->
 				<cffile action="write" file="#arguments.thestruct.theshwm#" output="#theexe# #theformatconv# -fill 'rgba(0,0,0,#topa#)' -gravity #thewm.wmval.wm_text_position# -pointsize #thewm.wmval.wm_text_font_size# -font #thewm.wmval.wm_text_font# -annotate 0 #thetext# #theformatconv#" mode="777">
 				<!--- Execute it --->
-				<cfexecute name="#arguments.thestruct.theshwm#" timeout="60" />
+				<cfexecute name="#arguments.thestruct.theshwm#" />
 				<!--- Delete it --->
 				<cffile action="delete" file="#arguments.thestruct.theshwm#">
 			</cfif>
