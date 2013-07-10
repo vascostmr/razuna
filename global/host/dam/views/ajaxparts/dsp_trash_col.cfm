@@ -73,6 +73,9 @@
 			<td style="border:0px;" id="selectme">
 				<!--- For paging --->
 				<cfset mysqloffset = session.offset * session.rowmaxpage>
+				<cfif mysqloffset EQ 0>
+					<cfset mysqloffset = 1 >
+				</cfif>
 				<!--- Show trash images --->
 				<cfoutput query="qry_trash" startrow="#mysqloffset#" maxrows="#session.rowmaxpage#">
 					<div class="assetbox">

@@ -34,7 +34,7 @@
 		</tr>
 		<tr>
 			<td>#myFusebox.getApplicationData().defaults.trans("name_of_zip")#</td>
-			<td><input type="text" name="zipname" size="40" value="basket-#createuuid('')#">.zip</td>
+			<td><input type="text" name="zipname" size="40" value="basket-#replace(createuuid(),'-','','all')#">.zip</td>
 		</tr>
 		<tr>
 			<td>#myFusebox.getApplicationData().defaults.trans("save_in_this_folder")#</td>
