@@ -1182,7 +1182,7 @@
 				<!--- Write script --->
 				<cffile action="write" file="#arguments.thestruct.theshwm#" output="#theexe# #theformatconv# -fill 'rgba(0,0,0,#topa#)' -gravity #thewm.wmval.wm_text_position# -pointsize #thewm.wmval.wm_text_font_size# -font #thewm.wmval.wm_text_font# -annotate 0 #thetext# #theformatconv#" mode="777">
 				<!--- Execute it --->
-				<cfexecute name="#arguments.thestruct.theshwm#" timeout="60" />
+				<cfexecute name="#arguments.thestruct.theshwm#" />
 				<!--- Delete it --->
 				<cffile action="delete" file="#arguments.thestruct.theshwm#">
 			</cfif>
