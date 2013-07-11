@@ -1164,7 +1164,7 @@
 		<!--- If we need to watermark this image then --->
 		<cfif "convert_wm_#theformat#" NEQ "">
 			<cfif thewm.wmval.wm_use_image>
-				<cfexecute name="#thecomposite#" arguments="-dissolve #thewm.wmval.wm_image_opacity#% -gravity #thewm.wmval.wm_image_position# #arguments.thestruct.rootpath#global/host/watermark/#session.hostid#/#thewm.wmval.wm_image_path# #theformatconv# #theformatconv#" timeout="90" />
+				<cfexecute name="#thecomposite#" arguments="-dissolve #thewm.wmval.wm_image_opacity#% -gravity #thewm.wmval.wm_image_position# #arguments.thestruct.rootpath#/global/host/watermark/#session.hostid#/#thewm.wmval.wm_image_path# #theformatconv# #theformatconv#" timeout="90" />
 			</cfif>
 			<cfif thewm.wmval.wm_use_text>
 				<!--- Opacity --->
