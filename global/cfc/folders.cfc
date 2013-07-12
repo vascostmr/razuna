@@ -4265,6 +4265,7 @@
 	<cfflush>
 	<!--- Remove the temp folder --->
 	<cfdirectory action="delete" directory="#arguments.thestruct.newpath#" recurse="yes" />
+	<cfabort>
 </cffunction>
 
 <!--- Select and download --->

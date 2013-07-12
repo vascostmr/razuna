@@ -23,7 +23,7 @@
 * along with Razuna. If not, see <http://www.razuna.com/licenses/>.
 *
 --->
-<cfcachecontent name="razunablogcache" cachedwithin="#CreateTimeSpan(0,6,0,0)#" region="razcache">
+<cfsavecontent variable="razunablogcache" >
 <cfoutput>
 <!--- Fetch the Razuna Blog Feed --->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -40,4 +40,13 @@
 	</cfif>
 </table>
 </cfoutput>
-</cfcachecontent>
+</cfsavecontent>
+<!--- Save the results in the Application scope. --->
+<cflock scope="Application" type="Exclusive" timeout=30>
+    <cfset Application.razunablogcache = razunablogcache>
+</cflock>
+
+<!--- Use the Application scope variable to display the sale items. --->
+<cflock scope="Application" timeout="20" type="readonly">
+    <cfoutput>#Application.razunablogcache#</cfoutput>
+</cflock>

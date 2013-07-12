@@ -31,7 +31,7 @@
 			<td width="1%" nowrap style="padding:5px;">#totalcount.thetotal#</td>
 		</tr>
 		<cfif !application.razuna.isp>
-			<cfcachecontent name="damsysteminfo" cachedwithin="#CreateTimeSpan(1,0,0,0)#">
+			<cfsavecontent variable="damsysteminfo" >
 				<tr>
 					<td width="100%" style="padding:5px;">#myFusebox.getApplicationData().defaults.trans("database_in_use")#</td>
 					<td width="1%" nowrap style="padding:5px;">#application.razuna.thedatabase#</td>
@@ -52,7 +52,16 @@
 					<td width="100%" style="padding:5px;">#myFusebox.getApplicationData().defaults.trans("coldfusion_version")#</td>
 					<td width="1%" nowrap style="padding:5px;"><cfif server.ColdFusion.ProductName CONTAINS "bluedragon">#server.bluedragon.edition#<cfelse>#server.ColdFusion.ProductVersion#</cfif></td>
 				</tr>
-			</cfcachecontent>
+			</cfsavecontent>
+			<!--- Save the results in the Application scope. --->
+		    <cflock scope="Application" type="Exclusive" timeout=30>
+		        <cfset Application.damsysteminfo = damsysteminfo>
+		    </cflock>
+	
+			<!--- Use the Application scope variable to display the sale items. --->
+			<cflock scope="Application" timeout="20" type="readonly">
+			    <cfoutput>#Application.damsysteminfo#</cfoutput>
+			</cflock>
 		</cfif>
 		<tr>
 			<td width="100%" style="padding:5px;">#myFusebox.getApplicationData().defaults.trans("server_url")#</td>

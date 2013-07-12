@@ -40,9 +40,18 @@
 	<cfset var xPath = "">
 	<cfset var node = "">
 	
-		<!---<cfcachecontent name="blog" cachedwithin="#CreateTimeSpan(0,6,0,0)#" region="razcache">--->
+		<cfsavecontent variable="blog" >
 			<cfhttp url="#arguments.thefeed#" method="get" throwonerror="no" timeout="6">
-		<!---</cfcachecontent>--->
+		</cfsavecontent>	
+		<!--- Save the results in the Application scope. --->
+		<cflock scope="Application" type="Exclusive" timeout=30>
+		    <cfset Application.blog = blog>
+		</cflock>
+		
+		<!--- Use the Application scope variable to display the sale items. --->
+		<cflock scope="Application" timeout="20" type="readonly">
+		    <cfoutput>#Application.blog#</cfoutput>
+		</cflock>
 		
 			<cfset xmlData = xmlParse(arguments.thefeed)>
 			
