@@ -1976,6 +1976,7 @@
 		<cfinvokeargument name="theqry" value="#arguments.thestruct.tq#">
 		<cfinvokeargument name="theformat" value="#arguments.thestruct.format#">
 		<cfinvokeargument name="thename" value="razuna-metadata-export">
+		<cfinvokeargument name="thefield" value="id,type,filename,file_url,labels,keywords,description,iptcsubjectcode,creator,title,authorstitle,descwriter,iptcaddress,category,categorysub,urgency,iptccity,iptccountry,iptclocation,iptczip,iptcemail,iptcwebsite,iptcphone,iptcintelgenre,iptcinstructions,iptcsource,iptcusageterms,copystatus,iptcjobidentifier,copyurl,iptcheadline,iptcdatecreated,iptcimagecity,iptcimagestate,iptcimagecountry,iptcimagecountrycode,iptcscene,iptcstate,iptccredit,copynotice,pdf_author,pdf_rights,pdf_authorsposition,pdf_captionwriter,pdf_webstatement,pdf_rightsmarked">
 	</cfinvoke>
 	<!--- Serve the file --->
     <!--- <cfcontent type="application/force-download" variable="#SpreadsheetReadbinary(sxls)#"> --->

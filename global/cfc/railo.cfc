@@ -377,14 +377,20 @@
 		<cfargument name="theqry" type="query" required="true">
 		<cfargument name="theformat" type="string" required="true">
 		<cfargument name="thename" type="string" required="true">
+		<cfargument name="thefield" type="string" required="false" default="">
 		<!--- Create Spreadsheet --->
 		<cfif arguments.theformat EQ "xls">
 			<cfset var sxls = spreadsheetnew()>
 		<cfelseif arguments.theformat EQ "xlsx">
 			<cfset var sxls = spreadsheetnew(true)>
 		</cfif>
+		<cfif arguments.thefield EQ "">
+			<cfset var theheader =  arguments.theqry.columnList>
+		<cfelse>
+			<cfset var theheader = arguments.thefield>
+		</cfif>
 		<!--- Create header row --->
-		<cfset SpreadsheetAddrow(sxls, arguments.theqry.columnList,1)>
+		<cfset SpreadsheetAddrow(sxls,theheader,1)>
 		<cfset SpreadsheetFormatRow(sxls, {bold=TRUE, alignment="left"},1)>
 		<!--- Add orders from query --->
 		<cfset SpreadsheetAddRows(sxls,arguments.theqry,2)>
