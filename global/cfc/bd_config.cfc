@@ -609,6 +609,7 @@
 		<cfargument name="theqry" type="query" required="true">
 		<cfargument name="theformat" type="string" required="true">
 		<cfargument name="thename" type="string" required="true">
+		<cfargument name="thefield" type="string" required="false" default="">
 		<!--- Create Spreadsheet --->
 		<cfif arguments.theformat EQ "xls">
 			<cfset var sxls = spreadsheetnew()>
@@ -619,12 +620,12 @@
 		<cfset SpreadsheetAddrow(sxls, arguments.theqry.columnList, 1)>
 		<cfset SpreadsheetFormatRow(sxls, {bold=TRUE, alignment="left"}, 1)>
 		<cfset SpreadsheetColumnfittosize(sxls, "1-#len(therows)#")>
-		<!---<cfset SpreadsheetSetcolumnwidth(sxls, 1, 5000)>
+		<cfset SpreadsheetSetcolumnwidth(sxls, 1, 5000)>
 		<cfset SpreadsheetSetcolumnwidth(sxls, 2, 5000)>
 		<cfset SpreadsheetSetcolumnwidth(sxls, 3, 5000)>
 		<cfset SpreadsheetSetcolumnwidth(sxls, 4, 10000)>
 		<cfset SpreadsheetSetcolumnwidth(sxls, 5, 3000)>
-		<cfset SpreadsheetSetcolumnwidth(sxls, 6, 10000)>--->
+		<cfset SpreadsheetSetcolumnwidth(sxls, 6, 10000)>
 		<!--- Add orders from query --->
 		<cfset SpreadsheetAddRows(sxls, arguments.theqry, 2)> 
 		<cfset SpreadsheetFormatrow(sxls, {textwrap=false, alignment="vertical_top"}, 2)>
