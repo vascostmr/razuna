@@ -126,6 +126,8 @@
 															password="#arguments.password#"
 														)>
 		<cfelse>
+			<cfset arguments.username = "sa">
+			<cfset arguments.password = "">
 			<cfset structDSNs = createObject("component","cfide.adminapi.datasource").setOther ( 
 													name = arguments.name, 
 													url = arguments.hoststring, 
