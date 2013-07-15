@@ -122,13 +122,19 @@
 			<cfhttpparam type="formfield" name="oauth_signature" value="#session["#arguments.account#"].appsecret#&"/>
 		</cfhttp>
 		<!--- Put return into var --->
-		<cfset var tokens = trim(cfhttp.filecontent.toString())>
+		<!---<cfset var tokens = trim(cfhttp.filecontent.toString())>--->
+		<cfset var tokens = toString(trim(cfhttp.filecontent))>
 		<!--- Above will return oauth_token=<request-token>&oauth_token_secret=<request-token-secret> --->
 		<cfloop list="#tokens#" delimiters="&" index="i">
 			<cfset n = listFirst(i,"=")>
 			<cfset v = listLast(i,"=")>
 			<!--- Set variable --->
-			<cfset "session.#n#" = v>
+			<cfif n EQ "oauth_token_secret">
+				<cfset session.oauth_token_secret = v>
+			<cfelseif n EQ "oauth_token">
+				<cfset session.oauth_token = v>
+			</cfif>
+			<!---<cfset "session.#n#" = v>--->
 		</cfloop>
 		<cfreturn />	
 	</cffunction>
