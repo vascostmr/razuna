@@ -31,21 +31,20 @@
     <cfset var qry = structnew()>
     <cfset qry.backpath = "">
     <cfset qry.dirname = "">
-    <!--- Open Connection to FTP Server --->
-    <cfset var o = ftpopen(server=session.ftp_server,username=session.ftp_user,password=session.ftp_pass,passive=session.ftp_passive,stoponerror=false)>
-    <!--- Set the response form the connection into scope --->
-    <cfset qry.ftp = o>
-    <!--- Try to connect to the FTP server --->
-    <cfif o.succeeded>    
-        <cfif NOT structkeyexists(arguments.thestruct,"folderpath")>
-            <!--- Get the current directory name --->
-            <cfset thedirname = Ftpgetcurrentdir(o)>
-            <!--- Get a listing of the directory --->
-            <cfset dirlist = ftplist(o,thedirname)>
-        <cfelse>
-        	<cftry>
-                <cfset dirlist = Ftplist(o,arguments.thestruct.folderpath)>
-            	<cfcatch type="any">
+	<!--- Open Connection to FTP Server --->
+	<cfftp	action="open" server="#session.ftp_server#" username="#session.ftp_user#" password="#session.ftp_pass#" passive="#session.ftp_passive#" connection="myCon" stoponerror="false">
+	<!--- Set the response form the connection into scope --->
+	<cfset qry.ftp = myCon>
+	<!--- Try to connect to the FTP server --->
+	<cfif myCon.succeeded>
+		<cfif NOT structkeyexists(arguments.thestruct,"folderpath")>
+			<!--- Get the current directory name --->
+			<cfftp action="getcurrentdir" connection="myCon" result="thedirname">
+			<cfftp action="listDir" name="dirlist" directory="#thedirname.returnvalue#" connection="myCon">
+		<cfelse>
+			<cftry>
+				<cfftp action="listDir" name="dirlist" directory="#arguments.thestruct.folderpath#" connection="myCon">
+				<cfcatch type="any">
             		<cfparam name="folder_id" default="0" />
             		<cfoutput>
             		<span style="color:red;font-weight:bold;">Sorry, but somehow we can't read this directory!</span>
@@ -57,28 +56,28 @@
             		</cfoutput>
             		<cfabort>
             	</cfcatch>
-            </cftry>
-            <cfif findoneof(arguments.thestruct.folderpath,"/") EQ 0>
-            	<cfset qry.backpath = "">
-            <cfelse>
-                <cfset temp = listlast(arguments.thestruct.folderpath, "/\")>
-                <cfset qry.backpath = replacenocase(arguments.thestruct.folderpath, "/#temp#", "", "ALL")>
-            </cfif>
-            <cfset thedirname="#arguments.thestruct.folderpath#">
-        </cfif>
-        <!--- output dirlist results --->
+			</cftry>
+			<cfif findOnEOF(arguments.thestruct.folderpath,"/") EQ 0>
+        		<cfset qry.backpath = "">
+        	<cfelse>
+            	<cfset temp = listlast(arguments.thestruct.folderpath, "/\")>
+            	<cfset qry.backpath = replacenocase(arguments.thestruct.folderpath, "/#temp#", "", "ALL")>
+        	</cfif>
+        	<cfset thedirname="#arguments.thestruct.folderpath#">
+         </cfif>
+         <!--- output dirlist results --->
         <cfquery dbtype="query" name="ftplist">
         SELECT *
         FROM dirlist
         ORDER BY isdirectory DESC, name
         </cfquery>
-        <cfset qry.dirname = thedirname>
+        <cfset qry.dirname = thedirname.returnvalue>
         <cfset qry.ftplist = ftplist>
-    </cfif>
-    <!--- Close FTP --->
-    <cfset ftpclose(o)>
+	</cfif>
+	<!--- Close FTP --->
+	<cfftp action="close" connection="myCon">
 	<!--- Return --->
-    <cfreturn qry>
+	<cfreturn qry>
 </cffunction>
 
 <!--- PUT THE FILE ON THE FTP SITE --------------------------------------------------------------->
@@ -86,13 +85,13 @@
 	<cfargument name="thestruct" type="struct">
 	<cftry>
 		<!--- Open ftp connection --->
-        <cfset var o = ftpopen(server=session.ftp_server,username=session.ftp_user,password=session.ftp_pass,passive=session.ftp_passive)>
+		<cfftp action="open" server="#session.ftp_server#" username="#session.ftp_user#" password="#session.ftp_pass#" passive="#session.ftp_passive#" connection="myCon">
 		<!--- Put the file on the FTP Site --->
-        <cfset Ftpputfile(ftpdata=o, remotefile="#arguments.thestruct.folderpath#/#arguments.thestruct.thefile#", localfile="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.thefile#", passive=session.ftp_passive)>
+		<cfftp action="putfile" remotefile="#arguments.thestruct.folderpath#/#arguments.thestruct.thefile#" localfile="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.thefile#" connection="myCon">	
 		<!--- Delete the file in the outgoing folder --->
 		<cffile action="delete" file="#arguments.thestruct.thepath#/outgoing/#arguments.thestruct.thefile#">
 		<!--- Close FTP --->
-		<cfset ftpclose(o)>
+		<cfftp action="close" connection="myCon">
 		<cfoutput>success</cfoutput>
 		<cfcatch type="any">
             <cfoutput>#cfcatch.Detail#</cfoutput>
@@ -101,3 +100,4 @@
 </cffunction>
 
 </cfcomponent>
+
