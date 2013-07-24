@@ -90,7 +90,7 @@
 	<!--- Show link back to main page --->
 	<cfif !cs.show_top_part OR cs.folder_redirect NEQ "0">
 		<div style="clear:both;"></div>
-		<p style="padding-left:10px;"><a href="#myself#c.main&redirectmain=true&_v=#createuuid('')#" title="Click here to get to the main page">Go to main page</a></p>
+		<p style="padding-left:10px;"><a href="#myself#c.main&redirectmain=true&_v=#replace(createuuid(),'','-','all')#" title="Click here to get to the main page">Go to main page</a></p>
 	</cfif>
 
 </cfoutput>

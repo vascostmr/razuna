@@ -583,8 +583,8 @@
 			</cfif>
 		FROM  
 			#session.hostdbprefix#audios a 
-		WHERE 
-			a.in_trash = <cfqueryparam cfsqltype="cf_sql_varchar" value="T">
+		WHERE a.in_trash = <cfqueryparam cfsqltype="cf_sql_varchar" value="T">
+		AND a.host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
 	</cfquery>
 	<cfif qry_audio.RecordCount NEQ 0>
 		<cfset myArray = arrayNew( 1 )>

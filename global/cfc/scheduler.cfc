@@ -29,12 +29,11 @@
 <cffunction name="getAllEvents" returntype="query" output="true" access="public">
 	<!--- Query to get all records --->
 	<cfquery datasource="#application.razuna.datasource#" name="qry">
-		SELECT sched_id, sched_name, sched_method, sched_status
-		FROM #session.hostdbprefix#schedules
-		WHERE set2_id_r  = <cfqueryparam value="#variables.setid#" cfsqltype="cf_sql_numeric">
-		AND sched_user = <cfqueryparam value="#session.theuserid#" cfsqltype="CF_SQL_VARCHAR">
-		AND host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
-		ORDER BY sched_name, sched_method
+	SELECT sched_id, sched_name, sched_method, sched_status
+	FROM #session.hostdbprefix#schedules
+	WHERE set2_id_r  = <cfqueryparam value="#variables.setid#" cfsqltype="cf_sql_numeric">
+	AND host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
+	ORDER BY sched_name, sched_method
 	</cfquery>
 	<cfreturn qry>
 </cffunction>
@@ -479,55 +478,117 @@
 <cffunction name="doit" output="true" access="public" >
 	<cfargument name="sched_id" type="string" required="yes">
 	<cfargument name="incomingpath" type="string" required="yes">
+	<cfargument name="sched" type="string" required="yes">
+	<cfargument name="thepath" type="string" required="yes">
+	<cfargument name="langcount" type="string" required="yes">
+	<cfargument name="rootpath" type="string" required="yes">
+	<cfargument name="assetpath" type="string" required="yes">
+	<cfargument name="dynpath" type="string" required="yes">
 	<!--- Param --->
 	<cfset var doit = structnew()>
+	<cfset var x = structnew()>
 	<cfset doit.dirlist = "">
 	<cfset doit.directoryList = "">
 	<cfset var dorecursive = false>
 	<cfset var dirhere = "">
+	<!--- Set arguments into new struct --->
+	<cfset x.sched_id = arguments.sched_id>
+	<cfset x.incomingpath = arguments.incomingpath>
+	<cfset x.sched = arguments.sched>
+	<cfset x.thepath = arguments.thepath>
+	<cfset x.langcount = arguments.langcount>
+	<cfset x.rootpath = arguments.rootpath>
+	<cfset x.assetpath = arguments.assetpath>
+	<cfset x.dynpath = arguments.dynpath>
 	<!--- Get details of this schedule --->
 	<cfinvoke method="detail" sched_id="#arguments.sched_id#" returnvariable="doit.qry_detail">
+	<!-- Set return into scope -->
+	<cfset x.folder_id = doit.qry_detail.sched_folder_id_r>
+	<cfset x.sched_action = doit.qry_detail.sched_server_files>
+	<cfset x.upl_template = doit.qry_detail.sched_upl_template>
+	<cfset x.directory = doit.qry_detail.sched_server_folder>
+	<cfset x.recurse = doit.qry_detail.sched_server_recurse>
+	<cfset x.zip_extract = doit.qry_detail.sched_zip_extract>
+	<cfset session.theuserid = doit.qry_detail.sched_user>
 	<!--- If no record found simply abort --->
 	<cfif doit.qry_detail.recordcount EQ 0>
 		<cfabort>
 	<!--- Record found --->
 	<cfelse>
-		<!--- Look into the directory and if anything is here then continue else abort --->
-		<cfdirectory action="list" directory="#doit.qry_detail.sched_server_folder#" recurse="false" name="dirhere" />
-		<!--- Filter content --->
-		<cfquery dbtype="query" name="dirhere">
-		SELECT *
-		FROM dirhere
-		WHERE size != 0
-		AND attributes != 'H'
-		AND name != 'thumbs.db'
-		AND name NOT LIKE '.DS_STORE%'
-		AND name NOT LIKE '__MACOSX%'
-		AND name != '.svn'
-		AND name != '.git'
-		</cfquery>
-		<cfif dirhere.recordcount EQ 0>
-			<cfabort>
+		<!--- SERVER --->
+		<cfif doit.qry_detail.sched_method EQ "server">
+			<!--- 
+			<!--- Look into the directory --->
+			<cfdirectory action="list" directory="#doit.qry_detail.sched_server_folder#" recurse="false" name="dirhere" />
+			<!--- Filter content --->
+			<cfquery dbtype="query" name="dirhere">
+			SELECT *
+			FROM dirhere
+			WHERE size != 0
+			AND attributes != 'H'
+			AND name != 'thumbs.db'
+			AND name NOT LIKE '.DS_STORE%'
+			AND name NOT LIKE '__MACOSX%'
+			AND name != '.svn'
+			AND name != '.git'
+			</cfquery>
+			<!--- NO files here simply abort --->
+			<cfif dirhere.recordcount EQ 0>
+				<cfabort>
+			</cfif>
+			<!--- Files here thus... --->
+			<!--- Get the name of the original directory --->
+			<cfset var thedirname = listlast(doit.qry_detail.sched_server_folder,"/\")>
+			<!--- The path without the name --->
+			<cfset var thedirpath = replacenocase(doit.qry_detail.sched_server_folder,thedirname,"","one")>
+			<!--- Create a temp directory name --->
+			<cfset var tempid = createuuid("")>
+			<cfset var tempdir = thedirpath & "task_" & tempid>
+			<!--- Now rename the original directory --->
+			<cfdirectory action="rename" directory="#doit.qry_detail.sched_server_folder#" newdirectory="#tempdir#" mode="775" />
+			<!--- and recreate the original directory --->
+			<cfif !directoryExists(doit.qry_detail.sched_server_folder)>
+				<cfdirectory action="create" directory="#doit.qry_detail.sched_server_folder#" mode="775" />
+			</cfif>
+			<!--- Set the qry to the new directory --->
+			<cfset QuerySetcell( doit.qry_detail, "sched_server_folder", "#tempdir#" )>
+			<!--- Sleep the process (just making sure that the rename had enough time) --->
+			<cfset sleep(5000)>
+			 --->
+			<!-- CFC: Log start -->
+			<cfinvoke method="tolog" theschedid="#arguments.sched_id#" theaction="Upload" thedesc="Start Processing Scheduled Upload" />
+			<!-- Set params for adding assets -->
+			<cfset x.thefile = doit.dirlist>
+			<!-- CFC: Add to system -->
+			<cfinvoke component="assets" method="addassetscheduledserverthread" thestruct="#x#" />
+		<!--- FTP --->
+		<cfelseif doit.qry_detail.sched_method EQ "ftp">
+			<!-- Params -->
+			<cfset session.ftp_server = doit.qry_detail.sched_ftp_server>
+			<cfset session.ftp_user = doit.qry_detail.sched_ftp_user>
+			<cfset session.ftp_pass = doit.qry_detail.sched_ftp_pass>
+			<cfset session.ftp_passive = doit.qry_detail.sched_ftp_passive>
+			<!-- CFC: Get FTP directory for adding to the system -->
+			<cfinvoke component="ftp" method="getdirectory" thestruct="#x#" returnvariable="thefiles" />
+			<cfset x.thefile = valuelist(thefiles.ftplist.name) />
+			<!-- CFC: Add to system -->
+			<cfinvoke component="assets" method="addassetftpthread" thestruct="#x#" />
+		<!--- MAIL --->
+		<cfelseif doit.qry_detail.sched_method EQ "mail">
+			<!-- Params -->
+			<cfset x.email_server = doit.qry_detail.sched_mail_pop>
+			<cfset x.email_address = doit.qry_detail.sched_mail_user>
+			<cfset x.email_pass = doit.qry_detail.sched_mail_pass>
+			<cfset x.email_subject = doit.qry_detail.sched_mail_subject>
+			<cfset session.email_server = doit.qry_detail.sched_mail_pop>
+			<cfset session.email_address = doit.qry_detail.sched_mail_user>
+			<cfset session.email_pass = doit.qry_detail.sched_mail_pass>
+			<!-- CFC: Get the email ids for adding to the system -->
+			<cfinvoke component="email" method="emailheaders" thestruct="#x#" returnvariable="themails" />
+			<cfset x.emailid = valuelist(themails.qryheaders.messagenumber)>
+			<!-- CFC: Add to system -->
+			<cfinvoke component="assets" method="addassetemail" thestruct="#x#" />	
 		</cfif>
-		<!--- Create a temp directory in the incoming folder and move all files in this one --->
-		<cfset var tempid = replace(createuuid(),"-","","all")>
-		<cfset var tempdir = arguments.incomingpath & "/task_" & tempid>
-		<!--- Check if we need to do recursive or not --->
-		<cfif doit.qry_detail.sched_server_recurse>
-			<cfset var dorecursive = true>
-		</cfif>
-		<!--- Grab the files to move --->
-		<cfinvoke component="global" method="directoryCopy">
-			<cfinvokeargument name="source" value="#doit.qry_detail.sched_server_folder#">
-			<cfinvokeargument name="destination" value="#tempdir#">
-			<cfinvokeargument name="fileaction" value="move">
-			<cfinvokeargument name="directoryaction" value="move">
-			<cfinvokeargument name="directoryrecursive" value="#dorecursive#">
-		</cfinvoke>
-		<!--- Sleep for 5 seconds. This should give enough time for all files to be moved --->
-		<cfset sleep(5000)>
-		<!--- Set the qry to the new directory --->
-		<cfset QuerySetcell( doit.qry_detail, "sched_server_folder", "#tempdir#" )>
 	</cfif>
 	<cfreturn doit>
 </cffunction>
