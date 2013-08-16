@@ -21,6 +21,12 @@
 15. <a href="http://localhost:8500/_tests/selenium/TestUserGroup.cfc?method=runtestremote&output=html">User Group</a><br>
 16. <a href="http://localhost:8500/_tests/selenium/TestWatermarkTemplate.cfc?method=runtestremote&output=html">Watermark Template</a><br>
 
+17. <a href="http://localhost:8500/_tests/selenium/TestCollection.cfc?method=runtestremote&output=html">Collection</a><br>
+18. <a href="http://localhost:8500/_tests/selenium/TestCollectionSetting.cfc?method=runtestremote&output=html">Collection Settings</a><br>
+19. <a href="http://localhost:8500/_tests/selenium/TestFolderOption.cfc?method=runtestremote&output=html">Folder Option</a><br>
+20. <a href="http://localhost:8500/_tests/selenium/TestSmartFolder.cfc?method=runtestremote&output=html">Smart Folder</a><br>
+21. <a href="http://localhost:8500/_tests/selenium/TestFolderSettings.cfc?method=runtestremote&output=html">Folder Setting</a><br>
+22. <a href="http://localhost:8500/_tests/selenium/TestWidgetThumbnail.cfc?method=runtestremote&output=html">Widget And Thumbnail</a><br>
 
 
 <h1>API Testing Running from OpenBD</h1>
