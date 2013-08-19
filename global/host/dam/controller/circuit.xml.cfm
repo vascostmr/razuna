@@ -6523,7 +6523,7 @@
 	</fuseaction>
 	<!-- Do the rebuild -->
 	<fuseaction name="admin_rebuild_do">
-		<set name="attributes.thispath" value="#thispath#" />
+		<set name="attributes.thepath" value="#thispath#" />
 		<!-- Action: Get asset path -->
 		<do action="assetpath" />
 		<!-- Action: Storage -->
@@ -8554,7 +8554,7 @@
 	
 	<!-- Store all ids -->
 	<fuseaction name="store_file_all">
-		<if condition="attributes.folder_id NEQ '0' AND attributes.thekind EQ 'all'">
+		<if condition="attributes.folder_id NEQ '0'">
 			<true>
 				<!-- CFC: Store -->
 				<invoke object="myFusebox.getApplicationData().folders" methodcall="store_values(attributes)" />
