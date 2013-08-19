@@ -13,6 +13,9 @@ component extends="TestRazunaBase"{
 		selenium.click("//a[contains(text(),'Add a Tenant')]");
 		selenium.type("id=host_name", "Demo_openBD");
 		selenium.click("id=Button");
+		selenium.click("xpath=//div[@id='hostslist']/table/tbody/tr[last()]/td[last()]/a[contains(text(),'Remove')]");
+		selenium.click("xpath=//div[@id='thewindowcontent1']/table/tbody/tr[2]/td/input[@name='remove']");
+		selenium.click("name=remove");
 	}
 	
 	//Tenants settings 

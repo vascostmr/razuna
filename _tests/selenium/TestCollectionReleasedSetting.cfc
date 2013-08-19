@@ -1,13 +1,14 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
 
-	// Collection Settings
+	// Collections Released Settings
 	function testCollectionSetting() {
 		Super.doRazLogin();
 		selenium.setspeed("1000");
 		selenium.click("id=mainsectionchooser");
 		selenium.click("link=Collections");
 		selenium.click("css=a[rel=prefetch]");
+		selenium.click("xpath=//div[@id='tabsfolder_tab']/ul/li[2]/a[contains(text(),'Collections Released')]");
 		selenium.click("link=Collection Settings");
 		selenium.click("name=grp_0");
 		selenium.check("css=input[name='per_0'][value='X']");
@@ -15,11 +16,11 @@ component extends="TestRazunaBase"{
 		selenium.click("id=foldersubmitbutton");
 		selenium.click("css=span.ui-icon.ui-icon-closethick");
 		selenium.setspeed("1000");
-		selenium.click("link=Test_Collection");
+		selenium.click("link=Test_Collection copy");
 		// Description & Keywords
 		selenium.click("link=Description & Keywords");
 		selenium.click("css=input[name=submit]");
-		// Comments
+		// Comment
 		selenium.click("link=Comments");
 		selenium.type("id=assetComment", "Test collection comment");
 		selenium.click("css=td > input.button");
@@ -28,7 +29,6 @@ component extends="TestRazunaBase"{
 		selenium.check("css=input[name='savecomment'][value='Update']");
 		selenium.click("//a[contains(text(),'Remove')]");
 		selenium.click("css=input[name='remove'][value='Remove Record']");
-		selenium.click("css=td > input.button");
 		// Setting and share
 		selenium.click("link=Settings & Share");
 		selenium.click("name=grp_0");
@@ -41,8 +41,7 @@ component extends="TestRazunaBase"{
 		selenium.click("name=share_order");
 		selenium.setspeed("1000");
 		selenium.click("css=input[name=submit]");
-		// Widget
-		selenium.setspeed("1000");
+		// Widgets
 		selenium.click("link=Widgets");
 		selenium.click("//input[@value='Add Widget']");
 		selenium.type("id=widget_name", "TestWidget");
@@ -60,17 +59,13 @@ component extends="TestRazunaBase"{
 		selenium.click("name=widget_uploading");
 		selenium.click("name=submitbutton");
 		selenium.click("link=Widget Code");
-		selenium.setspeed("1000");
 		selenium.click("name=submitbutton");
-		selenium.setspeed("1000");
 		selenium.click("//div[10]/div/a/span");
 		selenium.setspeed("1000");
 		selenium.click("//a[contains(text(),'Assets in this Collection')]");
 		selenium.click("//input[@value='Save']");
 		// After adding assets
-		/*selenium.setspeed("1000");
-		selenium.click("name=buttoncopy");
-		selenium.click("//input[@value='Release Collection']");*/
+		//selenium.click("//em/a[contains(text(),'Un-Release it, if you need to make changes')]");
 		Super.doRazLogout();
 	}
 }

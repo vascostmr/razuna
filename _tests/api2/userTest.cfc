@@ -2,7 +2,7 @@
 	
 
 	<!---
-		CFscript based functions is not recognized by MXUnit in openBD   
+		CFscript based functions is not recognized by MXUnit in openBD 
 			UNIT TESTS  - Recommended function name xxx_should_yyy_when_zzz
 	--->
 	<cffunction name="testGetUser">
@@ -19,7 +19,6 @@
 			}
 		</cfscript>
 	</cffunction>
-
 	<!--- Add an user --->
 	<cffunction name="testAdd_when_passingAllArgs">
 		<cfscript>
@@ -37,8 +36,24 @@
 			}else {
 				fail("User does not added successfully");
 			}
-			//fail("testAdd not yet implemented");
 		</cfscript>
+	</cffunction>
+	
+	<!--- update an user --->
+	<cffunction name="testUpdateUser">
+		<cfscript>
+			USERID = "6CE5BBF5-45F3-43C6-BE483C1AC21905B2";
+			USERLOGINNAME = "admin";
+			USEREMAIL = "admin@admin.com";
+			USERDATA = '[["user_first_name","firstname"],["user_last_name","lastname"]]';
+			qUpdate = CUT.update(API_KEY,USERID,USERLOGINNAME,USEREMAIL,USERDATA);
+			if (structKeyExists(qUpdate, "MESSAGE")){
+				assertEquals( "User has been updated successfully", qUpdate.MESSAGE);
+			}else{
+				fail("User with the ID could not be updated successfully");
+			}
+		</cfscript>
+		
 	</cffunction>
 	
 	<!--- Delete an user --->
@@ -48,9 +63,9 @@
 			USERLOGINNAME = "admin";
 			USEREMAIL = "admin@admin.com";
 			//debug(CUT);
-			qAdd = CUT.delete(API_KEY,USERID,USERLOGINNAME,USEREMAIL);
-			if(structKeyExists(qAdd, "MESSAGE")){
-				assertEquals( "User has been removed successfully", qAdd.MESSAGE);
+			qDel = CUT.delete(API_KEY,USERID,USERLOGINNAME,USEREMAIL);
+			if(structKeyExists(qDel, "MESSAGE")){
+				assertEquals( "User has been removed successfully", qDel.MESSAGE);
 			}else {
 				fail("User with the ID could not be found");
 			}
