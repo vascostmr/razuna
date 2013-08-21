@@ -27,7 +27,7 @@ component extends="TestRazunaBase"{
 		selenium.click("name=submitbutton");
 		selenium.click("//div[11]/div/a/span");
 		selenium.click("link=Thumbnail");
-		selenium.type("id=thumb_folder_file", "C:\\Users\\Public\\Pictures\\Sample Pictures\\Desert.jpg");
+		selenium.type("id=thumb_folder_file", #expandpath('.')# & "\Desert.jpg");
 		selenium.click("link=Reset to default");
 		selenium.waitForPageToLoad("30000");
 		selenium.click("css=span.ui-icon.ui-icon-closethick");
