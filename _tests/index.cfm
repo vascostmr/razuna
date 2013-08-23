@@ -28,6 +28,14 @@
 21. <a href="http://localhost:8500/_tests/selenium/TestFolderSettings.cfc?method=runtestremote&output=html">Folder Setting</a><br>
 22. <a href="http://localhost:8500/_tests/selenium/TestWidgetThumbnail.cfc?method=runtestremote&output=html">Widget And Thumbnail</a><br>
 
+23. <a href="http://localhost:8500/_tests/selenium/TestAssetSettings.cfc?method=runtestremote&output=html">Asset Settings</a><br>
+24. <a href="http://localhost:8500/_tests/selenium/TestBasket.cfc?method=runtestremote&output=html">Basket</a><br>
+25. <a href="http://localhost:8500/_tests/selenium/TestCollectionReleased.cfc?method=runtestremote&output=html">Collection Released</a><br>
+26. <a href="http://localhost:8500/_tests/selenium/TestCollectionReleasedSetting.cfc?method=runtestremote&output=html">Collection Released Settings</a><br>
+27. <a href="http://localhost:8500/_tests/selenium/TestCustomization.cfc?method=runtestremote&output=html">Customization</a><br>
+28. <a href="http://localhost:8500/_tests/selenium/TestAdditionalAssets.cfc?method=runtestremote&output=html">Additional Assets</a><br>
+29. <a href="http://localhost:8500/_tests/selenium/TestAdditionalMetadata.cfc?method=runtestremote&output=html">Additional Metadata</a><br>
+
 
 <h1>API Testing Running from OpenBD</h1>
 <a href="http://localhost:8080/razuna/_tests/api2TestSuite.cfm">API test suite</a>

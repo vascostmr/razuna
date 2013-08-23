@@ -561,7 +561,7 @@
 			
 			<!--- Insert Collection --->	
 			<cfquery datasource="#arguments.thestruct.dsn#">
-				INSERT INTO #session.hostdbprefix#collections
+				INSERT INTO #arguments.thestruct.host_db_prefix#collections
 				(col_id,folder_id_r,col_owner,create_date,create_time,change_date,change_time, host_id, col_shared, share_dl_org, share_dl_thumb, share_comments, share_upload)
 				VALUES(
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="42916093FE7A46DA9CAF6EB57AB21A9A">,
@@ -580,7 +580,7 @@
 				)
 			</cfquery>
 			<cfquery datasource="#arguments.thestruct.dsn#">
-				INSERT INTO #session.hostdbprefix#collections_text
+				INSERT INTO #arguments.thestruct.host_db_prefix#collections_text
 				(col_id_r, lang_id_r, col_desc, col_keywords, col_name, host_id, rec_uuid)
 				VALUES(
 				<cfqueryparam value="42916093FE7A46DA9CAF6EB57AB21A9A" cfsqltype="CF_SQL_VARCHAR">,
@@ -596,7 +596,7 @@
 			<!--- Insert Collection Asset --->
 			<!--- Insert Images --->
 			<cfquery datasource="#arguments.thestruct.dsn#">
-				INSERT INTO #session.hostdbprefix#collections_ct_files
+				INSERT INTO #arguments.thestruct.host_db_prefix#collections_ct_files
 				(col_id_r, file_id_r, col_file_type, col_item_order, col_file_format, host_id, rec_uuid)
 				VALUES(
 				<cfqueryparam value="42916093FE7A46DA9CAF6EB57AB21A9A" cfsqltype="CF_SQL_VARCHAR">,
@@ -610,7 +610,7 @@
 			</cfquery>
 			<!--- Insert Audio --->
 			<cfquery datasource="#arguments.thestruct.dsn#">
-				INSERT INTO #session.hostdbprefix#collections_ct_files
+				INSERT INTO #arguments.thestruct.host_db_prefix#collections_ct_files
 				(col_id_r, file_id_r, col_file_type, col_item_order, col_file_format, host_id, rec_uuid)
 				VALUES(
 				<cfqueryparam value="42916093FE7A46DA9CAF6EB57AB21A9A" cfsqltype="CF_SQL_VARCHAR">,
@@ -622,6 +622,49 @@
 				<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
 				)
 			</cfquery>	
+			
+			<!--- Insert image comment --->
+			<cfquery datasource="#application.razuna.datasource#" name="qry">
+				INSERT INTO #arguments.thestruct.host_db_prefix#comments
+				(com_id, com_text, com_date, asset_id_r, user_id_r, asset_type, host_id)
+				VALUES(
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="FBE3517179344A25B27C1A55A239405A">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="test comment for image">,
+				<cfqueryparam cfsqltype="cf_sql_timestamp" value="#now()#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="8AF522125A584C06B897C138316D253B">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="6CE5BBF5-45F3-43C6-BE483C1AC21905B2">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="img">,
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="1">
+				)
+			</cfquery>
+			<!--- Insert audio comment --->
+			<cfquery datasource="#application.razuna.datasource#" name="qry">
+				INSERT INTO #arguments.thestruct.host_db_prefix#comments
+				(com_id, com_text, com_date, asset_id_r, user_id_r, asset_type, host_id)
+				VALUES(
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="78AF98784C5A424BAF0B220D14100EDB">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="test comment for audio">,
+				<cfqueryparam cfsqltype="cf_sql_timestamp" value="#now()#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="01796D62A2A3409BB327142798C7A032">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="6CE5BBF5-45F3-43C6-BE483C1AC21905B2">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="aud">,
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="1">
+				)
+			</cfquery>
+			
+			<cfquery datasource="#application.razuna.datasource#" name="qry">
+				INSERT INTO #arguments.thestruct.host_db_prefix#comments
+				(com_id, com_text, com_date, asset_id_r, user_id_r, asset_type, host_id)
+				VALUES(
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="56EC301371AB441C84718DEBD0E67C1A">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="sample comment for audio">,
+				<cfqueryparam cfsqltype="cf_sql_timestamp" value="#now()#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="01796D62A2A3409BB327142798C7A032">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="6CE5BBF5-45F3-43C6-BE483C1AC21905B2">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="aud">,
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="1">
+				)
+			</cfquery>
 		<cfreturn />
 
 	</cffunction>
