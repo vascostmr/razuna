@@ -624,7 +624,7 @@
 			</cfquery>	
 			
 			<!--- Insert image comment --->
-			<cfquery datasource="#application.razuna.datasource#" name="qry">
+			<cfquery datasource="#arguments.thestruct.dsn#" name="qry">
 				INSERT INTO #arguments.thestruct.host_db_prefix#comments
 				(com_id, com_text, com_date, asset_id_r, user_id_r, asset_type, host_id)
 				VALUES(
@@ -638,7 +638,7 @@
 				)
 			</cfquery>
 			<!--- Insert audio comment --->
-			<cfquery datasource="#application.razuna.datasource#" name="qry">
+			<cfquery datasource="#arguments.thestruct.dsn#" name="qry">
 				INSERT INTO #arguments.thestruct.host_db_prefix#comments
 				(com_id, com_text, com_date, asset_id_r, user_id_r, asset_type, host_id)
 				VALUES(
@@ -652,7 +652,7 @@
 				)
 			</cfquery>
 			
-			<cfquery datasource="#application.razuna.datasource#" name="qry">
+			<cfquery datasource="#arguments.thestruct.dsn#" name="qry">
 				INSERT INTO #arguments.thestruct.host_db_prefix#comments
 				(com_id, com_text, com_date, asset_id_r, user_id_r, asset_type, host_id)
 				VALUES(
@@ -665,6 +665,105 @@
 				<cfqueryparam cfsqltype="cf_sql_numeric" value="1">
 				)
 			</cfquery>
+			
+			<!--- Insert custom fields --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO #arguments.thestruct.host_db_prefix#custom_fields
+				(cf_id, cf_type, cf_order, cf_enabled, cf_show, cf_group, host_id, cf_select_list, cf_edit)
+				VALUES(
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="DF8D3A0C-8CB2-44B2-AB38A64FD7FD61FE">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="textarea">,
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="1">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="T">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="all">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="">,
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="1">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="6CE5BBF5-45F3-43C6-BE483C1AC21905B2">
+				)
+			</cfquery>
+			
+			<!--- Insert custom field text --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO #arguments.thestruct.host_db_prefix#custom_fields_text
+				(cf_id_r, lang_id_r, cf_text, host_id, rec_uuid)
+				VALUES(
+				<cfqueryparam value="DF8D3A0C-8CB2-44B2-AB38A64FD7FD61FE" cfsqltype="CF_SQL_VARCHAR">,
+				<cfqueryparam value="1" cfsqltype="cf_sql_numeric">,
+				<cfqueryparam value="Test description" cfsqltype="cf_sql_varchar">,
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="1">,
+				<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
+				)
+			</cfquery>
+			
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO #arguments.thestruct.host_db_prefix#custom_fields
+				(cf_id, cf_type, cf_order, cf_enabled, cf_show, cf_group, host_id, cf_select_list, cf_edit)
+				VALUES(
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="ADFA6E8E-4A8C-416E-AC8B45F5BC905A1A">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="text">,
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="2">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="T">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="all">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="">,
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="1">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="6CE5BBF5-45F3-43C6-BE483C1AC21905B2">
+				)
+			</cfquery>
+			
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO #arguments.thestruct.host_db_prefix#custom_fields_text
+				(cf_id_r, lang_id_r, cf_text, host_id, rec_uuid)
+				VALUES(
+				<cfqueryparam value="ADFA6E8E-4A8C-416E-AC8B45F5BC905A1A" cfsqltype="CF_SQL_VARCHAR">,
+				<cfqueryparam value="1" cfsqltype="cf_sql_numeric">,
+				<cfqueryparam value="Test field" cfsqltype="cf_sql_varchar">,
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="1">,
+				<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
+				)
+			</cfquery>
+			
+			
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO #arguments.thestruct.host_db_prefix#custom_fields_values
+				(cf_id_r, asset_id_r, cf_value, host_id, rec_uuid)
+				VALUES(
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="DF8D3A0C-8CB2-44B2-AB38A64FD7FD61FE">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="8AF522125A584C06B897C138316D253B">,
+				<cfqueryparam cfsqltype="cf_sql_varchar" value="Test dummy value">,
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="1">,
+				<cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#createuuid()#">
+				)
+			</cfquery>
+			
+			<!--- Insert label --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO #arguments.thestruct.host_db_prefix#labels
+				(label_id,label_text,label_date,user_id,host_id,label_id_r,label_path)
+				VALUES(
+					<cfqueryparam value="08FC43D60B4646BA9D8539F276B4FB90" cfsqltype="cf_sql_varchar" />,
+					<cfqueryparam value="Test label" cfsqltype="cf_sql_varchar" />,
+					<cfqueryparam value="#now()#" cfsqltype="cf_sql_timestamp" />,
+					<cfqueryparam value="6CE5BBF5-45F3-43C6-BE483C1AC21905B2" cfsqltype="cf_sql_varchar" />,
+					<cfqueryparam value="1" cfsqltype="cf_sql_numeric" />,
+					<cfqueryparam value="0" cfsqltype="cf_sql_varchar" />,
+					<cfqueryparam value="Test label" cfsqltype="cf_sql_varchar" />
+				)
+			</cfquery>
+			
+			<!--- Insert ct label --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO ct_labels(ct_label_id,ct_id_r,ct_type,rec_uuid)
+				VALUES
+				(
+					<cfqueryparam value="08FC43D60B4646BA9D8539F276B4FB90" cfsqltype="cf_sql_varchar" />,
+					<cfqueryparam value="8AF522125A584C06B897C138316D253B" cfsqltype="cf_sql_varchar" />,
+					<cfqueryparam value="img" cfsqltype="cf_sql_varchar" />,
+					<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
+				)
+			</cfquery>
+		
 		<cfreturn />
 
 	</cffunction>
