@@ -763,6 +763,17 @@
 					<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
 				)
 			</cfquery>
+			
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO ct_labels(ct_label_id,ct_id_r,ct_type,rec_uuid)
+				VALUES
+				(
+					<cfqueryparam value="08FC43D60B4646BA9D8539F276B4FB90" cfsqltype="cf_sql_varchar" />,
+					<cfqueryparam value="149E0F769428440AAF5FFBDA28E6F974" cfsqltype="cf_sql_varchar" />,
+					<cfqueryparam value="vid" cfsqltype="cf_sql_varchar" />,
+					<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
+				)
+			</cfquery>
 		
 		<cfreturn />
 
