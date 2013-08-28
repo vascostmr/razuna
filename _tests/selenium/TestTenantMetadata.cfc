@@ -103,15 +103,14 @@ component extends="TestRazunaBase"{
 	}
 
 	// Copy Metadata
-	/*function testCopyMetadata() {
-		selenium.setspeed("1000");
+	/*function testMetadata() {
 		selenium.click("css=button.button");
-		selenium.type("id=searchtext", "Tulips");
+		selenium.type("id=searchtext", "Desert");
 		selenium.click("//button[@onclick='copy_meta();return false;']");
-		selenium.click("name=idList");
+		selenium.click("id=selectallcm");
 		selenium.click("id=apply");
-		selenium.click("document.form8800444A1A834E12AAE963AA8A0FF30C.insert_type[1]");
+		selenium.check("css=input[value='append'][name='insert_type']");
 		selenium.click("id=apply");
-		selenium.click("//div[11]/div/button");
+		selenium.click("css=div:last-child .ui-button-icon-primary");
 	}*/
 }
