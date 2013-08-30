@@ -36,6 +36,18 @@
 28. <a href="http://localhost:8500/_tests/selenium/TestAdditionalAssets.cfc?method=runtestremote&output=html">Additional Assets</a><br>
 29. <a href="http://localhost:8500/_tests/selenium/TestAdditionalMetadata.cfc?method=runtestremote&output=html">Additional Metadata</a><br>
 
+30. <a href="http://localhost:8500/_tests/selenium/TestAssetsAudioRendition.cfc?method=runtestremote&output=html">Audio Rendition</a><br>
+31. <a href="http://localhost:8500/_tests/selenium/TestAssetsPDFDetails.cfc?method=runtestremote&output=html">PDF Details</a><br>
+32. <a href="http://localhost:8500/_tests/selenium/TestAssetsVideosRention.cfc?method=runtestremote&output=html">Video Rendition</a><br>
+33. <a href="http://localhost:8500/_tests/selenium/TestBatch.cfc?method=runtestremote&output=html">Batch</a><br>
+34. <a href="http://localhost:8500/_tests/selenium/TestCollectionTrash.cfc?method=runtestremote&output=html">Collection Trash</a><br>
+35. <a href="http://localhost:8500/_tests/selenium/TestEmptyTrash.cfc?method=runtestremote&output=html">Empty Trash</a><br>
+36. <a href="http://localhost:8500/_tests/selenium/TestImportTemplate.cfc?method=runtestremote&output=html">Import Template</a><br>
+37. <a href="http://localhost:8500/_tests/selenium/TestMoreActions.cfc?method=runtestremote&output=html">More Actions</a><br>
+38. <a href="http://localhost:8500/_tests/selenium/TestMoveAssets.cfc?method=runtestremote&output=html">Move Assets</a><br>
+39. <a href="http://localhost:8500/_tests/selenium/TestRestore.cfc?method=runtestremote&output=html">Restore</a><br>
+40. <a href="http://localhost:8500/_tests/selenium/TestTenantMetadata.cfc?method=runtestremote&output=html">Metadata</a><br>
+
 
 <h1>API Testing Running from OpenBD</h1>
 <a href="http://localhost:8080/razuna/_tests/api2TestSuite.cfm">API test suite</a>

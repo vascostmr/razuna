@@ -7,14 +7,14 @@ component extends="TestRazunaBase"{
 		selenium.setspeed("1000");
 		selenium.click("link=Manage");
 		selenium.click("link=Add Folder (on root level)");
-		selenium.type("id=folder_name", "sample");
+		selenium.type("id=folder_name", "TestFolder");
 		selenium.click("name=grp_0");
 		selenium.click("id=foldersubmitbutton");
 	}
 	//Folder Setting
-	function testSetting(){
+	function testFolderSetting(){
 		selenium.click("//a[contains(text(),'Uploads')]");
-		selenium.setspeed("3000");
+		selenium.setspeed("2000");
 		selenium.click("css=.grid > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(2) > a:nth-child(1)");
 		selenium.click("//div[@id='properties']/form");
 		selenium.check("css=input[name='per_0'][value='X']");
@@ -29,7 +29,7 @@ component extends="TestRazunaBase"{
 		selenium.click("name=share_comments");
 		selenium.click("name=share_upload");
 		selenium.click("name=share_order");
-		selenium.click("//div[@id='sharing']/form");
+		selenium.click("css=input[class='button'][value='Update']");
 		Super.doRazLogout();
 	}
 }

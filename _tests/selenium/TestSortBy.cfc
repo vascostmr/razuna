@@ -1,8 +1,8 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
 	
-	// Folder Content Options
-	function testFolderOptions() {
+	// Views and Sort By
+	function testSortBy() {
 		Super.doRazLogin();
 		selenium.setspeed("1000");
 		selenium.click("link=Uploads");
