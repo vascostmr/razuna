@@ -26,8 +26,6 @@ component extends="TestRazunaBase"{
 		if (selenium.isElementPresent("link=Next >") EQ true) {
 		selenium.click("link=Next >");
 		selenium.click("link=< Back");
-		selenium.select("id=thepagelistall", "label=2");
-		selenium.select("id=thepagelistall", "label=1");
 		selenium.select("id=selectrowperpageallb", "label=50");
 		selenium.select("id=selectrowperpageallb", "label=75");
 		selenium.select("id=selectrowperpageallb", "label=100");

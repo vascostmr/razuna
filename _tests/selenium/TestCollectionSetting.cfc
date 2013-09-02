@@ -15,16 +15,16 @@ component extends="TestRazunaBase"{
 		selenium.click("id=foldersubmitbutton");
 		selenium.click("css=span.ui-icon.ui-icon-closethick");
 		selenium.setspeed("1000");
-		selenium.click("link=Test_Collection");
+		selenium.click("link=TestCollection");
 		// Description & Keywords
 		selenium.click("link=Description & Keywords");
 		selenium.click("css=input[name=submit]");
 		// Comments
 		selenium.click("link=Comments");
-		selenium.type("id=assetComment", "Test collection comment");
+		selenium.type("id=assetComment", "TestCollection comment");
 		selenium.click("css=td > input.button");
 		selenium.click("//a[contains(text(),'Edit')]");
-		selenium.type("id=commentup","Test collection commented");
+		selenium.type("id=commentup","TestCollection commented");
 		selenium.check("css=input[name='savecomment'][value='Update']");
 		selenium.click("//a[contains(text(),'Remove')]");
 		selenium.click("css=input[name='remove'][value='Remove Record']");
@@ -63,14 +63,17 @@ component extends="TestRazunaBase"{
 		selenium.setspeed("1000");
 		selenium.click("name=submitbutton");
 		selenium.setspeed("1000");
-		selenium.click("//div[10]/div/a/span");
+		//selenium.click("css=span.ui-button-icon-primary");
+		selenium.click("css=div:last-child .ui-button-icon-primary");
 		selenium.setspeed("1000");
 		selenium.click("//a[contains(text(),'Assets in this Collection')]");
 		selenium.click("//input[@value='Save']");
 		// After adding assets
-		/*selenium.setspeed("1000");
+		if(selenium.isVisible("name=buttoncopy")){
+		selenium.setspeed("1000");
 		selenium.click("name=buttoncopy");
-		selenium.click("//input[@value='Release Collection']");*/
+		selenium.click("//input[@value='Release Collection']");
+		}
 		Super.doRazLogout();
 	}
 }

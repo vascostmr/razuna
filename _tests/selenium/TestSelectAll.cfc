@@ -30,10 +30,19 @@ component extends="TestRazunaBase"{
 	function testExport() {
 		selenium.click("//div[@id='folderselectionallform']/a[5]/div[2]");
 		selenium.click("css=input[type='button']");
+		selenium.selectWindow("name=undefined");
+		selenium.click("css=a > strong");
+		selenium.selectWindow("null");
 		selenium.select("id=export_format", "label=XLS");
 		selenium.click("css=input[type='button']");
+		selenium.selectWindow("name=undefined");
+		selenium.click("css=a > strong");
+		selenium.selectWindow("null");
 		selenium.select("id=export_format", "label=XLSX");
 		selenium.click("css=input[type='button']");
+		selenium.selectWindow("name=undefined");
+		selenium.click("css=a > strong");
+		selenium.selectWindow("null");
 		selenium.click("css=div:last-child .ui-button-icon-primary");
 	}
 	
@@ -41,6 +50,7 @@ component extends="TestRazunaBase"{
 	function testMove() {
 		selenium.click("//div[@id='folderselectionallform']/a[2]/div[2]");
 		selenium.click("xpath=//div[@id='win_choosefolder']/ul[@class='ltr']/li[@class='leaf']/a");
+		selenium.click("css=div:last-child .ui-button-icon-primary");
 	}
 	
 	// Move to trash

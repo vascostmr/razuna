@@ -6,11 +6,13 @@ component extends="TestRazunaBase"{
 		Super.doRazLogin();
 		selenium.setspeed("3000");
 		selenium.click("link=Uploads");
-		selenium.click("css=img.ui-selectee");
-		selenium.click("id=ui-id-7");
+		selenium.click("xpath=//div[@id='tabsfolder_tab']/ul/li[@aria-controls='img']/a[contains(text(),'Images')]");
+		selenium.click("css=form##imgform table.grid tbody tr td##selectme.ui-selectable div.assetbox a.ui-selectee div");
 		// XMP Description
+		selenium.setspeed("3000");
+		selenium.click("css=a:contains('Meta Data')");
 		selenium.click("//div[@id='meta']/a[2]/div");
-		selenium.setspeed("1000");
+		selenium.setspeed("2000");
 		selenium.type("name=xmp_document_title", "Test Document Title");
 		selenium.type("name=xmp_author", "Test Author");
 		selenium.type("name=xmp_author_title", "Test Author Title");

@@ -1,23 +1,18 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-	//TestRaz Admin settings
-	 function testRazAdminsettings() { 
-	 	Super.doRazLogin();
-	 	selenium.setSpeed("1000");
+	// Settings
+	function testSettings() { 
+		Super.doRazLogin();
 		selenium.click("link=admin admin");
-		selenium.setSpeed("1000");
 		selenium.click("link=Administration");
-		selenium.setspeed("1000");
+		selenium.setspeed("2000");
 		selenium.click("link=Settings");
-		selenium.setspeed("1000");
 		selenium.click("name=submit");
 		selenium.click("link=Maintenance");
-		selenium.setspeed("1000");
-		selenium.setspeed("1000");
 		selenium.click("name=flushdb");
-		selenium.setspeed("1000");
+		selenium.click("name=rebuiltcache");
+		selenium.click("name=cleaner");
+		selenium.waitForPageToLoad( timeout );
 		Super.doRazLogout();
 	}
-	
-
 }
