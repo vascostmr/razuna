@@ -9,8 +9,9 @@ component extends="TestRazunaBase"{
 		selenium.click("xpath=//div[@id='tabsfolder_tab']/ul/li[@aria-controls='img']/a[contains(text(),'Images')]");
 		selenium.click("css=img.ui-selectee");
 		selenium.click("css=div##detailinfo div.collapsable div.headers a:nth-child(6)");
-		selenium.click("css=div##win_choosefolder ul.ltr li:first-child  a");
+		selenium.click("css=div##win_choosefolder ul.ltr li:first-child a");
 		selenium.click("css=div:last-child .ui-button-icon-primary");
+		selenium.click("css=button.ui-button");
 	}
     //Preview image
      function testPreviewImage() {

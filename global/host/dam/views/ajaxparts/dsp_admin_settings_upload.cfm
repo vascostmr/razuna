@@ -36,15 +36,18 @@
 <cfinput type="hidden" name="uploadnow" value="T">
 <cfinput type="hidden" name="thefield" value="thefile">
 <cfif !structKeyExists(attributes,"loginimg") AND !structKeyExists(attributes,"favicon")>
-	<cfinput size="50" type="file" name="thefile" validate="regular_expression" pattern="logo.jpg" validateat="onSubmit" required="true" message="Name your file logo.jpg!" />
+	<cfinput id="logoid" size="50" type="file" name="thefile" validate="regular_expression" pattern="logo.jpg" validateat="onSubmit" required="true" message="Name your file logo.jpg!" />
+	<cfinput id="logosaveid" type="submit" name="save" value="Upload" class="button">
 <cfelseif structKeyExists(attributes,"favicon")>
 	<cfinput type="hidden" name="favicon" value="true">
-	<cfinput size="50" type="file" name="thefile" validate="regular_expression" pattern="favicon.ico" validateat="onSubmit" required="true" message="Name your file favicon.ico!" />
+	<cfinput id="faviconid" size="50" type="file" name="thefile" validate="regular_expression" pattern="favicon.ico" validateat="onSubmit" required="true" message="Name your file favicon.ico!" />
+	<cfinput id="faviconsaveid" type="submit" name="save" value="Upload" class="button">
 <cfelse>
 	<cfinput type="hidden" name="loginimg" value="true">
-	<cfinput size="50" type="file" name="thefile" validate="regular_expression" pattern="[*.jpg|*.gif|*.png]" validateat="onSubmit" required="true" message="Only jpg, gif and png formats please!" />
+	<cfinput id="loginid" size="50" type="file" name="thefile" validate="regular_expression" pattern="[*.jpg|*.gif|*.png]" validateat="onSubmit" required="true" message="Only jpg, gif and png formats please!" />
+	<cfinput id="loginsaveid" type="submit" name="save" value="Upload" class="button">
 </cfif>
-<cfinput type="submit" name="save" value="Upload" class="button"> 
+<!---<cfinput type="submit" name="save" value="Upload" class="button">--->
 </cfform>
 <cfif structkeyexists(form,"fieldnames")>Image uploaded successfully. Please click on refresh.</cfif>
 </cfoutput>

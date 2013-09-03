@@ -1,6 +1,8 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-	function TestShowFavourites(){
+	
+	// Favourites
+	function TestFavourites(){
 		Super.doRazLogin();
 		selenium.setspeed("3000");
 		selenium.click("link=Uploads");

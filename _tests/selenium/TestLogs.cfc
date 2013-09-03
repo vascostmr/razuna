@@ -6,7 +6,7 @@ component extends="TestRazunaBase"{
 		Super.doRazLogin();
 		selenium.click("link=admin admin");
 		selenium.click("link=Administration");
-		selenium.setspeed("1000");
+		selenium.setspeed("3000");
 		selenium.click("link=Logs");
 		selenium.select("id=actionsassets", "label=Add");
 		selenium.select("id=actionsassets", "label=Update");
@@ -14,7 +14,7 @@ component extends="TestRazunaBase"{
 		selenium.select("id=actionsassets", "label=Move");
 		selenium.select("id=actionsassets", "label=Renditions");
 		selenium.click("xpath=(//a[contains(text(),'Search')])[6]");
-		selenium.type("id=searchtext", "nature");
+		selenium.type("id=searchtext", "Desert");
 		selenium.click("name=search");
 		selenium.click("link=Searches (Summarized)");
 		selenium.click("xpath=(//a[contains(text(),'Images only')])[2]");

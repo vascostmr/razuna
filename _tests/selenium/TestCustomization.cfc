@@ -1,7 +1,7 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
 	
-	// Customization
+	// Customization 
 	function testCustomization() {
 		Super.doRazLogin();
 		selenium.click("link=admin admin");
@@ -9,19 +9,15 @@ component extends="TestRazunaBase"{
 		selenium.setspeed("1000");
 		selenium.click("//a[contains(text(),'Customization')]");
 		selenium.click("name=apply_global");
-		// Logo and login image
-		/*selenium.click("css=div.headers");
-		selenium.type("id=thefile", #expandpath('.')# & "\logo.jpg");
-		selenium.click("id=save");
-		selenium.waitForPageToLoad("30000");
+		selenium.click("css=div.headers");
+		selenium.type("id=logoid", #expandpath('.')# & "\logo.jpg");
+		selenium.click("id=logosaveid");
 		selenium.click("link=Refresh");
-		selenium.type("id=thefile", #expandpath('.')# & "\Desert.jpg");
-		selenium.click("id=save");
-		selenium.waitForPageToLoad("30000");
+		selenium.type("id=loginid", #expandpath('.')# & "\Desert.jpg");
+		selenium.click("id=loginsaveid");
 		selenium.click("xpath=(//a[contains(text(),'Refresh')])[2]");
-		selenium.type("id=thefile", #expandpath('.')# & "\favicon.ico");
-		selenium.click("id=save");
-		selenium.waitForPageToLoad("30000");
+		selenium.type("id=faviconid", #expandpath('.')# & "\favicon.ico");
+		selenium.click("id=faviconsaveid");
 		selenium.click("xpath=(//a[contains(text(),'Refresh')])[3]");
 		selenium.click("css=div.headers");
 		selenium.click("//input[@value='Save Changes']");
@@ -30,8 +26,9 @@ component extends="TestRazunaBase"{
 		selenium.click("xpath=(//a[contains(text(),'Remove')])[2]");
 		selenium.click("xpath=(//a[contains(text(),'Remove')])[3]");
 		selenium.click("css=div.headers");
-		selenium.click("//input[@value='Save Changes']");*/
+		selenium.click("//input[@value='Save Changes']");
 		// User Options
+		selenium.setspeed("3000");
 		selenium.click("//div[@id='customization']/a[2]/div");
 		selenium.click("name=folder_redirect_off");
 		selenium.click("document.form_admin_custom.myfolder_create[1]");
@@ -46,7 +43,7 @@ component extends="TestRazunaBase"{
 		selenium.click("name=request_access");
 		selenium.click("//div[@id='customization']/a[2]/div");
 		selenium.click("//input[@value='Save Changes']");
-		// Design 
+		// Design
 		selenium.click("//div[@id='customization']/a[3]/div");
 		selenium.click("document.form_admin_custom.show_top_part[1]");
 		selenium.click("document.form_admin_custom.show_bottom_part[1]");
@@ -78,21 +75,21 @@ component extends="TestRazunaBase"{
 		selenium.click("//input[@value='Save Changes']");
 		// Shared Folder/Collection Options
 		selenium.click("//div[@id='customization']/a[5]/div");
-        selenium.click("name=share_folder");
-        selenium.click("document.form_admin_custom.share_download_thumb[1]");
-        selenium.click("name=share_download_original");
-        selenium.click("name=share_comments");
-        selenium.click("name=share_uploading");
-        selenium.click("//div[@id='customization']/a[5]/div");
-        selenium.click("//input[@value='Save Changes']");
-        selenium.click("//div[@id='customization']/a[5]/div");
-        selenium.click("document.form_admin_custom.share_folder[1]");
-        selenium.click("name=share_download_thumb");
-        selenium.click("document.form_admin_custom.share_download_original[1]");
-        selenium.click("document.form_admin_custom.share_comments[1]");
-        selenium.click("document.form_admin_custom.share_uploading[1]");
-        selenium.click("//div[@id='customization']/a[5]/div");
-        selenium.click("//input[@value='Save Changes']");
+		selenium.click("name=share_folder");
+		selenium.click("document.form_admin_custom.share_download_thumb[1]");
+		selenium.click("name=share_download_original");
+		selenium.click("name=share_comments");
+		selenium.click("name=share_uploading");
+		selenium.click("//div[@id='customization']/a[5]/div");
+		selenium.click("//input[@value='Save Changes']");
+		selenium.click("//div[@id='customization']/a[5]/div");
+		selenium.click("document.form_admin_custom.share_folder[1]");
+		selenium.click("name=share_download_thumb");
+		selenium.click("document.form_admin_custom.share_download_original[1]");
+		selenium.click("document.form_admin_custom.share_comments[1]");
+		selenium.click("document.form_admin_custom.share_uploading[1]");
+		selenium.click("//div[@id='customization']/a[5]/div");
+		selenium.click("//input[@value='Save Changes']");
 		// Folderview
 		selenium.click("//div[@id='customization']/a[6]/div");
 		selenium.click("document.form_admin_custom.tab_images[1]");
@@ -175,11 +172,11 @@ component extends="TestRazunaBase"{
 		selenium.click("//div[@id='customization']/a[7]/div");
 		selenium.click("xpath=(//input[@value='Save Changes'])[2]");
 		// File metadata items
+		/*selenium.click("//div[@id='customization']/a[8]/div");
+		selenium.type("name=assetbox_height", "150");
+		selenium.type("name=assetbox_width", "150");
 		selenium.click("//div[@id='customization']/a[8]/div");
-        selenium.type("name=assetbox_height", "150");
-        selenium.type("name=assetbox_width", "150");
-        selenium.click("//div[@id='customization']/a[8]/div");
-        selenium.click("xpath=(//input[@value='Save Changes'])[2]");
+		selenium.click("xpath=(//input[@value='Save Changes'])[2]");*/
 		Super.doRazLogout();
 	}
 }

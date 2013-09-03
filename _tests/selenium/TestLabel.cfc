@@ -6,9 +6,9 @@ component extends="TestRazunaBase"{
 		Super.doRazLogin();
 		selenium.click("link=admin admin");
 		selenium.click("link=Administration");
-		selenium.setspeed("1000");
+		selenium.setspeed("3000");
 		selenium.click("xpath=(//a[contains(text(),'Labels')])[2]");
-		selenium.click("name=labels_public");
+		selenium.check("css=input[name='labels_public'][value='t']");
 		selenium.click("id=label_text_admin");
 		selenium.type("id=label_text_admin", "TestLabel");
 		selenium.click("//input[@value='Add Label']");

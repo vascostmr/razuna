@@ -39,6 +39,7 @@ component extends="TestRazunaBase"{
 		selenium.type("name=iptc_contact_emails", "Test@gmail.com");
 		selenium.type("name=iptc_contact_websites", "www.Testwebsite.com");
 		selenium.click("//div[@id='meta']/a[3]/div");
+		Super.doRazLogout();
 	}
 
 	// IPTC Image
@@ -105,14 +106,14 @@ component extends="TestRazunaBase"{
 	}
 
 	// Copy Metadata
-	/*function testMetadata() {
+	function testMetadata() {
 		selenium.click("css=button.button");
-		selenium.type("id=searchtext", "Desert");
+		selenium.type("id=searchtext", "jpg");
 		selenium.click("//button[@onclick='copy_meta();return false;']");
 		selenium.click("id=selectallcm");
 		selenium.click("id=apply");
 		selenium.check("css=input[value='append'][name='insert_type']");
 		selenium.click("id=apply");
 		selenium.click("css=div:last-child .ui-button-icon-primary");
-	}*/
+	}
 }

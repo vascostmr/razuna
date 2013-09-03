@@ -70,6 +70,51 @@
 				)
 			</cfquery>
 			
+			<!--- Insert demo folder --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO  #arguments.thestruct.host_db_prefix#folders
+				(folder_id, folder_name, folder_level, folder_owner, folder_create_date, folder_change_date, folder_create_time, folder_change_time, folder_of_user, folder_id_r, folder_main_id_r, host_id)
+				values (
+				<cfqueryparam value="08F1A421827F4A3DAEDD0EA63F048A94" cfsqltype="CF_SQL_VARCHAR">, 
+				<cfqueryparam value="Demo" cfsqltype="cf_sql_varchar">, 
+				<cfqueryparam value="1" cfsqltype="cf_sql_numeric">, 
+				<cfqueryparam value="6CE5BBF5-45F3-43C6-BE483C1AC21905B2" cfsqltype="CF_SQL_VARCHAR">, 
+				<cfqueryparam value="#now()#" cfsqltype="cf_sql_date">, 
+				<cfqueryparam value="#now()#" cfsqltype="cf_sql_date">,
+				<cfqueryparam value="#now()#" cfsqltype="cf_sql_timestamp">, 
+				<cfqueryparam value="#now()#" cfsqltype="cf_sql_timestamp">, 
+				<cfqueryparam value="f" cfsqltype="cf_sql_varchar">,
+				<cfqueryparam value="08F1A421827F4A3DAEDD0EA63F048A94" cfsqltype="CF_SQL_VARCHAR">,
+				<cfqueryparam value="08F1A421827F4A3DAEDD0EA63F048A94" cfsqltype="CF_SQL_VARCHAR">,
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="1">
+				)
+			</cfquery>
+			
+			<!--- Insert the DESCRIPTION --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO  #arguments.thestruct.host_db_prefix#folders_desc
+				(folder_id_r, lang_id_r, folder_desc, host_id, rec_uuid)
+				VALUES(
+				<cfqueryparam value="08F1A421827F4A3DAEDD0EA63F048A94" cfsqltype="CF_SQL_VARCHAR">, 
+				<cfqueryparam value="1" cfsqltype="cf_sql_numeric">, 
+				<cfqueryparam value="Demo folder" cfsqltype="cf_sql_varchar">,
+				<cfqueryparam cfsqltype="cf_sql_numeric" value="1">,
+				<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
+				)
+			</cfquery>
+			<!--- Make it public for everyone --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO  #arguments.thestruct.host_db_prefix#folders_groups
+				(folder_id_r, grp_id_r, grp_permission, host_id, rec_uuid)
+				VALUES(
+					<cfqueryparam value="08F1A421827F4A3DAEDD0EA63F048A94" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="0" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="W" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="1" cfsqltype="cf_sql_numeric">,
+					<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
+				)
+			</cfquery>
+			
 			<!--- set sub folders --->
 				
 			<cfquery datasource="#arguments.thestruct.dsn#">
@@ -305,6 +350,52 @@
 					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="1">)
 			</cfquery>
 			
+			<!--- Insert image redition  --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO #arguments.thestruct.host_db_prefix#images(img_id,img_group,img_filename,folder_id_r,img_custom_id,img_online,img_owner,img_create_date,img_create_time,img_change_date,
+					img_change_time,img_in_progress,img_extension,thumb_extension,thumb_width,thumb_height,img_filename_org,img_width,img_height,img_size,
+					thumb_size,shared,link_path_url,img_meta,host_id,path_to_asset,hashtag,is_available,cloud_url_exp,in_trash) VALUES(
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="EDDA6A631EEA4B0DA1449679AE07CAC9">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="FDCAA2CFAF6C404193CE30AFABA2DAD0">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Tulips_8AF522125A584C06B897C138316D253B.png">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A9D8939DFF774C94886882175BB28199">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="EDDA6A631EEA4B0DA1449679AE07CAC9">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="F">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="6CE5BBF5-45F3-43C6-BE483C1AC21905B2">,
+					<cfqueryparam cfsqltype="CF_SQL_DATE" value="#now()#">,
+					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#now()#">,					
+					<cfqueryparam cfsqltype="CF_SQL_DATE" value="#now()#">,
+					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#now()#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="T">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="png">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="jpg">,
+					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="400">,
+					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="400">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Tulips_8AF522125A584C06B897C138316D253B.png">,
+					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="1024">,
+					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="768">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="1032544">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="65881">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="F">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="">,
+					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="1">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="A9D8939DFF774C94886882175BB28199/img/EDDA6A631EEA4B0DA1449679AE07CAC9">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="D0BE4B575CEFA92DFDF09BB7A2BE5AAC">,
+					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="1">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="0">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="F">)
+			</cfquery>
+			
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO #arguments.thestruct.host_db_prefix#xmp(ID_R,resunit,host_id)
+				VALUES(
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="EDDA6A631EEA4B0DA1449679AE07CAC9">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="inches">,
+					<cfqueryparam cfsqltype="CF_SQL_INTEGER" value="1">)
+			</cfquery>
+			
+			
 			<!--- Insert audio --->
 			<cfquery datasource="#arguments.thestruct.dsn#">
 				INSERT INTO #arguments.thestruct.host_db_prefix#audios
@@ -513,6 +604,44 @@
 					<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
 					)
 			</cfquery>
+			
+			<!--- Insert documents --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO  #arguments.thestruct.host_db_prefix#files
+				(file_id, folder_id_r,file_create_date,file_create_time, file_change_date, file_change_time, file_owner, file_type, file_name, FILE_EXTENSION, FILE_NAME_NOEXT, FILE_ONLINE, FILE_NAME_ORG,file_size,SHARED,LINK_PATH_URL,FILE_META,HOST_ID,PATH_TO_ASSET,HASHTAG,IS_AVAILABLE)
+				values (
+				<cfqueryparam value="CF65C61D386047A393F5478F61527ECC" cfsqltype="CF_SQL_VARCHAR">, 
+				<cfqueryparam value="A9D8939DFF774C94886882175BB28199" cfsqltype="cf_sql_varchar">,
+				<cfqueryparam value="#now()#" cfsqltype="cf_sql_date">, 
+				<cfqueryparam value="#now()#" cfsqltype="cf_sql_timestamp">,
+				<cfqueryparam value="#now()#" cfsqltype="cf_sql_date">,
+				<cfqueryparam value="#now()#" cfsqltype="cf_sql_timestamp">, 
+				<cfqueryparam value="01796D62A2A3409BB327142798C7A032" cfsqltype="cf_sql_varchar">, 
+				<cfqueryparam value="doc" cfsqltype="CF_SQL_VARCHAR">, 
+				<cfqueryparam value="Test.txt" cfsqltype="cf_sql_varchar">,
+				<cfqueryparam value="txt" cfsqltype="cf_sql_varchar">,
+				<cfqueryparam value="Test" cfsqltype="CF_SQL_VARCHAR">,
+				<cfqueryparam value="F" cfsqltype="CF_SQL_VARCHAR">,
+				<cfqueryparam value="Test.txt"cfsqltype="cf_sql_varchar">,
+				<cfqueryparam value="24"cfsqltype="cf_sql_numeric">,
+				<cfqueryparam value="F"cfsqltype="cf_sql_varchar">,
+				<cfqueryparam value="D:\razuna\webapps\razuna\raz1\dam/incoming/apiCF65C61D386047A393F5478F61527ECC"cfsqltype="cf_sql_varchar">,
+				'---- File ----
+				File Name                       : Test.txt
+				File Size                       : 24 bytes
+				File Modification Date/Time     : 2013:08:16 18:35:23+05:30
+				File Access Date/Time           : 2013:08:16 18:35:23+05:30
+				File Creation Date/Time         : 2013:08:16 18:35:23+05:30
+				File Permissions                : rw-rw-rw-
+				---- ExifTool ----
+				Error                           : Unknown file type',
+				<cfqueryparam value="1"cfsqltype="cf_sql_numeric">,
+				<cfqueryparam value="A9D8939DFF774C94886882175BB28199/doc/CF65C61D386047A393F5478F61527ECC"cfsqltype="cf_sql_varchar">,
+				<cfqueryparam value="6FA9504A22D31A7F85F69CB0DCC85EA0"cfsqltype="cf_sql_varchar">,
+				<cfqueryparam value="F"cfsqltype="cf_sql_varchar">
+				)
+			</cfquery>
+			
 			
 			<!--- Insert Collection Folder --->
 			<cfquery datasource="#arguments.thestruct.dsn#">

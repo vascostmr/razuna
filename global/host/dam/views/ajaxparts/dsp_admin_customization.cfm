@@ -91,7 +91,7 @@
 					</tr>
 					<tr>
 						<td valign="top">
-							<div id="iframe" valign="top">
+							<div id="iframefav" valign="top">
 								<iframe src="#myself#ajax.isp_settings_upload&favicon=true" frameborder="false" scrolling="false" style="border:0px;width:550px;height:70px;"></iframe>
 					       	</div>
 						</td>
