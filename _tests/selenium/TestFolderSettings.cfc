@@ -7,7 +7,7 @@ component extends="TestRazunaBase"{
 		selenium.setspeed("1000");
 		selenium.click("link=Manage");
 		selenium.click("link=Add Folder (on root level)");
-		selenium.type("id=folder_name", "TestFolder");
+		selenium.type("id=folder_name", "sample");
 		selenium.click("name=grp_0");
 		selenium.click("id=foldersubmitbutton");
 	}

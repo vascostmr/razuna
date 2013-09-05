@@ -1,6 +1,5 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-
 	// Add SmartFolder
 	function testSmartFolder() {
 		Super.doRazLogin();

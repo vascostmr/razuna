@@ -16,8 +16,7 @@ component extends="TestRazunaBase"{
     //Preview image
      function testPreviewImage() {
 		selenium.click("link=Upload another Preview Image");
-		//selenium.type("id=filedata", #expandpath('.')# & "\Jellyfish.jpg");
-		selenium.type("id=filedata", "C:\\Users\\Public\\Pictures\\Sample Pictures\\Jellyfish.jpg");
+		selenium.type("id=filedata", #expandpath('.')# & "\assets\img\Desert.jpg");
 		selenium.waitForPageToLoad("20000");
 		selenium.click("css=div:last-child .ui-button-icon-primary");
     }
@@ -34,6 +33,7 @@ component extends="TestRazunaBase"{
 		selenium.click("//div[@id='detailinfo']/div[@class='collapsable']/div[@class='headers']/a[7]");
 		selenium.setspeed("1000");
 		selenium.click("name=trash");
+		Super.doRazLogout();
     }
 }
 

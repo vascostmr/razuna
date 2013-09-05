@@ -1,6 +1,5 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-	
 	// Views and Sort By
 	function testSortBy() {
 		Super.doRazLogin();

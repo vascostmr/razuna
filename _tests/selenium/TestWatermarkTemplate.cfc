@@ -12,7 +12,7 @@ component extends="TestRazunaBase"{
 		selenium.click("name=wm_active");
 		selenium.type("id=wm_name", "Test_watermark");
 		selenium.click("name=wm_use_image");
-		selenium.type("id=filedata", #expandpath('.')# & "\Desert.jpg"); 
+		selenium.type("id=filedata", #expandpath('.')# & "\assets\img\Desert.jpg"); 
 		selenium.waitForPageToLoad( timeout );
 		selenium.select("name=wm_image_position", "label=Upper right corner");
 		selenium.click("name=wm_use_text");

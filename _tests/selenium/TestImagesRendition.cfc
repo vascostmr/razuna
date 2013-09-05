@@ -1,6 +1,5 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-
 	// Images Rendition
 	function testImagesRendition(){
 		Super.doRazLogin();

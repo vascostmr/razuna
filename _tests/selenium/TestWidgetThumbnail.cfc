@@ -32,7 +32,7 @@ component extends="TestRazunaBase"{
 		selenium.setspeed("3000");
 		selenium.click("link=Folder Sharing & Settings");
 		selenium.click("link=Thumbnail");
-		selenium.type("id=thumb_folder_file", #expandpath('.')# & "\Desert.jpg");
+		selenium.type("id=thumb_folder_file", #expandpath('.')# & "\assets\img\Desert.jpg");
 		selenium.click("link=Reset to default");
 	}
 }
