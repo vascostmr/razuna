@@ -24,24 +24,6 @@ component extends="TestRazunaBase"{
 		selenium.click("//div[@id='meta']/a[2]/div");
 	}
 
-	// IPTC Contact
-	function testIPTCMetaContact() {
-		selenium.click("//div[@id='meta']/a[3]/div");
-		selenium.setspeed("2000");
-		selenium.type("name=iptc_contact_creator", "Test Creator");
-		selenium.type("name=iptc_contact_creator_job_title", "Test Creator's Job Title");
-		selenium.type("name=iptc_contact_address", "Test Address");
-		selenium.type("name=iptc_contact_city", "Test City");
-		selenium.type("name=iptc_contact_state_province", "Test State");
-		selenium.type("name=iptc_contact_postal_code", "");
-		selenium.type("name=iptc_contact_country", "Test Country");
-		selenium.type("name=iptc_contact_phones", "9558654321");
-		selenium.type("name=iptc_contact_emails", "Test@gmail.com");
-		selenium.type("name=iptc_contact_websites", "www.Testwebsite.com");
-		selenium.click("//div[@id='meta']/a[3]/div");
-		Super.doRazLogout();
-	}
-
 	// IPTC Image
 	function testIPTCImage() {
 		selenium.click("//div[@id='meta']/a[4]/div");
@@ -115,5 +97,23 @@ component extends="TestRazunaBase"{
 		selenium.check("css=input[value='append'][name='insert_type']");
 		selenium.click("id=apply");
 		selenium.click("css=div:last-child .ui-button-icon-primary");
+	}
+	
+	// IPTC Contact
+	function testIPTCMetaContact() {
+		selenium.click("//div[@id='meta']/a[3]/div");
+		selenium.setspeed("2000");
+		selenium.type("name=iptc_contact_creator", "Test Creator");
+		selenium.type("name=iptc_contact_creator_job_title", "Test Creator's Job Title");
+		selenium.type("name=iptc_contact_address", "Test Address");
+		selenium.type("name=iptc_contact_city", "Test City");
+		selenium.type("name=iptc_contact_state_province", "Test State");
+		selenium.type("name=iptc_contact_postal_code", "");
+		selenium.type("name=iptc_contact_country", "Test Country");
+		selenium.type("name=iptc_contact_phones", "9558654321");
+		selenium.type("name=iptc_contact_emails", "Test@gmail.com");
+		selenium.type("name=iptc_contact_websites", "www.Testwebsite.com");
+		selenium.click("//div[@id='meta']/a[3]/div");
+		Super.doRazLogout();
 	}
 }

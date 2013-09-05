@@ -56,7 +56,7 @@
 			<cfset incval.theform = "form#attributes.file_id#">
 			<!--- OGV --->
 			<tr class="list">
-				<td align="center"><input type="checkbox" name="convert_to" value="ogv"></td>
+				<td align="center"><input type="checkbox" name="convert_to" id="ogvid" value="ogv"></td>
 				<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',0);return false;" style="text-decoration:none;">OGG (OGV)*</a></td>
 				<td nowrap="true">
 					<cfset incval.theformat = "ogv">
@@ -77,7 +77,7 @@
 			</tr>
 			<!--- WebM --->
 			<tr class="list">
-				<td align="center"><input type="checkbox" name="convert_to" value="webm"></td>
+				<td align="center"><input type="checkbox" name="convert_to" id="webmid" value="webm"></td>
 				<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',1);return false;" style="text-decoration:none;">WebM (WebM)*</a></td>
 				<td nowrap="true">
 					<cfset incval.theformat = "webm">
@@ -87,7 +87,7 @@
 			</tr>
 			<!--- Flash --->
 			<tr class="list">
-				<td align="center"><input type="checkbox" name="convert_to" value="flv"></td>
+				<td align="center"><input type="checkbox" name="convert_to" id="flvid" value="flv"></td>
 				<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',2);return false;" style="text-decoration:none;">Flash (FLV)</a></td>
 				<td nowrap="true">
 					<cfset incval.theformat = "flv">
@@ -97,7 +97,7 @@
 			</tr>
 			<!--- MP4 --->
 			<tr class="list">
-				<td align="center"><input type="checkbox" name="convert_to" value="mp4"></td>
+				<td align="center"><input type="checkbox" name="convert_to" id="mp4id" value="mp4"></td>
 				<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',3);return false;" style="text-decoration:none;">Mpeg4 (MP4)</a></td>
 				<td nowrap="true">
 					<cfset incval.theformat = "mp4">
@@ -107,7 +107,7 @@
 				<!--- <td nowrap="true"><input type="text" size="4" name="convert_bitrate_mp4" value="600">kb/s</td> --->
 			</tr>
 			<tr class="list">
-				<td width="1%" nowrap="true" align="center"><input type="checkbox" name="convert_to" value="wmv"></td>
+				<td width="1%" nowrap="true" align="center"><input type="checkbox" name="convert_to" id="wmvid" value="wmv"></td>
 				<td width="1%" nowrap="true"><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',4);return false;" style="text-decoration:none;">Windows Media Video (WMV)</a></td>
 				<td nowrap="true">
 					<cfset incval.theformat = "wmv">
@@ -117,7 +117,7 @@
 				<!--- <td width="100%" nowrap="true"><input type="text" size="4" name="convert_bitrate_wmv" value="600">kb/s</td> --->
 			</tr>
 			<tr class="list">
-				<td align="center"><input type="checkbox" name="convert_to" value="avi"></td>
+				<td align="center"><input type="checkbox" name="convert_to" id="aviid" value="avi"></td>
 				<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',5);return false;" style="text-decoration:none;">Audio Video Interlaced (AVI)</a></td>
 				<td nowrap="true">
 					<cfset incval.theformat = "avi">
@@ -128,7 +128,7 @@
 			</tr>
 			<!--- MOV --->
 			<tr class="list">
-				<td align="center"><input type="checkbox" name="convert_to" value="mov"></td>
+				<td align="center"><input type="checkbox" name="convert_to" id="movid" value="mov"></td>
 				<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',6);return false;" style="text-decoration:none;">Quicktime (MOV)</a></td>
 				<td nowrap="true">
 					<cfset incval.theformat = "mov">
@@ -139,7 +139,7 @@
 			</tr>
 			<!--- MXF --->
 			<tr class="list">
-				<td align="center"><input type="checkbox" name="convert_to" value="mxf"></td>
+				<td align="center"><input type="checkbox" name="convert_to" id="mxfid" value="mxf"></td>
 				<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',6);return false;" style="text-decoration:none;">MXF (MXF)</a></td>
 				<td nowrap="true">
 					<cfset incval.theformat = "mxf">
@@ -150,7 +150,7 @@
 			</tr>
 			<!--- MPG --->
 			<tr class="list">
-				<td align="center"><input type="checkbox" name="convert_to" value="mpg"></td>
+				<td align="center"><input type="checkbox" name="convert_to" id="mpgid" value="mpg"></td>
 				<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',7)" style="text-decoration:none;">Mpeg1 Mpeg2 (MPG)</a></td>
 				<td nowrap="true">
 					<cfset incval.theformat = "mpg">
@@ -160,10 +160,10 @@
 				<!--- <td nowrap="true"><input type="text" size="4" name="convert_bitrate_mpg" value="600">kb/s</td> --->
 			</tr>
 			<tr class="list">
-				<td align="center"><input type="checkbox" name="convert_to" value="3gp" onclick="clickset3gp('form#attributes.file_id#');"></td>
+				<td align="center"><input type="checkbox" name="convert_to" id="3gpid" value="3gp" onclick="clickset3gp('form#attributes.file_id#');"></td>
 				<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',8);clickset3gp('form#attributes.file_id#');return false;" style="text-decoration:none;">3GP (3GP)</a></td>
 				<td nowrap="true">
-				<select name="convert_wh_3gp" onChange="javascript:set3gp('form#attributes.file_id#');">
+				<select name="convert_wh_3gpid" onChange="javascript:set3gp('form#attributes.file_id#');">
 				<option value="0"></option>
 				<option value="1" selected="true">128x96 (MMS 64K)</option>
 				<option value="2">128x96 (MMS 95K)</option>
@@ -182,7 +182,7 @@
 				<td nowrap="true"></td>
 			</tr>
 			<tr class="list">
-				<td align="center"><input type="checkbox" name="convert_to" value="rm"></td>
+				<td align="center"><input type="checkbox" name="convert_to" id="rmid" value="rm"></td>
 				<td nowrap="true"><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',9);return false;" style="text-decoration:none;">RealNetwork Video Data (RM)</a></td>
 				<td nowrap="true">
 					<cfset incval.theformat = "rm">

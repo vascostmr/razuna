@@ -18,5 +18,4 @@ component extends="TestRazunaBase"{
 		selenium.waitForPageToLoad( timeout );
 		assertTrue( selenium.isTextPresent( "We are sorry but we could not log you in. Try again please" ) );
 	}
-	
 }

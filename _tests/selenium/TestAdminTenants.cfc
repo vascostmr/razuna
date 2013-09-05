@@ -32,10 +32,9 @@ component extends="TestRazunaBase"{
 	}
 	
 	// Load Tenant
-   	function testLoadTenant() {
+	function testLoadTenant() {
 		selenium.setspeed("2000");
 		selenium.select("id=gotodam", "label=DEMO");
 		super.doLogout();
 	}
-	
 }

@@ -1,7 +1,7 @@
 ﻿// component extends mxunit.framework.TestCase
 component extends="TestRazunaBase"{
 
-	//Admin Plugins 
+	// Plugins 
 	function testPlugins() {
 		super.doLogin();
 		selenium.setspeed('2000');
@@ -26,6 +26,4 @@ component extends="TestRazunaBase"{
 		selenium.click("link=Deactivate");
 		super.doLogout();
 	}
-
-
 }

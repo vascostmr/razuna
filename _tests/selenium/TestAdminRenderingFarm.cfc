@@ -28,7 +28,6 @@ component extends="testRazunaBase"{
 		selenium.type("id=rfs_mp4box", "C:\\MP4Box");
 		selenium.click("name=Submit");
 		selenium.click("css=span.ui-icon.ui-icon-closethick");
-		selenium.click("css=span.ui-icon.ui-icon-closethick");
+		Super.doLogout();
 	}
-	
 }

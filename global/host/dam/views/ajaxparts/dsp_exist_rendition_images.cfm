@@ -48,7 +48,7 @@
 					</cfcatch>
 				</cftry>
 				<tr class="list">
-					<td width="1%" nowrap="true"><input type="checkbox" name="convert_to" value="jpg"></td>
+					<td width="1%" nowrap="true"><input type="checkbox" name="convert_to" id="jpgid" value="jpg"></td>
 					<td width="1%" nowrap="true"><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',0)" style="text-decoration:none;">JPEG (Joint Photographic Experts Group)</a></td>
 					<td width="1%" nowrap="true"><input type="text" size="4" name="convert_width_jpg" id="convert_width_jpg" value="<cfif qry_detail.detail.orgwidth EQ 0>500<cfelse>#qry_detail.detail.orgwidth#</cfif>" onchange="aspectheight(this,'convert_height_jpg','form#attributes.file_id#',#theaspectratio#);"> x <input type="text" size="4" name="convert_height_jpg" id="convert_height_jpg" value="<cfif qry_detail.detail.orgheight EQ 0>500<cfelse>#qry_detail.detail.orgheight#</cfif>" onchange="aspectwidth(this,'convert_width_jpg','form#attributes.file_id#',#theaspectratio#);"> or <input type="text" size="4" name="convert_dpi_jpg" id="convert_dpi_jpg"> dpi</td>
 					<!--- Watermark --->
@@ -86,7 +86,7 @@
 					</td> --->
 				</tr>
 				<tr class="list">
-					<td><input type="checkbox" name="convert_to" value="gif"></td>
+					<td><input type="checkbox" name="convert_to" id="gifid" value="gif"></td>
 					<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',1)" style="text-decoration:none;">GIF (Graphic Interchange Format)</a></td>
 					<td><input type="text" size="4" name="convert_width_gif" id="convert_width_gif" value="<cfif qry_detail.detail.orgwidth EQ 0>500<cfelse>#qry_detail.detail.orgwidth#</cfif>" onchange="aspectheight(this,'convert_height_gif','form#attributes.file_id#',#theaspectratio#);"> x <input type="text" size="4" name="convert_height_gif" id="convert_height_gif" value="<cfif qry_detail.detail.orgheight EQ 0>500<cfelse>#qry_detail.detail.orgheight#</cfif>" onchange="aspectwidth(this,'convert_width_gif','form#attributes.file_id#',#theaspectratio#);"> or <input type="text" size="4" name="convert_dpi_gif" id="convert_dpi_gif"> dpi</td>
 					<!--- Watermark --->
@@ -103,7 +103,7 @@
 					</cfif>
 				</tr>
 				<tr class="list">
-					<td><input type="checkbox" name="convert_to" value="png"></td>
+					<td><input type="checkbox" name="convert_to" id="pngid" value="png"></td>
 					<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',2)" style="text-decoration:none;">PNG (Portable (Public) Network Graphic)</a></td>
 					<td><input type="text" size="4" name="convert_width_png" id="convert_width_png" value="<cfif qry_detail.detail.orgwidth EQ 0>500<cfelse>#qry_detail.detail.orgwidth#</cfif>" onchange="aspectheight(this,'convert_height_png','form#attributes.file_id#',#theaspectratio#);"> x <input type="text" size="4" name="convert_height_png" id="convert_height_png" value="<cfif qry_detail.detail.orgheight EQ 0>500<cfelse>#qry_detail.detail.orgheight#</cfif>" onchange="aspectwidth(this,'convert_width_png','form#attributes.file_id#',#theaspectratio#);"> or <input type="text" size="4" name="convert_dpi_png" id="convert_dpi_png"> dpi</td>
 					<!--- Watermark --->
@@ -120,7 +120,7 @@
 					</cfif>
 				</tr>
 				<tr class="list">
-					<td><input type="checkbox" name="convert_to" value="tif"></td>
+					<td><input type="checkbox" name="convert_to" id="tifid" value="tif"></td>
 					<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',3)" style="text-decoration:none;">TIFF (Tagged Image Format File)</a></td>
 					<td><input type="text" size="4" name="convert_width_tif" id="convert_width_tif" value="<cfif qry_detail.detail.orgwidth EQ 0>500<cfelse>#qry_detail.detail.orgwidth#</cfif>" onchange="aspectheight(this,'convert_height_tif','form#attributes.file_id#',#theaspectratio#);"> x <input type="text" size="4" name="convert_height_tif" id="convert_height_tif" value="<cfif qry_detail.detail.orgheight EQ 0>500<cfelse>#qry_detail.detail.orgheight#</cfif>" onchange="aspectwidth(this,'convert_width_tif','form#attributes.file_id#',#theaspectratio#);"> or <input type="text" size="4" name="convert_dpi_tif" id="convert_dpi_tif"> dpi</td>
 					<!--- Watermark --->
@@ -137,7 +137,7 @@
 					</cfif>
 				</tr>
 				<tr class="list">
-					<td><input type="checkbox" name="convert_to" value="bmp"></td>
+					<td><input type="checkbox" name="convert_to" id="bmpid" value="bmp"></td>
 					<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',4)" style="text-decoration:none;">BMP (Windows OS/2 Bitmap Graphics)</a></td>
 					<td><input type="text" size="4" name="convert_width_bmp" id="convert_width_bmp" value="<cfif qry_detail.detail.orgwidth EQ 0>500<cfelse>#qry_detail.detail.orgwidth#</cfif>" onchange="aspectheight(this,'convert_height_bmp','form#attributes.file_id#',#theaspectratio#);"> x <input type="text" size="4" name="convert_height_bmp" id="convert_height_bmp" value="<cfif qry_detail.detail.orgheight EQ 0>500<cfelse>#qry_detail.detail.orgheight#</cfif>" onchange="aspectwidth(this,'convert_width_bmp','form#attributes.file_id#',#theaspectratio#);"> or <input type="text" size="4" name="convert_dpi_bmp" id="convert_dpi_bmp"> dpi</td>
 					<!--- Watermark --->

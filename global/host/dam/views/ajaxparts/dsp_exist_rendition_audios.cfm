@@ -43,7 +43,7 @@
 			<br />
 			<table border="0" cellpadding="0" cellspacing="0" width="100%" class="grid">
 				<tr class="list">
-					<td width="1%" nowrap="true" align="center"><input type="checkbox" name="convert_to" value="mp3"></td>
+					<td width="1%" nowrap="true" align="center"><input type="checkbox" name="convert_to" id="mp3id" value="mp3"></td>
 					<td width="1%" nowrap="true"><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',0)" style="text-decoration:none;">MP3</a></td>
 					<td width="450" nowrap="true"><select name="convert_bitrate_mp3" id="convert_bitrate_mp3">
 					<option value="32">32</option>
@@ -67,7 +67,7 @@
 					</td>
 				</tr>
 				<tr class="list">
-					<td align="center"><input type="checkbox" name="convert_to" value="ogg"></td>
+					<td align="center"><input type="checkbox" name="convert_to" id="oggid" value="ogg"></td>
 					<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',2)" style="text-decoration:none;">OGG</a></td>
 					<td><select name="convert_bitrate_ogg" id="convert_bitrate_ogg">
 					<option value="10">82</option>
@@ -83,12 +83,12 @@
 					</select></td>
 				</tr>
 				<tr class="list">
-					<td align="center"><input type="checkbox" name="convert_to" value="wav"></td>
+					<td align="center"><input type="checkbox" name="convert_to" id="wavid" value="wav"></td>
 					<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',1)" style="text-decoration:none;">WAV</a></td>
 					<td></td>
 				</tr>
 				<tr class="list">
-					<td align="center"><input type="checkbox" name="convert_to" value="flac"></td>
+					<td align="center"><input type="checkbox" name="convert_to" id="flacid" value="flac"></td>
 					<td><a href="##" onclick="clickcbk('form#attributes.file_id#','convert_to',3)">FLAC</a></td>
 					<td></td>
 				</tr>

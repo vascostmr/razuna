@@ -16,16 +16,20 @@ component extends="TestRazunaBase"{
 		selenium.click("css=span.ui-icon.ui-icon-closethick");
 		selenium.setspeed("1000");
 		selenium.click("link=TestCollection");
+		selenium.setspeed("1000");
 		// Description & Keywords
 		selenium.click("link=Description & Keywords");
 		selenium.click("css=input[name=submit]");
 		// Comments
+		selenium.setspeed("2000");
 		selenium.click("link=Comments");
 		selenium.type("id=assetComment", "TestCollection comment");
 		selenium.click("css=td > input.button");
+		selenium.setspeed("3000");
 		selenium.click("//a[contains(text(),'Edit')]");
 		selenium.type("id=commentup","TestCollection commented");
 		selenium.check("css=input[name='savecomment'][value='Update']");
+		selenium.setspeed("3000");
 		selenium.click("//a[contains(text(),'Remove')]");
 		selenium.click("css=input[name='remove'][value='Remove Record']");
 		selenium.click("css=td > input.button");
@@ -74,6 +78,7 @@ component extends="TestRazunaBase"{
 		selenium.click("name=buttoncopy");
 		selenium.click("//input[@value='Release Collection']");
 		}
+		selenium.setspeed("3000");
 		Super.doRazLogout();
 	}
 }

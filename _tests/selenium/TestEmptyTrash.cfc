@@ -1,6 +1,7 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-	//Move File to Trash 
+	
+	// Empty files from Trash
 	function testEmptyTrash(){
 		Super.doRazLogin();
 		selenium.setspeed("1000");

@@ -29,7 +29,6 @@ component extends="TestRazunaBase"{
 		selenium.click("name=SubmitUser");
 		selenium.click("css=span.ui-icon.ui-icon-closethick");
 	}
-
 	// Search for User
 	function testSearchUser() {
 		selenium.click("//a[contains(text(),'Users')]");
@@ -41,5 +40,4 @@ component extends="TestRazunaBase"{
 		selenium.click("css=span.ui-icon.ui-icon-closethick");
 		Super.doLogout();
 	}
-
 }

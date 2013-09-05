@@ -1,15 +1,13 @@
 ﻿// component extends testRazunaBasesss
 component extends="TestRazunaBase"{
-	
+
 	//Home Page Load
-	function testHomePageLoads() {  
+	function testHomePageLoads() {
 		selenium.open( browserUrl & "/admin/" );
 		selenium.setSpeed("2000");
 		selenium.waitForPageToLoad( timeout );
 		assertEquals( "Razuna - the open source alternative to Digital Asset Management", selenium.getTitle() );
 	}
-	
-	
 	// Change Language
 	function testChangeLanguage() {
 		Super.doLogin();
@@ -19,7 +17,6 @@ component extends="TestRazunaBase"{
 		selenium.setSpeed("3000");
 		selenium.select("name=app_lang", "label=English");
 	}
-
 	//Support and Blog
 	function testSupportBlog(){
 		selenium.setSpeed("2000");
