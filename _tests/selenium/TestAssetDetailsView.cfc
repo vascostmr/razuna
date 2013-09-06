@@ -49,7 +49,7 @@ component extends="TestRazunaBase"{
 	function testVersion(){
 		selenium.click("id=ui-id-9");
 		selenium.setspeed("2000");	
-		selenium.type("id=filedata", #expandpath('.')# & "\Hydrangeas.jpg");
+		selenium.type("id=filedata", #expandpath('.')# & "\assets\img\Desert.jpg");
 		selenium.waitForPageToLoad("30000");
 		selenium.click("xpath=(//a[contains(text(),'Reload')])[2]");
 	}

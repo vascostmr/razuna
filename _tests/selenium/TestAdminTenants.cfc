@@ -13,6 +13,7 @@ component extends="TestRazunaBase"{
 		selenium.click("//a[contains(text(),'Add a Tenant')]");
 		selenium.type("id=host_name", "Demo_openBD");
 		selenium.click("id=Button");
+		selenium.setspeed("2000");
 		selenium.click("xpath=//div[@id='hostslist']/table/tbody/tr[last()]/td[last()]/a[contains(text(),'Remove')]");
 		selenium.click("xpath=//div[@id='thewindowcontent1']/table/tbody/tr[2]/td/input[@name='remove']");
 		selenium.click("name=remove");
@@ -24,7 +25,7 @@ component extends="TestRazunaBase"{
 		selenium.click("//a[contains(text(),'Tenant Settings')]");
 		selenium.click("name=savebutton");
 		selenium.click("link=Meta Tags");
-		selenium.type("name=set_title_intra_1", "test");
+		selenium.type("name=set_title_intra_1", "Test Title");
 		selenium.click("name=savebutton");
 		selenium.click("link=Storage Location");
 		selenium.setspeed("1000");

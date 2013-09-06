@@ -51,6 +51,7 @@ component extends="TestRazunaBase"{
 		selenium.click("//div[@id='folderselectionallform']/a[2]/div[2]");
 		selenium.click("xpath=//div[@id='win_choosefolder']/ul[@class='ltr']/li[@class='leaf']/a");
 		selenium.click("css=div:last-child .ui-button-icon-primary");
+		Super.doRazLogout();
 	}
 	
 	// Move to trash

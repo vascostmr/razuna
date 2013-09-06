@@ -10,13 +10,13 @@ component extends="TestRazunaBase"{
 		selenium.click("//a[contains(text(),'Customization')]");
 		selenium.click("name=apply_global");
 		selenium.click("css=div.headers");
-		selenium.type("id=logoid", #expandpath('.')# & "\logo.jpg");
+		selenium.type("id=logoid", #expandpath('.')# & "\assets\img\logo.jpg");
 		selenium.click("id=logosaveid");
 		selenium.click("link=Refresh");
-		selenium.type("id=loginid", #expandpath('.')# & "\Desert.jpg");
+		selenium.type("id=loginid", #expandpath('.')# & "\assets\img\Desert.jpg");
 		selenium.click("id=loginsaveid");
 		selenium.click("xpath=(//a[contains(text(),'Refresh')])[2]");
-		selenium.type("id=faviconid", #expandpath('.')# & "\favicon.ico");
+		selenium.type("id=faviconid", #expandpath('.')# & "\assets\img\favicon.ico");
 		selenium.click("id=faviconsaveid");
 		selenium.click("xpath=(//a[contains(text(),'Refresh')])[3]");
 		selenium.click("css=div.headers");

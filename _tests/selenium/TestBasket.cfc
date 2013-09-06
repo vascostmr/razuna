@@ -5,7 +5,7 @@ component extends="TestRazunaBase"{
 	function TestBasket(){
 		Super.doRazLogin();
 		selenium.setspeed("2000");
-		selenium.click("link=test");
+		selenium.click("link=Uploads");
 		selenium.setspeed("2000");
 		selenium.click("link=Select all");
 		selenium.click("//div[@id='folderselectionallform']/a/div[2]");

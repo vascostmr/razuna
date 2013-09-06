@@ -59,17 +59,17 @@ component extends="TestRazunaBase"{
 		selenium.click("css=span.ui-icon.ui-icon-closethick");
 		// Import User
 		selenium.click("link=Import");
-		selenium.type("id=filedata", #expandpath('.')# & "\razuna-users-export.csv");
+		selenium.type("id=filedata", #expandpath('.')# & "\assets\doc\razuna-users-export.csv");
 		selenium.click("name=submitbutton");
 		selenium.click("//div[11]/div/button");
 		selenium.click("link=Import");
 		selenium.click("document.form_meta_imp.file_format[1]");
-		selenium.type("id=filedata", #expandpath('.')# & "\razuna-users-export.xlsx");
+		selenium.type("id=filedata", #expandpath('.')# & "\assets\doc\razuna-users-export.xlsx");
 		selenium.click("name=submitbutton");
 		selenium.click("//div[11]/div/button");
 		selenium.click("link=Import");
 		selenium.click("document.form_meta_imp.file_format[2]");
-		selenium.type("id=filedata", #expandpath('.')# & "\razuna-users-export.xls");
+		selenium.type("id=filedata", #expandpath('.')# & "\assets\doc\razuna-users-export.xls");
 		selenium.click("name=submitbutton");
 		selenium.click("//div[11]/div/button");
 		Super.doRazLogout();

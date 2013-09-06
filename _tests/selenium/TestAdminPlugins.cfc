@@ -9,7 +9,7 @@ component extends="TestRazunaBase"{
 		selenium.click("//a[contains(text(),'Plugins')]");
 		selenium.click("link=Add new");
 		// adding some dummy zip files
-		selenium.type("id=thefile", #expandpath('.')# & "\default_imgs.zip"); 
+		selenium.type("id=thefile", #expandpath('.')# & "\assets\doc\Test.zip"); 
 		selenium.click("name=save");
 		selenium.isTextPresent( "Plugin has been uploaded successfully." );
 		selenium.click("link=Activate");

@@ -15,7 +15,8 @@ component extends="TestRazunaBase"{
 		selenium.click("css=input[id='foldersubmitbutton'][value='Add']");
 		// Add folder to favorites and Show assets from Sub-Folders
 		selenium.click("link=Uploads");
-		selenium.click("link=More actions");
+		selenium.setspeed("3000");
+		selenium.click("//a[contains(text(),'More actions')]");
 		selenium.click("//div[@id='dropcontent']/a[2]/div");
 		selenium.setspeed("3000");
 		selenium.click("link=More actions");
@@ -64,8 +65,7 @@ component extends="TestRazunaBase"{
 		// CSV
 		selenium.click("link=More actions");
 		selenium.click("css=a[title='Import metadata from an external file to all assets in this folder (if you want to apply this to only selected assets then use the select drop-down menu).'] > div");
-		selenium.type("id=filedata", #expandpath('.')# & "\razuna-metadata-export.csv");
-		selenium.waitForPageToLoad("30000");
+		selenium.type("id=filedata", #expandpath('.')# & "\assets\doc\razuna-metadata-export.csv");
 		selenium.click("name=submitbutton");
 		selenium.click("css=span.ui-icon.ui-icon-closethick");
 		// XLS
@@ -75,8 +75,7 @@ component extends="TestRazunaBase"{
 		selenium.select("name=expwhat", "label=all assets in Razuna");
 		selenium.select("name=file_format", "label=XLS");
 		selenium.click("document.form_meta_imp.imp_write[1]");
-		selenium.type("id=filedata", #expandpath('.')# & "\razuna-metadata-export.xls");
-		selenium.waitForPageToLoad("30000");
+		selenium.type("id=filedata", #expandpath('.')# & "\assets\doc\razuna-metadata-export.xls");
 		selenium.click("name=submitbutton");
 		selenium.click("css=span.ui-icon.ui-icon-closethick");
 		// XLSX
@@ -84,8 +83,7 @@ component extends="TestRazunaBase"{
 		selenium.click("link=More actions");
 		selenium.click("css=a[title='Import metadata from an external file to all assets in this folder (if you want to apply this to only selected assets then use the select drop-down menu).'] > div");
 		selenium.select("id=file_format", "label=XLSX");
-		selenium.type("id=filedata", #expandpath('.')# & "\razuna-metadata-export.xlsx");
-		selenium.waitForPageToLoad("30000");
+		selenium.type("id=filedata", #expandpath('.')# & "\assets\doc\razuna-metadata-export.xlsx");
 		selenium.click("name=submitbutton");
 		selenium.click("css=span.ui-icon.ui-icon-closethick");
 		// Download Assets

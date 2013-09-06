@@ -24,7 +24,7 @@ component extends="TestRazunaBase"{
 		selenium.click("link=Installation Checklist");
 		selenium.click("link=Support");
 		selenium.click("link=Blog");
-		selenium.setSpeed("2000");
+		selenium.setSpeed("3000");
 		Super.doLogout();
 	}
 }
