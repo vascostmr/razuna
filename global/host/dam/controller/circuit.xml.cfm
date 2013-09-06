@@ -1989,7 +1989,12 @@
 		<set name="attributes.iscol" value="F" overwrite="false" />
 		<set name="attributes.trash" value="F" overwrite="false" />
 		<set name="attributes.trashkind" value="assets" overwrite="false" />
-		<set name="attributes.showsubfolders" value="F" overwrite="false" />
+		<if condition="structkeyexists(attributes,'showsubfolders')">
+			<true>
+				<set name="session.showsubfolders" value="#attributes.showsubfolders#" />
+				<set name="attributes.showsubfolders" value="#session.showsubfolders#" />
+			</true>
+		</if>
 		<!-- XFA -->
 		<xfa name="fproperties" value="c.folder_edit" />
 		<xfa name="fsharing" value="c.folder_sharing" />
@@ -2317,8 +2322,12 @@
 		<set name="url.kind" value="all" />
 		<set name="attributes.json" value="f" overwrite="false" />
 		<set name="attributes.trash" value="F" overwrite="false" />
-		<set name="attributes.showsubfolders" value="#session.showsubfolders#" overwrite="false" />
-		<set name="session.showsubfolders" value="#attributes.showsubfolders#" />
+		<if condition="structkeyexists(attributes,'showsubfolders')">
+			<true>
+				<set name="session.showsubfolders" value="#attributes.showsubfolders#" />
+			</true>
+		</if>
+		<set name="attributes.showsubfolders" value="#session.showsubfolders#" />
 		<set name="attributes.sortby" value="#session.sortby#" overwrite="false" />
 		<set name="session.sortby" value="#attributes.sortby#" />
 		<set name="attributes.issearch" value="false" overwrite="false" />
@@ -6436,7 +6445,7 @@
 		!-- Param -->
 		<set name="attributes.meta_keys" value="id,filename" />
 		<set name="attributes.meta_default" value="labels,keywords,description,type" />
-		<set name="attributes.meta_img" value="iptcsubjectcode,creator,title,authorstitle,descwriter,iptcaddress,category,categorysub,urgency,iptccity,iptccountry,iptclocation,iptczip,iptcemail,iptcwebsite,iptcphone,iptcintelgenre,iptcinstructions,iptcsource,iptcusageterms,copystatus,iptcjobidentifier,copyurl,iptcheadline,iptcdatecreated,iptcimagecity,iptcimagestate,iptcimagecountry,iptcimagecountrycode,iptcscene,iptcstate,iptccredit,copynotice,colorspace,xres,yres,resunit" />
+		<set name="attributes.meta_img" value="subjectcode,creator,title,authorsposition,captionwriter,ciadrextadr,category,supplementalcategories,urgency,ciadrcity,ciadrctry,location,ciadrpcode,ciemailwork,ciurlwork,citelwork,intellectualgenre,instructions,source,usageterms,copyrightstatus,transmissionreference,webstatement,headline,datecreated,city,ciadrregion,country,countrycode,scene,state,credit,rights,colorspace,xres,yres,resunit" />
 		<set name="attributes.meta_doc" value="author,rights,authorsposition,captionwriter,webstatement,rightsmarked" />
 		<!-- CFC: Get Customization -->
 		<invoke object="myFusebox.getApplicationData().Settings" methodcall="get_customization()" returnvariable="qry_customization" />
@@ -8816,6 +8825,7 @@
 		<!-- Param -->
 		<set name="attributes.access" value="r" overwrite="false" />
 		<set name="attributes.fileid" value="" overwrite="false" />
+		<set name="attributes.showsubfolders" value="F" overwrite="false" />
 		<!-- Reset the rowmax and offset values -->
 		<set name="session.rowmaxpage" value="25" />
 		<set name="session.offset" value="0" />
