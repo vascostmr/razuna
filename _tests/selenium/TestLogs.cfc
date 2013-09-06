@@ -1,12 +1,12 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-	
 	// Log 
 	function testLog() {
 		Super.doRazLogin();
+		selenium.setspeed("2000");
 		selenium.click("link=admin admin");
 		selenium.click("link=Administration");
-		selenium.setspeed("3000");
+		selenium.setspeed("2000");
 		selenium.click("link=Logs");
 		selenium.select("id=actionsassets", "label=Add");
 		selenium.select("id=actionsassets", "label=Update");

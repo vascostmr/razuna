@@ -54,9 +54,4 @@ component extends="TestRazunaBase"{
 		Super.doRazLogout();
 	}
 	
-	// Move to trash
-	/*function testTrash() {
-		selenium.click("//div[@id='folderselectionallform']/a[6]/div[2]");
-		selenium.click("name=trash");
-	}*/
 }

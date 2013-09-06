@@ -7,7 +7,8 @@ component extends="TestRazunaBase"{
 		selenium.click("link=Uploads");
 		selenium.setspeed("2000");
 		selenium.click("xpath=//div[@id='tabsfolder_tab']/ul/li[@aria-controls='img']/a[contains(text(),'Images')]");
-		selenium.click("css=img.ui-selectee");
+		selenium.click("css=div[class='theimg ui-selectee'][type$='img']");
+		selenium.setspeed("1000");
 		selenium.click("css=div##detailinfo div.collapsable div.headers a:nth-child(6)");
 		selenium.click("css=div##win_choosefolder ul.ltr li:first-child a");
 		selenium.click("css=div:last-child .ui-button-icon-primary");
@@ -19,6 +20,7 @@ component extends="TestRazunaBase"{
 		selenium.type("id=filedata", #expandpath('.')# & "\assets\img\Desert.jpg");
 		selenium.waitForPageToLoad("20000");
 		selenium.click("css=div:last-child .ui-button-icon-primary");
+		Super.doRazLogout();
     }
     //Recreate Preview image
     function testRecreatePwImage() {
@@ -33,7 +35,6 @@ component extends="TestRazunaBase"{
 		selenium.click("//div[@id='detailinfo']/div[@class='collapsable']/div[@class='headers']/a[7]");
 		selenium.setspeed("1000");
 		selenium.click("name=trash");
-		Super.doRazLogout();
     }
 }
 

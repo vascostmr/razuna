@@ -49,7 +49,7 @@ component extends="TestRazunaBase"{
 		selenium.click("name=SubmitUser");
 	}
 	// Audios Rendition
-	function testAudios() {
+	function testTemplAudios() {
 		selenium.click("link=Audios");
 		selenium.click("document.formupltemp.convert_to[84]");
 		selenium.select("id=convert_bitrate_mp3", "label=160");

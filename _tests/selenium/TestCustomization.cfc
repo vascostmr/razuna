@@ -171,12 +171,6 @@ component extends="TestRazunaBase"{
 		selenium.click("document.form_admin_custom.req_keywords[1]");
 		selenium.click("//div[@id='customization']/a[7]/div");
 		selenium.click("xpath=(//input[@value='Save Changes'])[2]");
-		// File metadata items
-		/*selenium.click("//div[@id='customization']/a[8]/div");
-		selenium.type("name=assetbox_height", "150");
-		selenium.type("name=assetbox_width", "150");
-		selenium.click("//div[@id='customization']/a[8]/div");
-		selenium.click("xpath=(//input[@value='Save Changes'])[2]");*/
 		Super.doRazLogout();
 	}
 }
