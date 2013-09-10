@@ -33,6 +33,10 @@ component extends="TestRazunaBase"{
 		selenium.click("link=Folder Sharing & Settings");
 		selenium.click("link=Thumbnail");
 		selenium.type("id=thumb_folder_file", #expandpath('.')# & "\assets\img\Desert.jpg");
+		selenium.setspeed("3000");
+		selenium.click("css=span");
+		selenium.click("id=foldersubmitbutton");
+		selenium.setspeed("3000");
 		selenium.click("link=Reset to default");
 	}
 }

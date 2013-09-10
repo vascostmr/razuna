@@ -9,6 +9,7 @@ component extends="TestRazunaBase"{
 		selenium.setspeed("1000");
 		selenium.click("link=Watermark Templates");
 		selenium.click("link=Add a Watermark Template");
+		selenium.setspeed("1000");
 		selenium.click("name=wm_active");
 		selenium.type("id=wm_name", "Test_watermark");
 		selenium.click("name=wm_use_image");

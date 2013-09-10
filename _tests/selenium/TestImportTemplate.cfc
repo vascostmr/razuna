@@ -24,8 +24,6 @@ component extends="TestRazunaBase"{
 		selenium.click("link=Mapping");
 		selenium.click("name=SubmitUser");
 		selenium.click("css=span.ui-icon.ui-icon-closethick");
-		selenium.click("//div[@id='admin_imp_templates']/table[2]/tbody/tr[2]/td[4]/a/img");
-		selenium.click("name=remove");
 		Super.doRazLogout();
 	}
 }

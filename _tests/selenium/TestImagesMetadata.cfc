@@ -87,18 +87,6 @@ component extends="TestRazunaBase"{
 		selenium.check("css=input[name='submit'][value='Save']");
 	}
 
-	// Copy Metadata
-	function testMetadata() {
-		selenium.click("css=button.button");
-		selenium.type("id=searchtext", "jpg");
-		selenium.click("//button[@onclick='copy_meta();return false;']");
-		selenium.click("id=selectallcm");
-		selenium.click("id=apply");
-		selenium.check("css=input[value='append'][name='insert_type']");
-		selenium.click("id=apply");
-		selenium.click("css=div:last-child .ui-button-icon-primary");
-	}
-	
 	// IPTC Contact
 	function testIPTCMetaContact() {
 		selenium.click("//div[@id='meta']/a[3]/div");
