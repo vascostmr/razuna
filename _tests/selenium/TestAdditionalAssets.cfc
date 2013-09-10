@@ -19,8 +19,7 @@ component extends="TestRazunaBase"{
 		selenium.type("name=cc", "test@test.com");
 		selenium.type("name=bcc", "cfmitrah.test@gmail.com");
 		selenium.type("id=subject", "image");
-		selenium.click("css=input[name='artofimage'][value='thumb']");
-		selenium.click("css=input[name='artofimage'][value='original']");
+		selenium.click("xpath=(//input[@name='artofimage'])[3]");
 		selenium.click("name=submitbutton");
 		selenium.setspeed("1000");
 		selenium.click("css=div:last-child .ui-button-icon-primary");
@@ -28,9 +27,19 @@ component extends="TestRazunaBase"{
 		selenium.click("css=div##detailinfo div.collapsable div.headers a:nth-child(4)");
 		selenium.click("//div[@id='detailinfo']/div/div/a[4]/div[2]");
 		selenium.setspeed("1000");
-		selenium.click("xpath=//div[@id='win_choosefolder']/ul[@class='ltr']/li[@class='last leaf']/a");
+		selenium.click("//div[@id='win_choosefolder']/ul[@class='ltr']/li[@class='last leaf']/a");
+		if(selenium.isElementPresent("link=exact:Maybe create one now?") EQ true){
+		// Create new Collection
+		selenium.click("link=exact:Maybe create one now?");
+		selenium.type("id=collectionname", "TestCollection");
+		selenium.click("name=save");
 		selenium.click("css=td > a > strong");
 		selenium.click("css=div:last-child .ui-button-icon-primary");
+		}
+		else{
+		// Add assets to existing collection
+		selenium.click("css=td > a > strong");
+		}
 		// Print details
 		selenium.click("css=div##detailinfo div.collapsable div.headers a:nth-child(5)"); 
 		selenium.select("name=pagetype", "label=A4");

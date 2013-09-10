@@ -13,12 +13,12 @@ component extends="testRazunaBase"{
 		selenium.click("name=save");
 	}
 	// Local storage
-	function testLocalStorage() {
+	/*function testLocalStorage() {
 		selenium.click("link=Storage");
 		selenium.click("name=conf_storage");
 		selenium.setspeed("1000");
 		selenium.click("name=save");
-	}
+	}*/
 	// Valid Amazon S3 storage
 	function testValidAmazonStorage() {
 		selenium.click("document.form_settings_global.conf_storage[2]");
@@ -36,6 +36,12 @@ component extends="testRazunaBase"{
 		selenium.type("id=conf_aws_access_key", "#InvalidAwsAccessKey#");
 		selenium.type("id=conf_aws_secret_access_key", "#InvalidAwsSecretKey#");
 		selenium.click("document.form_settings_global.validate[1]");
+	}
+	function testLocal(){
+		selenium.click("link=Storage");
+		selenium.click("name=conf_storage");
+		selenium.setspeed("1000");
+		selenium.click("name=save");
 	}
 	// Backup & Restore
 	function testBackup() {

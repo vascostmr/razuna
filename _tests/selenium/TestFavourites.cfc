@@ -7,6 +7,7 @@ component extends="TestRazunaBase"{
 		selenium.setspeed("3000");
 		selenium.click("link=Uploads");
 		selenium.setspeed("3000");
+		selenium.click("//td[@id='selectme']/div/div[2]/a[4]/img");
 		// Folder to favourites
 		selenium.click("//a[contains(text(),'More actions')]");
 		selenium.click("//div[@id='dropcontent']/a[2]/div");

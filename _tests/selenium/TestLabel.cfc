@@ -1,12 +1,12 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-
 	// Add Label 
 	function testLabels() {
 		Super.doRazLogin();
+		selenium.setspeed("2000");
 		selenium.click("link=admin admin");
 		selenium.click("link=Administration");
-		selenium.setspeed("3000");
+		selenium.setspeed("2000");
 		selenium.click("xpath=(//a[contains(text(),'Labels')])[2]");
 		selenium.check("css=input[name='labels_public'][value='t']");
 		selenium.click("id=label_text_admin");
