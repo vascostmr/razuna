@@ -1,11 +1,12 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-	
 	//Root Folder
 	function testInformation() {
 		Super.doRazLogin();
 		selenium.setspeed("1000");
 		selenium.click("link=Uploads");
+		selenium.click("//a[contains(text(),'Images ')]");
+		selenium.setspeed("3000");
 		selenium.click("css=img.ui-selectee");
 		selenium.setspeed("1000");
 		selenium.click("name=submit");
@@ -40,31 +41,34 @@ component extends="TestRazunaBase"{
 	}
 	//Edit Comments
 	function testEditComment(){
-		selenium.click("id=ui-id-8");
+		selenium.click("//a[contains(text(),'Comments')]");
 		selenium.click("xpath=(//a[contains(text(),'Edit')])");
 		selenium.type("id=commentup", "comment");
 		selenium.click("name=savecomment");
+		selenium.click("//a[contains(text(),'Remove Record')]");
+		selenium.click("name=remove");
+		
 	}
-	//Version 
+	//Version  
 	function testVersion(){
-		selenium.click("id=ui-id-9");
+		selenium.click("//a[contains(text(),'Versions')]");
 		selenium.setspeed("2000");	
 		selenium.type("id=filedata", #expandpath('.')# & "\assets\img\Desert.jpg");
 		selenium.waitForPageToLoad("30000");
 		selenium.click("xpath=(//a[contains(text(),'Reload')])[2]");
 	}
-	//Sharing Option
+	//Sharing Option 
 	function testSharingOption(){
-		selenium.click("id=ui-id-10");
+		selenium.click("//a[contains(text(),'Sharing options')]");
 		selenium.setspeed("2000");	
 		selenium.click("id=thumb_dl");
 		selenium.click("id=org_or");
 		selenium.click("id=org_dl");
 		selenium.setspeed("2000");
 	}
-	//History
+	//History 
 	function testHistory(){
-		selenium.click("id=ui-id-11");
+		selenium.click("//a[contains(text(),'History')]");
 		selenium.setspeed("2000");	
 		selenium.select("id=actionsassets", "label=Add");
 		selenium.click("link=Search");
@@ -76,6 +80,5 @@ component extends="TestRazunaBase"{
 		selenium.select("id=actionsassets", "label=Delete");
 		selenium.select("id=actionsassets", "label=Move");
 		selenium.select("id=actionsassets", "label=Update");
-		Super.doRazLogout();
 	}
 }
