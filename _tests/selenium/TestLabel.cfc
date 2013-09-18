@@ -4,7 +4,7 @@ component extends="TestRazunaBase"{
 	function testLabels() {
 		Super.doRazLogin();
 		selenium.setspeed("2000");
-		selenium.click("link=admin admin");
+		selenium.click("css=##apDiv1 > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > a:nth-child(1)");
 		selenium.click("link=Administration");
 		selenium.setspeed("2000");
 		selenium.click("xpath=(//a[contains(text(),'Labels')])[2]");

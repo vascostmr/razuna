@@ -9,7 +9,7 @@ component extends="TestRazunaBase"{
 		selenium.click("link=Collections");
 		selenium.click("css=a[rel=prefetch]");
 		selenium.click("link=Collection Settings");
-		selenium.click("name=grp_0");
+		selenium.click("css=input[name='grp_0'][value='0']");
 		selenium.check("css=input[name='per_0'][value='X']");
 		selenium.click("css=input[name='perm_inherit'][value='T']");
 		selenium.click("id=foldersubmitbutton");

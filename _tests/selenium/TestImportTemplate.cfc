@@ -4,7 +4,7 @@ component extends="TestRazunaBase"{
 	//Import Template 
 	function testImportTemplate() {
 		Super.doRazLogin();
-		selenium.click("link=admin admin");
+		selenium.click("css=##apDiv1 > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > a:nth-child(1)");
 		selenium.click("link=Administration");
 		selenium.setspeed("3000");
 		selenium.click("link=Import Templates");

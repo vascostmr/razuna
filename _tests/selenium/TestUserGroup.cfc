@@ -4,7 +4,7 @@ component extends="TestRazunaBase"{
 	// Add User Group 
 	function testAddUserGroup() {
 		Super.doRazLogin();
-		selenium.click("link=admin admin");
+		selenium.click("css=##apDiv1 > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > a:nth-child(1)");
 		selenium.click("link=Administration");
 		selenium.setspeed("1000");
 		selenium.click("link=Groups");

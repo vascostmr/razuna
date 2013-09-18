@@ -6,8 +6,9 @@ component extends="TestRazunaBase"{
 		Super.doRazLogin();
 		selenium.setspeed("2000");
 		selenium.click("link=Uploads");
-		selenium.setspeed("2000");
+		selenium.setspeed("4000");
 		selenium.click("link=Select all");
+		selenium.setspeed("4000");
 		selenium.click("//div[@id='folderselectionallform']/a/div[2]");
 		selenium.click("link=Show Basket");
 		selenium.setspeed("1000");
@@ -19,9 +20,9 @@ component extends="TestRazunaBase"{
 		selenium.setspeed("5000");
 		//Save & Publish Basket Save as ZIP
 		selenium.click("//input[@value='Save & publish Basket']");
-		selenium.setspeed("2000");
+		selenium.setspeed("4000");
 		selenium.click("name=saveaszip");
-		selenium.setspeed("2000");
+		selenium.setspeed("3000");
 		selenium.click("xpath=//div[@id='win_choosefolder']/ul[@class='ltr']/li[@class='last leaf']/a");
 		selenium.click("name=save");
 		selenium.setspeed("3000");
