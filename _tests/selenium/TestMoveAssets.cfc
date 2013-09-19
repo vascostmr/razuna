@@ -30,11 +30,5 @@ component extends="TestRazunaBase"{
 		selenium.click("link=Uploads");
     }
     
-    //Move Trash
-	function testMoveTrash() {
-		selenium.click("//div[@id='detailinfo']/div[@class='collapsable']/div[@class='headers']/a[7]");
-		selenium.setspeed("1000");
-		selenium.click("name=trash");
-    }
 }
 

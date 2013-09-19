@@ -4,11 +4,11 @@ component extends="TestRazunaBase"{
 	// Customization 
 	function testCustomization() {
 		Super.doRazLogin();
-		selenium.click("link=admin admin");
+		selenium.click("css=##apDiv1 > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > a:nth-child(1)");
 		selenium.click("link=Administration");
 		selenium.setspeed("1000");
 		selenium.click("//a[contains(text(),'Customization')]");
-		selenium.click("name=apply_global");
+		selenium.click("css=input[name='apply_global'][value='true']");
 		selenium.click("css=div.headers");
 		selenium.type("id=logoid", #expandpath('.')# & "\assets\img\logo.jpg");
 		selenium.click("id=logosaveid");
