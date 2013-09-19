@@ -23,13 +23,13 @@ component extends="TestRazunaBase"{
 		selenium.type("id=searchforadv_all", "Test");
 		selenium.click("name=submitsearch");
 		selenium.click("//form[@id='form_searchsearch']/table/tbody/tr[2]/td/div[3]/button");
-		selenium.type("id=s_filename", "Selenium Test case.xls");
+		selenium.type("id=s_filename", "Desert");
 		selenium.click("//form[@id='form_searchsearch']/table/tbody/tr[2]/td/div[3]/button");
 		selenium.type("id=s_filename", "");
-		selenium.type("id=s_keywords", "Selenium");
+		selenium.type("id=s_keywords", "Test keywords");
 		selenium.click("//form[@id='form_searchsearch']/table/tbody/tr[2]/td/div[3]/button");
 		selenium.type("id=s_keywords", "");
-		selenium.type("id=s_description", "Mxunit");
+		selenium.type("id=s_description", "Test description");
 		selenium.click("//form[@id='form_searchsearch']/table/tbody/tr[2]/td/div[3]/button");
 		selenium.type("id=s_description", "");
 		Super.doRazLogout();

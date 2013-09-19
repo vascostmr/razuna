@@ -21,7 +21,7 @@
 13. <a href="http://localhost:8500/_tests/selenium/TestBasket.cfc?method=runtestremote&output=html">Basket</a><br>
 14. <a href="http://localhost:8500/_tests/selenium/TestFavourites.cfc?method=runtestremote&output=html">Favourites</a><br>
 15. <a href="http://localhost:8500/_tests/selenium/TestFolderSettings.cfc?method=runtestremote&output=html">Folder Setting</a><br>
-16.<a href="http://localhost:8500/_tests/selenium/TestLinkToFolder.cfc?method=runtestremote&output=html">Link To Folder</a><br>
+16. <a href="http://localhost:8500/_tests/selenium/TestLinkToFolder.cfc?method=runtestremote&output=html">Link To Folder</a><br>
 17. <a href="http://localhost:8500/_tests/selenium/TestWidgetThumbnail.cfc?method=runtestremote&output=html">Widget and Thumbnail</a><br>
 18. <a href="http://localhost:8500/_tests/selenium/TestAssetDetailsView.cfc?method=runtestremote&output=html"> Asset Details view</a><br>
 19. <a href="http://localhost:8500/_tests/selenium/TestAdditionalAssets.cfc?method=runtestremote&output=html">Additional Assets</a><br>
