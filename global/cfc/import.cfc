@@ -367,7 +367,7 @@
 						<cfset tlabel = "">
 					</cfif>
 					<!--- Import Labels --->
-					<cfinvoke method="doimportlabels" labels="#tlabel#" assetid="#found.img_id#" kind="img" />
+					<cfinvoke method="doimportlabels" labels="#tlabel#" assetid="#found.img_id#" kind="img" thestruct="#arguments.thestruct#" />
 					<!--- Import Custom Fields --->
 					<cfinvoke method="doimportcustomfields" thestruct="#arguments.thestruct#" assetid="#found.img_id#" thecurrentRow="#currentRow#" />
 					<!--- If template --->
@@ -375,7 +375,7 @@
 						<cfset c_thefilename = gettemplatevalue(arguments.thestruct.impp_template,"filename")>
 					</cfif>
 					<!--- Images: main table --->
-					<cfif c_thefilename NEQ "">
+					<cfif evaluate(c_thefilename) NEQ "">
 						<cfquery dataSource="#application.razuna.datasource#">
 						UPDATE #session.hostdbprefix#images
 						SET img_filename = <cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#evaluate(c_thefilename)#">
@@ -449,8 +449,8 @@
 						<cfquery dataSource="#application.razuna.datasource#">
 						UPDATE #session.hostdbprefix#images_text
 						SET 
-						img_keywords = <cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#tkeywords#">,
-						img_description = <cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#tdescription#">
+						img_keywords = <cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#ltrim(tkeywords)#">,
+						img_description = <cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#ltrim(tdescription)#">
 						WHERE img_id_r = <cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#found.img_id#">
 						AND host_id = <cfqueryparam CFSQLType="CF_SQL_NUMERIC" value="#session.hostid#">
 						</cfquery>
@@ -813,10 +813,10 @@
 							<cfelse>
 								<cfset tiptcintelgenre = xmphere.intellectualgenre>
 							</cfif>
-							<cfif c_theiptcintelgenre NEQ "">
-								<cfset tiptcintelgenre = xmphere.instructions & " " & evaluate(c_theiptcintelgenre)>
+							<cfif c_theiptcinstructions NEQ "">
+								<cfset tiptcinstructions = xmphere.instructions & " " & evaluate(c_theiptcinstructions)>
 							<cfelse>
-								<cfset tiptcintelgenre = xmphere.instructions>
+								<cfset tiptcinstructions = xmphere.instructions>
 							</cfif>
 							<cfif c_theiptcsource NEQ "">
 								<cfset tiptcsource = xmphere.source & " " & evaluate(c_theiptcsource)>
@@ -1194,7 +1194,7 @@
 				<cfelse>
 					<cfset tlabel = "">
 				</cfif>
-				<cfinvoke method="doimportlabels" labels="#tlabel#" assetid="#found.vid_id#" kind="vid" />
+				<cfinvoke method="doimportlabels" labels="#tlabel#" assetid="#found.vid_id#" kind="vid" thestruct="#arguments.thestruct#" />
 				<!--- Import Custom Fields --->
 				<cfinvoke method="doimportcustomfields" thestruct="#arguments.thestruct#" assetid="#found.vid_id#" thecurrentRow="#currentRow#" />
 				<!--- If template --->
@@ -1354,7 +1354,7 @@
 				<cfelse>
 					<cfset tlabel = "">
 				</cfif>
-				<cfinvoke method="doimportlabels" labels="#tlabel#" assetid="#found.aud_id#" kind="aud" />
+				<cfinvoke method="doimportlabels" labels="#tlabel#" assetid="#found.aud_id#" kind="aud" thestruct="#arguments.thestruct#" />
 				<!--- Import Custom Fields --->
 				<cfinvoke method="doimportcustomfields" thestruct="#arguments.thestruct#" assetid="#found.aud_id#" thecurrentRow="#currentRow#" />
 				<!--- If template --->
@@ -1522,7 +1522,7 @@
 					<cfset tlabel = "">
 				</cfif>
 				<!--- Import Labels --->
-				<cfinvoke method="doimportlabels" labels="#tlabel#" assetid="#found.file_id#" kind="doc" />
+				<cfinvoke method="doimportlabels" labels="#tlabel#" assetid="#found.file_id#" kind="doc" thestruct="#arguments.thestruct#" />
 				<!--- Import Custom Fields --->
 				<cfinvoke method="doimportcustomfields" thestruct="#arguments.thestruct#" assetid="#found.file_id#" thecurrentRow="#currentRow#" />
 				<!--- If template --->
@@ -1763,6 +1763,15 @@
 		<cfargument name="labels" type="string">
 		<cfargument name="assetid" type="string">
 		<cfargument name="kind" type="string">
+		<cfargument name="thestruct" type="struct">
+		<!--- Remove all labels for this record --->
+		<cfif arguments.thestruct.imp_write NEQ "add">
+			<cfquery dataSource="#application.razuna.datasource#">
+			DELETE FROM ct_labels
+			WHERE ct_id_r = <cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#arguments.assetid#">
+			AND ct_type = <cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#arguments.kind#">
+			</cfquery>
+		</cfif>
 		<!--- Label is usually a list, thus loop it --->
 		<cfloop list="#arguments.labels#" delimiters="," index="i">
 			<!--- Check if label is in the label db --->
@@ -1803,14 +1812,6 @@
 				</cfquery>
 			<!--- Label is here --->
 			<cfelse>
-				<!--- Remove it first for this record, just so we don't get any errors --->
-				<cfquery dataSource="#application.razuna.datasource#">
-				DELETE FROM ct_labels
-				WHERE ct_label_id = <cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#labhere.label_id#">
-				AND ct_id_r = <cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#arguments.assetid#">
-				AND ct_type = <cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#arguments.kind#">
-				</cfquery>
-				<!--- Insert into CT --->
 				<cfquery dataSource="#application.razuna.datasource#">
 				INSERT INTO ct_labels
 				(ct_label_id, ct_id_r, ct_type, rec_uuid)
@@ -1823,6 +1824,8 @@
 				</cfquery>
 			</cfif>
 		</cfloop>
+		<!--- Flush Cache --->
+		<cfset resetcachetoken("labels")> 
 		<!--- Return --->
 		<cfreturn  />
 	</cffunction>
@@ -1833,7 +1836,9 @@
 		<cfargument name="assetid" type="string">
 		<cfargument name="thecurrentRow" type="string">
 		<!--- Param --->
-		<cfset doloop = false>
+		<cfset var doloop = false>
+		<cfset var theid = "">
+		<cfset var qry = "">
 		<!--- Get the columlist --->
 		<cfloop list="#arguments.thestruct.theimport.columnList#" delimiters="," index="i">
 			<!--- If template --->
@@ -1842,27 +1847,25 @@
 					<cfif imp_field EQ i AND !imp_key>
 						<!--- <cfset var cfvalue = arguments.thestruct.theimport[i][arguments.thecurrentRow]> --->
 						<cfset var theid = imp_map>
-						<cfset doloop = true>
+						<cfset var doloop = true>
 					</cfif>
 				</cfloop>
 			<cfelseif i contains ":">
 				<!--- The ID --->
 				<cfset var theid = ucase(listLast(i,":"))>
-				<cfset doloop = true>
+				<cfset var doloop = true>
 			</cfif>
 			<!--- Custom fields magic --->
 			<cfif doloop>
 				<!--- The value --->
 				<cfset var cfvalue = ltrim(arguments.thestruct.theimport[i][arguments.thecurrentRow])>
-				<cfif cfvalue EQ "">
-					<cfcontinue>
-				</cfif>
 				<!--- Insert or update --->
 				<cfquery datasource="#application.razuna.datasource#" name="qry">
-				SELECT cf_id_r
-				FROM #session.hostdbprefix#custom_fields_values
-				WHERE cf_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#theid#">
-				AND asset_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arguments.assetid)#">
+				SELECT v.cf_id_r, v.cf_value, f.cf_type
+				FROM #session.hostdbprefix#custom_fields_values v, #session.hostdbprefix#custom_fields f
+				WHERE v.cf_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#theid#">
+				AND v.asset_id_r = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(arguments.assetid)#">
+				AND v.cf_id_r = f.cf_id
 				</cfquery>
 				<!--- Insert --->
 				<cfif qry.recordcount EQ 0>
@@ -1879,6 +1882,14 @@
 					</cfquery>
 				<!--- Update --->
 				<cfelse>
+					<!--- If append --->
+					<cfif arguments.thestruct.imp_write EQ "add" AND qry.cf_type NEQ "select">
+						<cfif cfvalue NEQ "">
+							<cfset var cfvalue = qry.cf_value & " " & cfvalue>
+						<cfelse>
+							<cfset var cfvalue = qry.cf_value>
+						</cfif>
+					</cfif>
 					<cfquery datasource="#application.razuna.datasource#">
 					UPDATE #session.hostdbprefix#custom_fields_values
 					SET cf_value = <cfqueryparam cfsqltype="cf_sql_varchar" value="#cfvalue#">
@@ -1888,7 +1899,8 @@
 				</cfif>
 			</cfif>
 			<!--- Param --->
-			<cfset doloop = false>
+			<cfset var doloop = false>
+			<cfset var theid = "">
 		</cfloop>
 		<!--- Return --->
 		<cfreturn  />
