@@ -32,8 +32,8 @@
 24. <a href="http://localhost:8500/_tests/selenium/TestImagesMetadata.cfc?method=runtestremote&output=html">Images Metadata</a><br>
 25. <a href="http://localhost:8500/_tests/selenium/TestCopyMetadata.cfc?method=runtestremote&output=html">Copy Metadata</a><br>
 26. <a href="http://localhost:8500/_tests/selenium/TestPdfMetadata.cfc?method=runtestremote&output=html">Pdf Metadata</a><br>
-27. <a href="http://localhost:8500/_tests/selenium/TestRestore.cfc?method=runtestremote&output=html">Restore</a><br>
-28. <a href="http://localhost:8500/_tests/selenium/TestRestoreFolder.cfc?method=runtestremote&output=html">Folder Restore</a><br>
+27. <a href="http://localhost:8500/_tests/selenium/TestRestoreFiles.cfc?method=runtestremote&output=html">Restore Files</a><br>
+28. <a href="http://localhost:8500/_tests/selenium/TestRestoreFolder.cfc?method=runtestremote&output=html">Restore Folder</a><br>
 29. <a href="http://localhost:8500/_tests/selenium/TestEmptyTrash.cfc?method=runtestremote&output=html">Empty Trash</a><br>
 30. <a href="http://localhost:8500/_tests/selenium/TestFolderEmptyTrash.cfc?method=runtestremote&output=html">Folder Empty Trash</a><br>
 31. <a href="http://localhost:8500/_tests/selenium/TestSmartFolder.cfc?method=runtestremote&output=html">Smart Folder</a><br>
