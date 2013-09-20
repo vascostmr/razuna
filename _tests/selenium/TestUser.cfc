@@ -1,6 +1,5 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-	
 	// Add User	
 	function testAdduser() {
 		Super.doRazLogin();
@@ -59,6 +58,7 @@ component extends="TestRazunaBase"{
 		selenium.click("css=span.ui-icon.ui-icon-closethick");
 		// Import User
 		selenium.click("link=Import");
+		selenium.setspeed("3000");
 		selenium.type("id=filedata", #expandpath('.')# & "\assets\doc\razuna-users-export.csv");
 		selenium.click("name=submitbutton");
 		selenium.click("//div[11]/div/button");
