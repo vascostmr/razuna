@@ -3,9 +3,9 @@ component extends="TestRazunaBase"{
 	// Views and Sort By
 	function testSortBy() {
 		Super.doRazLogin();
-		selenium.setspeed("1000");
-		selenium.click("link=Uploads");
 		selenium.setspeed("3000");
+		selenium.click("link=Uploads");
+		selenium.setspeed("2000");
 		// Views
 		selenium.click("link=Views");
 		selenium.click("css=a[title='List View'] > div");

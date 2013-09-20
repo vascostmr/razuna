@@ -1,14 +1,14 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-
 	// Add Watermark Template 
 	function testWatermarkTemplate() {
 		Super.doRazLogin();
 		selenium.click("css=##apDiv1 > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > a:nth-child(1)");
 		selenium.click("link=Administration");
-		selenium.setspeed("1000");
+		selenium.setspeed("3000");
 		selenium.click("link=Watermark Templates");
 		selenium.click("link=Add a Watermark Template");
+		selenium.setspeed("3000");
 		selenium.click("css=input[name='wm_active'][value='true']");
 		selenium.type("id=wm_name", "Test_watermark");
 		selenium.click("css=input[name='wm_use_image'][value='true']");

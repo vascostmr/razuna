@@ -1,6 +1,5 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-	
 	// Videos Rendition
 	function testVideosRendition(){
 		Super.doRazLogin();
@@ -18,49 +17,27 @@ component extends="TestRazunaBase"{
 		selenium.click("link=Embed");
 		selenium.click("link=Embed"); 
 		selenium.check("css=input[name = 'convert_to'][value='ogv']");
-		selenium.setspeed("1000");
 		selenium.select("id=preset_ogv", "label=352x288");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][value='webm']");
-		selenium.setspeed("1000");
 		selenium.select("id=preset_webm","label=320x200");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][value='flv']");
-		selenium.setspeed("1000");
 		selenium.select("id=preset_flv","label=320x240");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][value='mp4']");
-		selenium.setspeed("1000");
 		selenium.select("id=preset_mp4","label=352x288");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][value='wmv']");
-		selenium.setspeed("1000");
 		selenium.select("id=preset_wmv","label=800x600");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][value='avi']");
-		selenium.setspeed("1000");
 		selenium.select("id=preset_avi","label=1408x1152");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][value='mov']");
-		selenium.setspeed("1000");
 		selenium.select("id=preset_mov","label=2560x2048");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][value='mxf']");
-		selenium.setspeed("1000");
 		selenium.select("id=preset_mxf","label=3200x2048");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][value='mpg']");
-		selenium.setspeed("1000");
 		selenium.select("id=preset_mpg","label=6400x4096");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][value='3gp']");
-		selenium.setspeed("1000");
 		selenium.select("name=convert_wh_3gp","label=352x288 (No size limit)");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][value='rm']");
-		selenium.setspeed("1000");
 		selenium.select("id=preset_rm","label=640x480");
-		selenium.setspeed("1000");
 		selenium.click("name=convertbutton");
 		selenium.click("//div[11]/div/button");
 		selenium.setspeed("2000");
@@ -73,7 +50,7 @@ component extends="TestRazunaBase"{
 		selenium.click("link=Renditions");
 		selenium.setspeed("3000");
 		selenium.click("link=Refresh");
-		if(selenium.isVisible("css=a:contains('Metadata')")){
+		if(selenium.isElementPresent("css=a:contains('Create new Renditions')") EQ true){
 		selenium.click("xpath=(//a[contains(text(),'Metadata')])[2]");
 		selenium.type("xpath=(//textarea[@name='vid_desc_1'])[2]", "Testing Description");
 		selenium.type("xpath=(//textarea[@name='vid_keywords_1'])[2]", "Testing keyword");
@@ -81,51 +58,29 @@ component extends="TestRazunaBase"{
 		selenium.isTextPresent("The record has been updated successfully");
 		selenium.click("link=Create new Renditions");
 		selenium.check("css=input[name = 'convert_to'][id='ogvid']");
-		selenium.setspeed("1000");
 		selenium.select("xpath=(//select[@id='preset_ogv'])[2]", "label=352x288");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][id='webmid']");
-		selenium.setspeed("1000");
 		selenium.select("xpath=(//select[@id='preset_webm'])[2]","label=320x200");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][id='flvid']");
-		selenium.setspeed("1000");
 		selenium.select("xpath=(//select[@id='preset_flv'])[2]","label=320x240");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][id='mp4id']");
-		selenium.setspeed("1000");
 		selenium.select("xpath=(//select[@id='preset_mp4'])[2]","label=352x288");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][id='wmvid']");
-		selenium.setspeed("1000");
 		selenium.select("xpath=(//select[@id='preset_wmv'])[2]","label=800x600");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][id='aviid']");
-		selenium.setspeed("1000");
 		selenium.select("xpath=(//select[@id='preset_avi'])[2]","label=1408x1152");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][id='movid']");
-		selenium.setspeed("1000");
 		selenium.select("xpath=(//select[@id='preset_mov'])[2]","label=2560x2048");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][id='mxfid']");
-		selenium.setspeed("1000");
 		selenium.select("xpath=(//select[@id='preset_mxf'])[2]","label=3200x2048");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][id='mpgid']");
-		selenium.setspeed("1000");
 		selenium.select("xpath=(//select[@id='preset_mpg'])[2]","label=6400x4096");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][id='3gpid']");
-		selenium.setspeed("1000");
 		selenium.select("xpath=(//select[@name='convert_wh_3gpid'])","label=352x288 (No size limit)");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][id='rmid']");
-		selenium.setspeed("1000");
 		selenium.select("xpath=(//select[@id='preset_rm'])[2]","label=640x480");
-		selenium.setspeed("1000");
 		selenium.click("name=convertbutton");
-		selenium.click("xpath=(//a[contains(text(),'Delete')])[2]");
+		selenium.click("link=Delete");
 		selenium.click("//button[@type='button']");
 		}
 		Super.doRazLogout();

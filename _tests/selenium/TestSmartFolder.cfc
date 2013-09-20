@@ -1,37 +1,32 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-	// Add SmartFolder
-	function testAddSmartFolder() {
+
+	// Dropbox folder
+	function testDropbox() {
 		Super.doRazLogin();
-		selenium.setspeed("1000");
+		selenium.setspeed("2000");
 		selenium.click("id=mainsectionchooser");
 		selenium.click("link=Smart Folders");
-		if(selenium.isElementPresent("css=a:contains('Add a new smart folder')") EQ true){
-		selenium.click("css=div##smartfolders > a");
-		selenium.type("id=sf_name", "TestSmartFolder");
-		selenium.type("id=sf_description", "TestSmartFolder Description");
-		selenium.click("document.sf_form.sf_type[1]");
-		selenium.click("name=sfsubmit");
+		selenium.click("css=div##smartfolders a button.awesome");
+		selenium.type("id=sf_name", "TestDropbox");
+		selenium.type("id=sf_description", "TestDropbox Description");
 		selenium.click("link=Permissions");
-		selenium.click("name=grp_0");
-		selenium.click("document.sf_form.per_0[2]");
-		selenium.click("//input[@name='sfsubmit']");
-		}
-		else{
-		selenium.click("css=##smartfolders > a:nth-child(2) > div:nth-child(2)");
-		selenium.click("css=div##apDiv4 div##rightside  div:nth-child(1) a:nth-child(1)");
-		selenium.type("id=sf_name", "TestSmartFolder");
-		selenium.type("id=sf_description", "TestSmartFolder Description");
-		selenium.click("document.sf_form.sf_type[1]");
-		selenium.click("name=sfsubmit");
+		selenium.check("css=input[name='grp_0'][type='checkbox']");
+		selenium.click("css=input[name='per_0'][value='X']");
+		selenium.click("css=input[name='sfsubmit'][value='Save']");
+	}
+
+	// Amazon S3 folder
+	function testAmazonS3() {
+		selenium.click("link=Manage");
+		selenium.click("link=New Smart Folder");
+		selenium.type("id=sf_name", "TestAmazon");
+		selenium.type("id=sf_description", "TestAmazon S3 Description");
+		selenium.click("css=input[name='sf_type'][value='amazon']");
 		selenium.click("link=Permissions");
-		selenium.click("name=grp_0");
-		selenium.click("document.sf_form.per_0[2]");
-		selenium.click("//input[@name='sfsubmit']");	
-		selenium.click("link=Remove Folder");
-		selenium.click("//button[@type='button']");
-		}
+		selenium.check("css=input[name='grp_0'][type='checkbox']");
+		selenium.click("css=input[name='per_0'][value='X']");
+		selenium.click("css=input[name='sfsubmit'][value='Save']");
 		Super.doRazLogout();
 	}
-	
 }

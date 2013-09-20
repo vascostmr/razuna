@@ -1,16 +1,15 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
-	
 	// Audios Rendition
 	function testAudiosRendition(){
 		Super.doRazLogin();
-		selenium.setspeed("1000");
+		selenium.setspeed("3000");
 		selenium.click("link=Uploads");
 		selenium.setspeed("2000");
 		selenium.click("xpath=//div[@id='tabsfolder_tab']/ul/li[@aria-controls='aud']/a[contains(text(),'Audios')]");
 		selenium.setspeed("3000");
 		selenium.click("css=div[class='theimg ui-selectee'][type$='aud']");
-		selenium.setspeed("1000");
+		selenium.setspeed("3000");
 		selenium.click("link=Renditions");
 		selenium.click("link=View");
 		selenium.click("link=Download");
@@ -19,20 +18,13 @@ component extends="TestRazunaBase"{
 		selenium.click("link=Embed");
 		selenium.click("link=Embed");
 		selenium.check("css=input[name = 'convert_to'][value='mp3']");
-		selenium.setspeed("1000");
 		selenium.select("id=convert_bitrate_mp3","label=160");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][value='ogg']");
-		selenium.setspeed("1000");
 		selenium.select("id=convert_bitrate_ogg","label=224");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][value='wav']");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][value='flac']");
-		selenium.setspeed("1000");
 		selenium.click("name=convertbutton");
 		selenium.click("//div[11]/div/button");
-		selenium.setspeed("2000");
 		selenium.click("xpath=//div[@id='tabsfolder_tab']/ul/li[@aria-controls='aud']/a[contains(text(),'Audios')]");
 		selenium.setspeed("2000");
 		selenium.click("xpath=//div[@id='tabsfolder_tab']/ul/li[@aria-controls='aud']/a[contains(text(),'Audios')]");
@@ -50,17 +42,12 @@ component extends="TestRazunaBase"{
 		selenium.isTextPresent("The record has been updated successfully");
 		selenium.click("link=Create new Renditions");
 		selenium.check("css=input[name = 'convert_to'][id='mp3id']");
-		selenium.setspeed("1000");
+		selenium.setspeed("3000");
 		selenium.select("xpath=(//select[@id='convert_bitrate_mp3'])[2]","label=192");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][id='oggid']");
-		selenium.setspeed("1000");
 		selenium.select("xpath=(//select[@id='convert_bitrate_ogg'])[2]","label=290");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][id='wavid']");
-		selenium.setspeed("1000");
 		selenium.check("css=input[name = 'convert_to'][id='flacid']");
-		selenium.setspeed("1000");
 		selenium.click("xpath=(//input[@name='convertbutton'])[2]");
 		selenium.click("//div[12]/div/button");
 		selenium.click("xpath=(//a[contains(text(),'Delete')])[2]");
