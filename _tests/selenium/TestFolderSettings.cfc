@@ -1,18 +1,10 @@
 ﻿// component extends testRazunaBase
 component extends="TestRazunaBase"{
 	
-	//Create New Folder 
-	function testCreateFolder() {
-		Super.doRazLogin();
-		selenium.setspeed("1000");
-		selenium.click("link=Manage");
-		selenium.click("link=Add Folder (on root level)");
-		selenium.type("id=folder_name", "sample");
-		selenium.click("name=grp_0");
-		selenium.click("id=foldersubmitbutton");
-	}
 	//Folder Setting
 	function testFolderSetting(){
+		Super.doRazLogin();
+		selenium.setspeed("1000");
 		selenium.click("//a[contains(text(),'Uploads')]");
 		selenium.setspeed("3000");
 		selenium.click("css=.grid > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(2) > a:nth-child(1)");

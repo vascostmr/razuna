@@ -23,6 +23,7 @@ component extends="TestRazunaBase"{
 		else{
 		// Add assets to existing collection
 		selenium.click("css=td > a > strong");
+		selenium.click("css=div:last-child .ui-button-icon-primary");
 		}
 	}
 	
@@ -41,6 +42,7 @@ component extends="TestRazunaBase"{
 		selenium.select("id=export_format", "label=XLSX");
 		selenium.click("css=input[type='button']");
 		selenium.selectWindow("name=undefined");
+		selenium.setspeed("1000");
 		selenium.click("css=a > strong");
 		selenium.selectWindow("null");
 		selenium.click("css=div:last-child .ui-button-icon-primary");
@@ -51,7 +53,14 @@ component extends="TestRazunaBase"{
 		selenium.click("//div[@id='folderselectionallform']/a[2]/div[2]");
 		selenium.click("xpath=//div[@id='win_choosefolder']/ul[@class='ltr']/li[@class='leaf']/a");
 		selenium.click("css=div:last-child .ui-button-icon-primary");
+		// Move Assets back to Uploads folder
+		selenium.click("link=Sample");
+        selenium.click("link=Select all");
+        selenium.click("//div[@id='folderselectionallform']/a[2]/div[2]");
+		selenium.click("xpath=//div[@id='win_choosefolder']/ul[@class='ltr']/li[@class='last leaf']/a");
+		selenium.click("css=div:last-child .ui-button-icon-primary");
+		selenium.setspeed("2000");
+		selenium.click("link=Uploads");
 		Super.doRazLogout();
 	}
-	
 }
