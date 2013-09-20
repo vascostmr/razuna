@@ -8,7 +8,7 @@ component extends="TestRazunaBase"{
 		selenium.click("//a[contains(text(),'Uploads')]");
 		selenium.setspeed("3000");
 		selenium.click("css=.grid > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(2) > a:nth-child(1)");
-		selenium.setspeed("1000");
+		selenium.setspeed("2000");
 		selenium.click("//div[@id='properties']/form");
 		selenium.check("css=input[name='per_0'][value='X']");
 		selenium.click("css=input[name='perm_inherit'][type='checkbox']");

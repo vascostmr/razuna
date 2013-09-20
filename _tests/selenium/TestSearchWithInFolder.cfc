@@ -42,7 +42,7 @@ component extends="TestRazunaBase"{
 		selenium.setspeed("4000");
 		selenium.click("link=Images");
 		selenium.setspeed("4000");
-		selenium.type("name=extension", "jpg, jpeg" );
+		selenium.type("name=extension", "jpg, jpeg, png" );
 		selenium.setspeed("2000");
 		selenium.click("name=submitsearch");
 		selenium.setspeed("6000");
@@ -54,7 +54,7 @@ component extends="TestRazunaBase"{
 		selenium.setspeed("3000");
 		selenium.click("link=Images");
 		selenium.setspeed("4000");
-		selenium.type("name=extension", "jpg, jpeg" );
+		selenium.type("name=extension", "jpg, jpeg, png" );
 		selenium.setspeed("2000");
 		selenium.click("name=submitsearch");
 		selenium.setspeed("6000");
@@ -104,12 +104,6 @@ component extends="TestRazunaBase"{
 		selenium.setspeed("2000");
 		selenium.click("name=submitsearch");
 		selenium.setspeed("6000");	
-		}
-		//View Assets 
-		if(selenium.isElementPresent("css=a:contains('Search again')") EQ true){
-		selenium.click("//div[@id='tooltip']/a/img");
-		selenium.click("//div[@id='tooltip']/a[2]/img");
-		selenium.click("//div[@id='tooltip']/a[3]/img");
 		}
 		Super.doRazLogout();
 	}

@@ -5,7 +5,7 @@ component extends="TestRazunaBase"{
 		Super.doRazLogin();
 		selenium.setspeed("1000");
 		selenium.click("link=Uploads");
-		selenium.click("//a[contains(text(),'Images ')]");
+		selenium.click("xpath=//div[@id='tabsfolder_tab']/ul/li[@aria-controls='img']/a[contains(text(),'Images')]");
 		selenium.setspeed("3000");
 		selenium.click("css=img.ui-selectee");
 		selenium.setspeed("1000");
