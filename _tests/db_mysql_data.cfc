@@ -883,7 +883,7 @@
 			
 			<!--- Insert ct label --->
 			<cfquery datasource="#arguments.thestruct.dsn#">
-				INSERT INTO ct_labels(ct_label_id,ct_id_r,ct_type,rec_uuid)
+				INSERT INTO #arguments.thestruct.theschema#.ct_labels(ct_label_id,ct_id_r,ct_type,rec_uuid)
 				VALUES
 				(
 					<cfqueryparam value="08FC43D60B4646BA9D8539F276B4FB90" cfsqltype="cf_sql_varchar" />,
@@ -894,7 +894,7 @@
 			</cfquery>
 			
 			<cfquery datasource="#arguments.thestruct.dsn#">
-				INSERT INTO ct_labels(ct_label_id,ct_id_r,ct_type,rec_uuid)
+				INSERT INTO #arguments.thestruct.theschema#.ct_labels(ct_label_id,ct_id_r,ct_type,rec_uuid)
 				VALUES
 				(
 					<cfqueryparam value="08FC43D60B4646BA9D8539F276B4FB90" cfsqltype="cf_sql_varchar" />,
@@ -903,7 +903,58 @@
 					<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
 				)
 			</cfquery>
-		
+			
+			<!--- Insert groups --->
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO	#arguments.thestruct.theschema#.groups
+					(grp_id, grp_name, grp_host_id, grp_mod_id)
+				VALUES
+				(
+					<cfqueryparam value="1B2A68D9-3280-4EDE-9D4DBF81B9767510" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="testgroup" cfsqltype="cf_sql_varchar">,
+					<cfqueryparam value="1" cfsqltype="cf_sql_numeric">,
+					<cfqueryparam value="1" cfsqltype="cf_sql_numeric">
+				)
+			</cfquery>
+			
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO	#arguments.thestruct.theschema#.groups
+					(grp_id, grp_name, grp_host_id, grp_mod_id)
+				VALUES
+				(
+					<cfqueryparam value="B9F33A7D-1FAF-4628-9457E7C6021E29AD" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="demo" cfsqltype="cf_sql_varchar">,
+					<cfqueryparam value="1" cfsqltype="cf_sql_numeric">,
+					<cfqueryparam value="1" cfsqltype="cf_sql_numeric">
+				)
+			</cfquery>
+			
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO #arguments.thestruct.theschema#.users (USER_ID, USER_LOGIN_NAME, USER_EMAIL, USER_FIRST_NAME, USER_LAST_NAME, USER_PASS, USER_COMPANY, USER_STREET, USER_STREET_NR, USER_STREET_2, USER_STREET_NR_2, USER_ZIP, USER_CITY, USER_COUNTRY, USER_PHONE, USER_PHONE_2, USER_MOBILE, USER_FAX, USER_CREATE_DATE, USER_CHANGE_DATE, USER_ACTIVE, USER_IN_ADMIN, USER_IN_DAM, USER_SALUTATION, USER_IN_VP, SET2_NIRVANIX_NAME, SET2_NIRVANIX_PASS, USER_API_KEY) VALUES
+				('D7A131E7-EC58-4E23-AE200DA1996A83F6', 'sampleuser', 'user@test.com', 'admin', 'user', '5F4DCC3B5AA765D61D8327DEB882CF99', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, <cfqueryparam value="#now()#" cfsqltype="cf_sql_date">, NULL, 'T', 'T', 'T', NULL, 'F', NULL, NULL,NULL);
+			</cfquery>
+			
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO #arguments.thestruct.theschema#.ct_groups_users 
+					(CT_G_U_GRP_ID, CT_G_U_USER_ID, rec_uuid) 
+				VALUES
+				(
+					<cfqueryparam value="1B2A68D9-3280-4EDE-9D4DBF81B9767510" cfsqltype="cf_sql_varchar">,
+					<cfqueryparam value="D7A131E7-EC58-4E23-AE200DA1996A83F6" cfsqltype="cf_sql_varchar">,
+					<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
+				)
+			</cfquery>
+			<cfquery datasource="#arguments.thestruct.dsn#">
+				INSERT INTO #arguments.thestruct.theschema#.ct_users_hosts 
+					(CT_U_H_USER_ID, CT_U_H_HOST_ID, rec_uuid) 
+				VALUES
+				(
+					<cfqueryparam value="D7A131E7-EC58-4E23-AE200DA1996A83F6" cfsqltype="cf_sql_varchar">,
+					<cfqueryparam value="1" cfsqltype="cf_sql_numeric">,
+					<cfqueryparam value="#createuuid()#" CFSQLType="CF_SQL_VARCHAR">
+				)
+			</cfquery>
+			
 		<cfreturn />
 
 	</cffunction>

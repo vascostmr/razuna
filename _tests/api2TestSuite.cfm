@@ -21,7 +21,7 @@
 	application.razuna.api.rfs	= "FALSE";
 	application.razuna.api.setid	= 1;
 	application.razuna.api.storage	= "local";
-	application.razuna.api.thedatabase	= "razuna_testsuite";
+	application.razuna.api.thedatabase	= "mysql";
 	application.razuna.api.thehttp	= "http://";
 	application.razuna.api.theurl	= "http://localhost:8080/assets/";
 	application.razuna.api.thispath	= "D:\projects\razuna_openBD\webapps\razuna\global\api2";
