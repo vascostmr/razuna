@@ -1,4 +1,4 @@
-﻿<!---
+<!---
 *
 * Copyright (C) 2005-2008 Razuna
 *
@@ -85,5 +85,3 @@
 		$("#statusconvertreditions").animate({opacity: 1.0}, 3000).fadeTo("slow", 0.33);
 	}
 </script>
-	
-

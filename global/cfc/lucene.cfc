@@ -46,17 +46,26 @@
 		<!--- Delete collection --->
 		<cftry>
 			<cfset CollectionDelete(arguments.colname)>
-			<cfcatch type="any"></cfcatch>
+			<cfcatch type="any">
+				<cfset consoleoutput(true)>
+				<cfset console(cfcatch)>
+			</cfcatch>
 		</cftry>
 		<!--- Delete path on disk --->
 		<cftry>
 			<cfdirectory action="delete" directory="#expandpath("../..")#WEB-INF/collections/#arguments.colname#" recurse="true" />
-			<cfcatch type="any"></cfcatch>
+			<cfcatch type="any">
+				<cfset consoleoutput(true)>
+				<cfset console(cfcatch)>
+			</cfcatch>
 		</cftry>
 		<!--- Create collection --->
 		<cftry>
 			<cfset CollectionCreate(collection=arguments.colname,relative=true,path="/WEB-INF/collections/#arguments.colname#")>
-			<cfcatch type="any"></cfcatch>
+			<cfcatch type="any">
+				<cfset consoleoutput(true)>
+				<cfset console(cfcatch)>
+			</cfcatch>
 		</cftry>
 	</cffunction>
 	
@@ -71,17 +80,6 @@
 		<cfargument name="hostid" default="#session.hostid#" required="false">
 		<cfargument name="storage" default="#application.razuna.storage#" required="false">
 		<cfargument name="thedatabase" default="#application.razuna.thedatabase#" required="false">
-		<!--- Check if there is a thread already running if so abort --->
-		<cfif arguments.assetid EQ 0>
-			<cftry>
-				<cfloop array="#getallthreads()#" index="i">
-					<cfif i.name EQ "search_reindex">
-						<cfabort>
-					</cfif>
-				</cfloop>
-				<cfcatch type="any"></cfcatch>
-			</cftry>
-		</cfif>
 		<!--- If the assetid is all it means a complete rebuild --->
 		<cfif arguments.assetid EQ "all">
 			<!--- Set all records to non indexed --->
@@ -116,16 +114,23 @@
 			<cfinvokeargument name="assetid" value="#arguments.assetid#" />
 		</cfinvoke>
 		<!--- Need to call this if storage is cloud based --->
-		<cfif qry.recordcount NEQ 0 AND (application.razuna.storage EQ "nirvanix" OR application.razuna.storage EQ "amazon" OR application.razuna.storage EQ "akamai")>
+		<cfif qry.recordcount NEQ 0 AND (arguments.storage EQ "nirvanix" OR arguments.storage EQ "amazon" OR arguments.storage EQ "akamai")>
 			<cfinvoke method="files_in_cloud">
 				<cfinvokeargument name="thestruct" value="#arguments.thestruct#" />
 				<cfinvokeargument name="qry" value="#qry#" />
 			</cfinvoke>
 		</cfif>
+		<!--- Grab assetpath --->
+		<cfquery datasource="#arguments.dsn#" name="qry_path" cachedwithin="1">
+		SELECT set2_path_to_assets
+		FROM #arguments.prefix#settings_2
+		WHERE host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.hostid#">
+		</cfquery>
+		<cfset arguments.thestruct.assetpath = trim(qry_path.set2_path_to_assets)>
 		<!--- Put qry into arguments --->
 		<cfset arguments.qry = qry>
 		<!--- Loop over the recordset --->
-		<cfthread name="search_reindex" action="run" intstruct="#arguments#" priority="low">
+		<cfthread action="run" intstruct="#arguments#" priority="low">
 			<cfloop query="attributes.intstruct.qry">
 				<cfinvoke method="index_update_thread">
 					<cfinvokeargument name="thestruct" value="#attributes.intstruct.thestruct#" />

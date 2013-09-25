@@ -116,6 +116,9 @@
 			<cfset var thevarchar = "varchar2">
 		</cfif>
 
+		<!--- Read config file for dbupdate number --->
+		<cfinvoke component="settings" method="getconfig" thenode="dbupdate" returnvariable="dbupdateconfig">
+
 		<!--- Core DB --->
 		<cftry>
 			<cfquery datasource="#application.razuna.datasource#">
@@ -413,7 +416,9 @@
 		</cftry>
 		<cftry>
 			<cfquery datasource="#application.razuna.datasource#">
-			update raz1_labels set label_path = label_text where label_id_r = '0'
+			update raz1_labels 
+			set label_path = label_text 
+			where label_id_r = '0'
 			</cfquery>
 			<cfcatch type="any">
 				<cfset thelog(logname=logname,thecatch=cfcatch)>
@@ -714,12 +719,6 @@
 			<cfquery datasource="#application.razuna.datasource#">
 			alter table raz1_audios add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> in_trash #thevarchar#(2) default 'F'
 			</cfquery>
-			<cfcatch type="any">
-				<cfset thelog(logname=logname,thecatch=cfcatch)>
-			</cfcatch>
-		</cftry>
-		<!--- Update in_trash (since MS SQL doesn't add default values by adding a column) --->
-		<cftry>
 			<cfquery datasource="#application.razuna.datasource#">
 			UPDATE raz1_audios SET in_trash = 'F'
 			</cfquery>
@@ -732,12 +731,6 @@
 			<cfquery datasource="#application.razuna.datasource#">
 			alter table raz1_collections add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> in_trash #thevarchar#(2) default 'F'
 			</cfquery>
-			<cfcatch type="any">
-				<cfset thelog(logname=logname,thecatch=cfcatch)>
-			</cfcatch>
-		</cftry>
-		<!--- Update in_trash (since MS SQL doesn't add default values by adding a column) --->
-		<cftry>
 			<cfquery datasource="#application.razuna.datasource#">
 			UPDATE raz1_collections SET in_trash = 'F'
 			</cfquery>
@@ -750,12 +743,6 @@
 			<cfquery datasource="#application.razuna.datasource#">
 			alter table raz1_collections_ct_files add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> in_trash #thevarchar#(2) default 'F'
 			</cfquery>
-			<cfcatch type="any">
-				<cfset thelog(logname=logname,thecatch=cfcatch)>
-			</cfcatch>
-		</cftry>
-		<!--- Update in_trash (since MS SQL doesn't add default values by adding a column) --->
-		<cftry>
 			<cfquery datasource="#application.razuna.datasource#">
 			UPDATE raz1_collections_ct_files SET in_trash = 'F'
 			</cfquery>
@@ -768,12 +755,6 @@
 			<cfquery datasource="#application.razuna.datasource#">
 			alter table raz1_files add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> in_trash #thevarchar#(2) default 'F'
 			</cfquery>
-			<cfcatch type="any">
-				<cfset thelog(logname=logname,thecatch=cfcatch)>
-			</cfcatch>
-		</cftry>
-		<!--- Update in_trash (since MS SQL doesn't add default values by adding a column) --->
-		<cftry>
 			<cfquery datasource="#application.razuna.datasource#">
 			UPDATE raz1_files SET in_trash = 'F'
 			</cfquery>
@@ -786,12 +767,6 @@
 			<cfquery datasource="#application.razuna.datasource#">
 			alter table raz1_folders add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> in_trash #thevarchar#(2) default 'F'
 			</cfquery>
-			<cfcatch type="any">
-				<cfset thelog(logname=logname,thecatch=cfcatch)>
-			</cfcatch>
-		</cftry>
-		<!--- Update in_trash (since MS SQL doesn't add default values by adding a column) --->
-		<cftry>
 			<cfquery datasource="#application.razuna.datasource#">
 			UPDATE raz1_folders SET in_trash = 'F'
 			</cfquery>
@@ -804,12 +779,6 @@
 			<cfquery datasource="#application.razuna.datasource#">
 			alter table raz1_images add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> in_trash #thevarchar#(2) default 'F'
 			</cfquery>
-			<cfcatch type="any">
-				<cfset thelog(logname=logname,thecatch=cfcatch)>
-			</cfcatch>
-		</cftry>
-		<!--- Update in_trash (since MS SQL doesn't add default values by adding a column) --->
-		<cftry>
 			<cfquery datasource="#application.razuna.datasource#">
 			UPDATE raz1_images SET in_trash = 'F'
 			</cfquery>
@@ -822,12 +791,6 @@
 			<cfquery datasource="#application.razuna.datasource#">
 			alter table raz1_videos add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> in_trash #thevarchar#(2) default 'F'
 			</cfquery>
-			<cfcatch type="any">
-				<cfset thelog(logname=logname,thecatch=cfcatch)>
-			</cfcatch>
-		</cftry>
-		<!--- Update in_trash (since MS SQL doesn't add default values by adding a column) --->
-		<cftry>
 			<cfquery datasource="#application.razuna.datasource#">
 			UPDATE raz1_videos SET in_trash = 'F'
 			</cfquery>
@@ -920,36 +883,6 @@
 			<cfquery datasource="#application.razuna.datasource#">
 			alter table raz1_images add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> is_indexed #thevarchar#(1) default '0'
 			</cfquery>
-			<cfcatch type="any">
-				<cfset thelog(logname=logname,thecatch=cfcatch)>
-			</cfcatch>
-		</cftry>
-		<cftry>
-			<cfquery datasource="#application.razuna.datasource#">
-			alter table raz1_videos add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> is_indexed #thevarchar#(1) default '0'
-			</cfquery>
-			<cfcatch type="any">
-				<cfset thelog(logname=logname,thecatch=cfcatch)>
-			</cfcatch>
-		</cftry>
-		<cftry>
-			<cfquery datasource="#application.razuna.datasource#">
-			alter table raz1_audios add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> is_indexed #thevarchar#(1) default '0'
-			</cfquery>
-			<cfcatch type="any">
-				<cfset thelog(logname=logname,thecatch=cfcatch)>
-			</cfcatch>
-		</cftry>
-		<cftry>
-			<cfquery datasource="#application.razuna.datasource#">
-			alter table raz1_files add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> is_indexed #thevarchar#(1) default '0'
-			</cfquery>
-			<cfcatch type="any">
-				<cfset thelog(logname=logname,thecatch=cfcatch)>
-			</cfcatch>
-		</cftry>
-		<!--- Update is_indexed (since MS SQL doesn't add default values by adding a column) --->
-		<cftry>
 			<cfquery datasource="#application.razuna.datasource#">
 			UPDATE raz1_images SET is_indexed = '1'
 			</cfquery>
@@ -959,6 +892,9 @@
 		</cftry>
 		<cftry>
 			<cfquery datasource="#application.razuna.datasource#">
+			alter table raz1_videos add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> is_indexed #thevarchar#(1) default '0'
+			</cfquery>
+			<cfquery datasource="#application.razuna.datasource#">
 			UPDATE raz1_videos SET is_indexed = '1'
 			</cfquery>
 			<cfcatch type="any">
@@ -966,6 +902,9 @@
 			</cfcatch>
 		</cftry>
 		<cftry>
+			<cfquery datasource="#application.razuna.datasource#">
+			alter table raz1_audios add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> is_indexed #thevarchar#(1) default '0'
+			</cfquery>
 			<cfquery datasource="#application.razuna.datasource#">
 			UPDATE raz1_audios SET is_indexed = '1'
 			</cfquery>
@@ -975,6 +914,9 @@
 		</cftry>
 		<cftry>
 			<cfquery datasource="#application.razuna.datasource#">
+			alter table raz1_files add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> is_indexed #thevarchar#(1) default '0'
+			</cfquery>
+			<cfquery datasource="#application.razuna.datasource#">
 			UPDATE raz1_files SET is_indexed = '1'
 			</cfquery>
 			<cfcatch type="any">
@@ -982,49 +924,56 @@
 			</cfcatch>
 		</cftry>
 
-
 		<!--- Add indexing to scheduler --->
-		
-		<!--- Query host table --->
-		<cfquery datasource="#application.razuna.datasource#" name="qry_hosts">
-		SELECT host_id, host_path
-		FROM hosts
-		</cfquery>
-		<!--- Loop over hosts --->
-		<cfloop query="qry_hosts">
-			<cfset var newschid = createuuid()>
-			<!--- Insert --->
-			<cfquery datasource="#application.razuna.datasource#">
-			INSERT INTO #session.hostdbprefix#schedules 
-			(sched_id, 
-			 set2_id_r, 
-			 sched_user, 
-			 sched_method, 
-			 sched_name,
-			 sched_interval,
-			 host_id
-			)
-			VALUES 
-			(<cfqueryparam value="#newschid#" cfsqltype="CF_SQL_VARCHAR">, 
-			 <cfqueryparam value="1" cfsqltype="cf_sql_numeric">, 
-			 <cfqueryparam value="1" cfsqltype="CF_SQL_VARCHAR">, 
-			 <cfqueryparam value="indexing" cfsqltype="cf_sql_varchar">, 
-			 <cfqueryparam value="Indexing" cfsqltype="cf_sql_varchar">,
-			 <cfqueryparam value="120" cfsqltype="cf_sql_varchar">,
-			 <cfqueryparam cfsqltype="cf_sql_numeric" value="#host_id#">
-			 )
+		<cfif !application.razuna.isp>
+			<!--- Query host table --->
+			<cfquery datasource="#application.razuna.datasource#" name="qry_hosts">
+			SELECT host_id, host_path, host_shard_group
+			FROM hosts
+			WHERE ( host_shard_group IS NOT NULL OR host_shard_group <cfif application.razuna.thedatabase EQ "oracle" OR application.razuna.thedatabase EQ "db2"><><cfelse>!=</cfif> '' )
 			</cfquery>
-			<!--- Save scheduled event in CFML scheduling engine --->
-			<cfschedule action="update"
-				task="RazScheduledUploadEvent[#newschid#]" 
-				operation="HTTPRequest"
-				url="http://#cgi.http_host#/#cgi.context_path#/#host_path#/dam/index.cfm?fa=c.scheduler_doit&sched_id=#newschid#"
-				startDate="#LSDateFormat(Now(), 'mm/dd/yyyy')#"
-				startTime="00:01 AM"
-				endTime="23:59 PM"
-				interval="120"
-			>
-		</cfloop>
+			<!--- Loop over hosts --->
+			<cfloop query="qry_hosts">
+				<cfset var newschid = createuuid()>
+				<!--- Insert --->
+				<cfquery datasource="#application.razuna.datasource#">
+				INSERT INTO #host_shard_group#schedules 
+				(sched_id, 
+				 set2_id_r, 
+				 sched_user, 
+				 sched_method, 
+				 sched_name,
+				 sched_interval,
+				 host_id,
+				 sched_start_time,
+				 sched_end_time,
+				 sched_start_date
+				)
+				VALUES 
+				(<cfqueryparam value="#newschid#" cfsqltype="CF_SQL_VARCHAR">, 
+				 <cfqueryparam value="1" cfsqltype="cf_sql_numeric">, 
+				 <cfqueryparam value="1" cfsqltype="CF_SQL_VARCHAR">, 
+				 <cfqueryparam value="indexing" cfsqltype="cf_sql_varchar">, 
+				 <cfqueryparam value="Indexing" cfsqltype="cf_sql_varchar">,
+				 <cfqueryparam value="120" cfsqltype="cf_sql_varchar">,
+				 <cfqueryparam cfsqltype="cf_sql_numeric" value="#host_id#">,
+				 <cfqueryparam cfsqltype="cf_sql_timestamp" value="#LSDateFormat(now(), "yyyy-mm-dd")# 00:01">,
+				 <cfqueryparam cfsqltype="cf_sql_timestamp" value="#LSDateFormat(now(), "yyyy-mm-dd")# 23:59">,
+				 <cfqueryparam cfsqltype="cf_sql_date" value="#LSDateFormat(now(), "yyyy-mm-dd")#">
+				 )
+				</cfquery>
+				<!--- Save scheduled event in CFML scheduling engine --->
+				<cfschedule action="update"
+					task="RazScheduledUploadEvent[#newschid#]" 
+					operation="HTTPRequest"
+					url="http://#cgi.http_host#/#cgi.context_path#/raz1/dam/index.cfm?fa=c.scheduler_doit&sched_id=#newschid#"
+					startDate="#LSDateFormat(Now(), 'mm/dd/yyyy')#"
+					startTime="00:01 AM"
+					endTime="23:59 PM"
+					interval="120"
+				>
+			</cfloop>
+		</cfif>
 		
 		<!--- Add to internal table --->
 		<cftry>
@@ -1059,8 +1008,7 @@
 		</cftry>
 		 --->
 
-		<!--- Read config file for dbupdate number --->
-		<cfinvoke component="settings" method="getconfig" thenode="dbupdate" returnvariable="dbupdateconfig">
+		
 		<!--- Update value in db --->
 		<cfquery datasource="#application.razuna.datasource#">
 		UPDATE options

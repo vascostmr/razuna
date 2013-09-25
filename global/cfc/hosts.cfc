@@ -93,7 +93,7 @@
 		<cfset arguments.thestruct.dsn = variables.dsn>
 		<cfparam name="arguments.thestruct.host_name_custom" default="" />
 		<!--- NIRVANIX --->
-		<cfif application.razuna.storage EQ "nirvanix" AND NOT structkeyexists(arguments.thestruct,"restore")>
+		<!--- <cfif application.razuna.storage EQ "nirvanix" AND NOT structkeyexists(arguments.thestruct,"restore")>
 			<!--- Create a random password --->
 			<cfset var passrand = createuuid()>
 			<!--- Get master account --->
@@ -107,7 +107,7 @@
 				<cfinvokeargument name="username" value="#hostid.id#">
 				<cfinvokeargument name="password" value="#passrand#">
 			</cfinvoke>
-		</cfif>
+		</cfif> --->
 		<cftransaction>
 			<!--- Insert into Host db --->
 			<cfquery datasource="#variables.dsn#">
@@ -487,9 +487,9 @@
 	<cfset var localquery = 0>
 	<!--- function-body --->
 	<cfquery datasource="#application.razuna.datasource#" name="localquery">
-		SELECT host_id, host_name, host_path, host_db_prefix, host_lang, host_type, host_shard_group, host_name_custom
-		FROM hosts
-		WHERE host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.thestruct.host_id#">
+	SELECT host_id, host_name, host_path, host_db_prefix, host_lang, host_type, host_shard_group, host_name_custom
+	FROM hosts
+	WHERE host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#arguments.thestruct.host_id#">
 	</cfquery>
 	<cfreturn localquery>
 </cffunction>
@@ -562,7 +562,7 @@
 			<!--- Now remove all users but only if in one host --->
 			<cfquery datasource="#arguments.thestruct.dsn#">
 			DELETE FROM users 
-			INNER JOIN ct_users_hosts ct ON ct.CT_U_H_HOST_ID = 1 and ct.ct_u_h_user_id
+			LEFT JOIN ct_users_hosts ct ON ct.CT_U_H_HOST_ID = 1 and ct.ct_u_h_user_id
 			AND 1 NOT IN (SELECT ct_g_u_grp_id FROM ct_groups_users WHERE ct_g_u_user_id = u.user_id)
 			having count(u.user_id) = 1
 			</cfquery>
@@ -745,6 +745,10 @@
 	<!--- set variables which we need in the create app files below --->
 	<cfset var thisid = arguments.thestruct.host_id>
 	<cfset var host_path_replace = qrythishost.host_path>
+	<!--- If ISP we reaplce the host path with the raz1 foler since only one folder exists --->
+	<cfif application.razuna.isp>
+		<cfset var host_path_replace = "raz1">
+	</cfif>
 	<cfset var host_db_prefix_replace = qrythishost.host_shard_group>
 	<cfset var thefiles = 0>
 	<cfset var sqlStmt = "">

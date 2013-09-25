@@ -2720,6 +2720,8 @@
 		<cfif thefolderlist NEQ "">
 			AND folder_id_r IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thefolderlist#" list="true">)
 		</cfif>
+		AND	(lower(file_extension) = <cfqueryparam value="#arguments.thestruct.kind#" cfsqltype="cf_sql_varchar">
+			OR lower(file_extension) = <cfqueryparam value="#arguments.thestruct.kind#x" cfsqltype="cf_sql_varchar">)
 		<cfif session.customfileid NEQ "">
 			AND file_id IN (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.customfileid#" list="true">)
 		</cfif>
@@ -4961,12 +4963,12 @@
 <!--- Store selection --->
 <cffunction name="store_selection" output="false" returntype="void">
 	<cfargument name="thestruct" required="yes" type="struct">
-	<!---<cfdump var="#arguments.thestruct.del_file_id#"><cfabort>--->
 	<!--- session --->
 	<cfparam name="session.file_id" default="">
 	<cfparam name="arguments.thestruct.del_file_id" default="">
 	<!--- Now simply add the selected fileids to the session --->
-	<cfset session.file_id = session.file_id & "," & arguments.thestruct.file_id>
+	<cfset session.file_id = "">
+	<cfset session.file_id = listappend(session.file_id,"#arguments.thestruct.file_id#")>
 	<cfset session.thefileid = session.file_id>
 	<cfif session.file_id NEQ "">
 		<cfset list_file_ids = "">

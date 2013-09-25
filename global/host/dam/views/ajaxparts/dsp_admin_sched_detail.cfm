@@ -53,16 +53,18 @@
 					<tr>
 						<td width="100" valign="top">
 							<select name="method" id="method" class="text" onChange="showConnectDetail('new');">
-								<cfif NOT application.razuna.isp>
+								<cfif !application.razuna.isp>
 									<option value="server"<cfif qry_detail.sched_method EQ "server"> selected</cfif>>#myFusebox.getApplicationData().defaults.trans("scheduled_uploads_server")#</option>
 								</cfif>
 								<option value="ftp"<cfif qry_detail.sched_method EQ "ftp"> selected</cfif>>#myFusebox.getApplicationData().defaults.trans("scheduled_uploads_ftp")#</option>
 								<option value="mail"<cfif qry_detail.sched_method EQ "mail"> selected</cfif>>#myFusebox.getApplicationData().defaults.trans("scheduled_uploads_mail")#</option>
-								<cfif (attributes.ad_server_name NEQ "") AND (attributes.ad_server_username NEQ "") AND (attributes.ad_server_password NEQ "")>
+								<cfif structKeyExists(attributes,"ad_server_name") AND attributes.ad_server_name NEQ "" AND structKeyExists(attributes,"ad_server_username") AND attributes.ad_server_username NEQ "" AND structKeyExists(attributes,"ad_server_password") AND attributes.ad_server_password NEQ "" AND structKeyExists(attributes,"ad_server_start") AND attributes.ad_server_start NEQ "">
 								<option value="ADServer"<cfif qry_detail.sched_method EQ "ADServer">selected</cfif>>#myFusebox.getApplicationData().defaults.trans("scheduled_uploads_ADServer")#</option>
 								</cfif>
 								<option>---</option>
-								<option value="indexing"<cfif qry_detail.sched_method EQ "indexing"> selected</cfif>>#myFusebox.getApplicationData().defaults.trans("scheduled_uploads_indexing")#</option>
+								<cfif !application.razuna.isp>
+									<option value="indexing"<cfif qry_detail.sched_method EQ "indexing"> selected</cfif>>#myFusebox.getApplicationData().defaults.trans("scheduled_uploads_indexing")#</option>
+								</cfif>
 								<option value="rebuild"<cfif qry_detail.sched_method EQ "rebuild"> selected</cfif>>#myFusebox.getApplicationData().defaults.trans("admin_maintenance_searchsync")#</option>
 							</select>
 						</td>
@@ -300,9 +302,9 @@
 		$('#detailsMail_new').css('display','none');
 		$('#detailsFtp_new').css('display','block');
 		$('#detailsADUserGroup_new').css('display','none');
-		
 	</script>
-<cfelseif qry_detail.sched_method EQ "rebuild" OR qry_detail.sched_method EQ "indexing" OR qry_detail.sched_method EQ "ADServer">
+</cfif>
+<cfif qry_detail.sched_method EQ "rebuild" OR qry_detail.sched_method EQ "indexing" OR qry_detail.sched_method EQ "ADServer">
 	<script type="text/javascript">
 		showConnectDetail('new');
 		// showFrequencyDetail('new');
