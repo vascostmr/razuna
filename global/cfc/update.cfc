@@ -1084,7 +1084,25 @@
 			</cftry>
 		
 		</cfif>
-	
+		
+		<!--- For video settings RAZ-2297 --->
+		<cftry>
+			<cfquery datasource="#application.razuna.datasource#">
+			alter table raz1_settings_2 add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> set2_vid_preview_enable #thevarchar#(5) default 'false'
+			</cfquery>
+			<cfcatch type="any">
+				<cfset thelog(logname=logname,thecatch=cfcatch)>
+			</cfcatch>
+		</cftry>
+		<cftry>
+			<cfquery datasource="#application.razuna.datasource#">
+			alter table raz1_settings_2 add <cfif application.razuna.thedatabase NEQ "mssql">column</cfif> set2_vid_player #thevarchar#(50)
+			</cfquery>
+			<cfcatch type="any">
+				<cfset thelog(logname=logname,thecatch=cfcatch)>
+			</cfcatch>
+		</cftry>
+
 		<!--- If update number is lower then 17 (v. 1.6.x) --->
 		<cfif updatenumber.opt_value LT 17>
 			
