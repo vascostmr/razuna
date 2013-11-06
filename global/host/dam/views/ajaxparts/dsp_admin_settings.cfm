@@ -57,7 +57,7 @@
 								<input type="radio" name="set2_vid_preview_enable" value="false"<cfif !prefs.set2_vid_preview_enable> checked="checked"</cfif> />#myFusebox.getApplicationData().defaults.trans("no")#
 							</td>
 						</tr>
-						<tr>
+						<tr style="display:none">
 							<td>#myFusebox.getApplicationData().defaults.trans("video_settings_available_players")#</td>
 							<td>
 								<select name="set2_vid_player" class="text">
