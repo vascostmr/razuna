@@ -234,7 +234,7 @@
 								</script>
 								<a href="##" onclick="showwindow('#myself##xfa.detailvid#&file_id=#id#&what=videos&loaddiv=content&folder_id=#attributes.folder_id#&showsubfolders=#attributes.showsubfolders#&row=#mycurrentRow#&filecount=#qry_filecount.thetotal#','',1000,1);return false;">
 									<div id="draggable#id#-#kind#" type="#id#-#kind#" class="theimg">
-										<cfif link_kind NEQ "url">
+										<cfif link_kind NEQ "url" and link_kind NEQ "youtube_vimeo">
 											<cfif application.razuna.storage EQ "amazon" OR application.razuna.storage EQ "nirvanix">
 												<cfif cloud_url NEQ "">
 													<img src="#cloud_url#" border="0">
