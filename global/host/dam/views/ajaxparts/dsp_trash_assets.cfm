@@ -169,7 +169,7 @@
 				                       </cfif>
 				                    <!--- Videos --->
 									<cfelseif kind EQ "vid">
-										<cfif link_kind NEQ "url">
+										<cfif link_kind NEQ "url" AND link_kind NEQ "youtube_vimeo">
 											<cfif application.razuna.storage EQ "amazon" OR application.razuna.storage EQ "nirvanix">
 										   <cfif cloud_url NEQ "">
 										           <img src="#cloud_url#" border="0">

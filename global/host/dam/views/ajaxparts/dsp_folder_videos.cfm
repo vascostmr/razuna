@@ -79,7 +79,7 @@
 									</script>
 									<a href="##" onclick="showwindow('#myself##xfa.assetdetail#&file_id=#vid_id#&what=videos&loaddiv=#kind#&folder_id=#folder_id#&showsubfolders=#attributes.showsubfolders#&row=#mycurrentRow#&filecount=#qry_filecount.thetotal#','',1000,1);return false;">
 										<div id="draggable#vid_id#" type="#vid_id#-vid" class="theimg">
-											<cfif link_kind NEQ "url">
+											<cfif link_kind NEQ "url" AND link_kind NEQ "youtube_vimeo">
 												<cfif application.razuna.storage EQ "amazon" OR application.razuna.storage EQ "nirvanix">
 													<cfif cloud_url NEQ "">
 														<img src="#cloud_url#" border="0">
@@ -172,7 +172,7 @@
 							<cfif is_available>
 								<a href="##" onclick="showwindow('#myself##xfa.assetdetail#&file_id=#vid_id#&what=videos&loaddiv=#kind#&folder_id=#folder_id#&showsubfolders=#attributes.showsubfolders#&row=#mycurrentRow#&filecount=#qry_filecount.thetotal#','',1000,1);return false;">
 									<div id="draggable#vid_id#" type="#vid_id#-vid">
-										<cfif link_kind NEQ "url">
+										<cfif link_kind NEQ "url" AND link_kind NEQ "youtube_vimeo">
 											<cfif application.razuna.storage EQ "amazon" OR application.razuna.storage EQ "nirvanix">
 												<img src="#cloud_url#" border="0" width="160">
 											<cfelse>		
@@ -270,7 +270,7 @@
 							<cfif is_available>
 								<a href="##" onclick="showwindow('#myself##xfa.assetdetail#&file_id=#vid_id#&what=videos&loaddiv=#kind#&folder_id=#folder_id#&showsubfolders=#attributes.showsubfolders#&row=#mycurrentRow#&filecount=#qry_filecount.thetotal#','',1000,1);return false;">
 									<div id="draggable#vid_id#-vid" type="#vid_id#-vid">
-										<cfif link_kind NEQ "url">
+										<cfif link_kind NEQ "url" AND link_kind NEQ "youtube_vimeo">
 											<cfif application.razuna.storage EQ "amazon" OR application.razuna.storage EQ "nirvanix">
 												<cfif cloud_url NEQ "">
 													<img src="#cloud_url#" border="0">

@@ -139,7 +139,7 @@
 							<cfelseif kind EQ "vid">
 								<cfif is_available>
 									<div class="theimg">
-										<cfif link_kind NEQ "url"><cfif application.razuna.storage EQ "amazon" OR application.razuna.storage EQ "nirvanix"><img src="#cloud_url#" border="0"><cfelse><img src="#thestorage##path_to_asset#/#filename_org#?#hashtag#" border="0" width="160"></cfif><cfelse><img src="#dynpath#/global/host/dam/images/icons/icon_movie.png" border="0"></cfif>
+										<cfif link_kind NEQ "url" AND link_kind NEQ "youtube_vimeo"><cfif application.razuna.storage EQ "amazon" OR application.razuna.storage EQ "nirvanix"><img src="#cloud_url#" border="0"><cfelse><img src="#thestorage##path_to_asset#/#filename_org#?#hashtag#" border="0" width="160"></cfif><cfelse><img src="#dynpath#/global/host/dam/images/icons/icon_movie.png" border="0"></cfif>
 									</div>
 									<div>
 										<input type="checkbox" name="file_id" value="#id#-vid" onclick="selectone();">
@@ -261,13 +261,13 @@
 								<br><a href="##" onclick="loadcontent('shared_basket','#myself#c.basket_put_include&file_id=#id#-img&thetype=#id#-img&jsessionid=#session.SessionID#');flash_footer('basket');return false;" title="#myFusebox.getApplicationData().defaults.trans("put_in_basket")#">
 							<!--- Videos --->
 							<cfelseif kind EQ "vid">
-								<cfif link_kind NEQ "url">
+								<cfif link_kind NEQ "url" AND link_kind NEQ "youtube_vimeo">
 									<cfif application.razuna.storage EQ "amazon" OR application.razuna.storage EQ "nirvanix">
 										<img src="#cloud_url#" border="0" width="160">
 									<cfelse>
 										<img src="#thestorage##path_to_asset#/#filename_org#?#hashtag#" border="0" width="160">
 									</cfif>
-								<cfelseif link_kind EQ "url">
+								<cfelseif link_kind EQ "url" AND link_kind EQ "youtube_vimeo">
 									<img src="#dynpath#/global/host/dam/images/icons/icon_movie.png" border="0" width="128" height="128">
 								</cfif>
 								<br><a href="##" onclick="loadcontent('shared_basket','#myself#c.basket_put_include&file_id=#id#-vid&thetype=#id#-vid&jsessionid=#session.SessionID#');flash_footer('basket');return false;" title="#myFusebox.getApplicationData().defaults.trans("put_in_basket")#">

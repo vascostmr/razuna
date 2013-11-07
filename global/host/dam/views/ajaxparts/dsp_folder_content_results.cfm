@@ -237,7 +237,7 @@
 									<a href="##" onclick="showwindow('#myself##xfa.detailvid#&file_id=#theid#&what=videos&loaddiv=#attributes.thediv#&folder_id=#folder_id_r#&showsubfolders=#attributes.showsubfolders#','#Jsstringformat(filename)#',1000,1);return false;">
 								</cfif>
 								<div id="draggable-s#theid#-#kind#" type="#theid#-#kind#" class="theimg">
-									<cfif link_kind NEQ "url">
+									<cfif link_kind NEQ "url" AND link_kind NEQ "youtube_vimeo">
 										<cfif application.razuna.storage EQ "amazon" OR application.razuna.storage EQ "nirvanix">
 											<cfif cloud_url NEQ "">
 												<img src="#cloud_url#" border="0">
@@ -645,7 +645,7 @@
 						<td valign="top" width="1%" nowrap="true">
 							<a href="##" onclick="showwindow('#myself##xfa.detailvid#&file_id=#theid#&what=videos&loaddiv=#kind#&folder_id=#folder_id_r#&showsubfolders=#attributes.showsubfolders#','#Jsstringformat(filename)#',1000,1);return false;">
 								<div id="draggable-s#theid#-#kind#" type="#theid#-#kind#">
-									<cfif link_kind NEQ "url">
+									<cfif link_kind NEQ "url" AND link_kind NEQ "youtube_vimeo">
 										<img src="#thestorage##path_to_asset#/#filename_org#?#hashtag#" border="0">
 									<cfelse>
 										<img src="#dynpath#/global/host/dam/images/icons/icon_movie.png" border="0" width="128">
