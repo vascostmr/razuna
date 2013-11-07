@@ -15,6 +15,10 @@ function showwindow(theurl,thetitle,thew,thewin) {
 		width: thew,
 		height: 'auto',
 		position: 'top',
+		close: function( event, ui ) {
+			// RAZ-2441 :: To destroy video & audio playback which is running in background, even after closing the window.
+			destroywindow(thewin);
+		},
 		//minHeight: 600,
 		overlay: {
 			backgroundColor: '#000',

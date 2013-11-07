@@ -1297,6 +1297,11 @@
 			<cfset arguments.thestruct.link_kind = "url">
 			<cfset var theext = "mov">
 		</cfif>
+		<!--- If this is a video is youtube/vimeo url, we set extension manually --->
+		<cfif arguments.thestruct.link_kind EQ "youtube_vimeo">
+			<cfset arguments.thestruct.link_kind = "youtube_vimeo">
+			<cfset var theext = "mov">
+		</cfif>
 		<!--- If this is a local link --->
 		<cfif arguments.thestruct.link_kind EQ "lan">
 			<!--- Get size --->
@@ -1499,7 +1504,7 @@ This is the main function called directly by a single upload else from addassets
 	<!--- The tool paths --->
 	<cfinvoke component="settings" method="get_tools" returnVariable="arguments.thestruct.thetools" />
 	<!--- If we store assets on the file system check if folder id exists in the assets path --->
-	<cfif (application.razuna.storage EQ "local" AND arguments.thestruct.qryfile.link_kind NEQ "url") OR application.razuna.storage EQ "akamai">
+	<cfif (application.razuna.storage EQ "local" AND arguments.thestruct.qryfile.link_kind NEQ "url" AND arguments.thestruct.qryfile.link_kind NEQ "youtube_vimeo") OR application.razuna.storage EQ "akamai">
 		<cftry>
 			<cfdirectory action="list" directory="#arguments.thestruct.qrysettings.set2_path_to_assets#/#session.hostid#/#arguments.thestruct.qryfile.folder_id#" name="mydir">
 			<!--- Dir not found thus create it --->
@@ -3059,8 +3064,8 @@ This is the main function called directly by a single upload else from addassets
 		<cfif arguments.thestruct.thisvid.theorgimage does not contain ".jpg">
 			<cfset arguments.thestruct.thisvid.theorgimage = arguments.thestruct.thisvid.theorgimage & ".jpg">
 		</cfif>
-		<!--- All below only if NOT from a link --->
-		<cfif arguments.thestruct.qryfile.link_kind NEQ "url">
+		<!--- All below only if NOT from a link or youtube/vimeo url--->
+		<cfif arguments.thestruct.qryfile.link_kind NEQ "url" and arguments.thestruct.qryfile.link_kind NEQ "youtube_vimeo">
 			<!--- if importpath --->
 			<cfif arguments.thestruct.importpath NEQ "">
 				<!--- Create var with temp directory --->
@@ -3261,8 +3266,8 @@ This is the main function called directly by a single upload else from addassets
 					<cfset var th = 1>
 				</cfif>
 			</cfif>
-		<!--- We come from a link thus assign some variables --->
-		<cfelse arguments.thestruct.qryfile.link_kind EQ "url">
+		<!--- We come from a link or youtube/vimeo URL, thus assign some variables --->
+		<cfelse arguments.thestruct.qryfile.link_kind EQ "url" or arguments.thestruct.qryfile.link_kind NEQ "youtube_vimeo">
 			<cfset var ts = 1>
 			<cfset var tw = 1>
 			<cfset var th = 1>
