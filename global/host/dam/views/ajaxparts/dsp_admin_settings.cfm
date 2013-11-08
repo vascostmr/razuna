@@ -41,6 +41,40 @@
 			<tr class="list">
 				<td colspan="2"><br /></td>
 			</tr>
+
+			<!--- Video Settings --->
+			<tr>
+				<th class="textbold" colspan="2">#myFusebox.getApplicationData().defaults.trans("video_settings")#</th>
+			</tr>
+			<tr>
+				
+				<td colspan="2">
+					<table>
+						<tr>
+							<td>#myFusebox.getApplicationData().defaults.trans("video_settings_enable_preview")#</td>
+							<td>
+								<input type="radio" name="set2_vid_preview_enable" value="true"<cfif prefs.set2_vid_preview_enable> checked="checked"</cfif> />#myFusebox.getApplicationData().defaults.trans("yes")#
+								<input type="radio" name="set2_vid_preview_enable" value="false"<cfif !prefs.set2_vid_preview_enable> checked="checked"</cfif> />#myFusebox.getApplicationData().defaults.trans("no")#
+							</td>
+						</tr>
+						<tr style="display:none">
+							<td>#myFusebox.getApplicationData().defaults.trans("video_settings_available_players")#</td>
+							<td>
+								<select name="set2_vid_player" class="text">
+									<option value="OSMplayer"<cfif prefs.set2_vid_player EQ "OSMplayer"> selected</cfif>>OSMplayer</option>
+									<option value="Flowplayer"<cfif prefs.set2_vid_player EQ "Flowplayer"> selected</cfif>>Flowplayer</option>
+									<option value="jwplayer"<cfif prefs.set2_vid_player EQ "jwplayer"> selected</cfif>>jwplayer</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</td>	
+				
+			</tr>
+			<tr class="list">
+				<td colspan="2"><br /></td>
+			</tr>
+
 			<!--- Image Settings --->
 			<tr>
 				<th class="textbold" colspan="2">#myFusebox.getApplicationData().defaults.trans("image_settings")#</th>

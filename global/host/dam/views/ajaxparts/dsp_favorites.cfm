@@ -69,7 +69,7 @@
 							<a href="##" onclick="showwindow('#myself##xfa.videodetail#&file_id=#myid#&what=videos&loaddiv=&folder_id=0','#thename#',1000,1);return false;">
 								<cfloop query="qry_thevideo">
 									<cfif myid EQ vid_id>
-										<cfif link_kind NEQ "url">
+										<cfif link_kind NEQ "url" AND link_kind NEQ "youtube_vimeo">
 											<cfif application.razuna.storage EQ "amazon" OR application.razuna.storage EQ "nirvanix">
 												<img src="#cloud_url#" border="0" width="120">
 											<cfelse>

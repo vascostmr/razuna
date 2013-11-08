@@ -144,13 +144,13 @@
 									<cfloop query="qry_thevideo">
 										<cfif myid EQ vid_id>
 											<a href="##" onclick="showwindow('#myself##xfa.detailvid#&file_id=#vid_id#&what=videos&loaddiv=content&folder_id=#attributes.folder_id#','#Jsstringformat(filename)#',1000,1);return false;">
-											<cfif link_kind NEQ "url">
+											<cfif link_kind NEQ "url" AND link_kind NEQ "youtube_vimeo">
 												<cfif application.razuna.storage EQ "amazon" OR application.razuna.storage EQ "nirvanix">
 													<img src="#cloud_url#" border="0">
 												<cfelse>
 													<img src="#thestorage##path_to_asset#/#vid_name_image#" border="0">
 												</cfif>
-											<cfelseif link_kind EQ "url">
+											<cfelseif link_kind EQ "url" OR link_kind EQ "youtube_vimeo">
 												<img src="#dynpath#/global/host/dam/images/icons/icon_movie.png" border="0">
 											</cfif>
 											</a>

@@ -104,10 +104,32 @@
 					</tr>
 				</cfif>
 				<tr>
+
 					<!--- Thumbnail --->
 					<td nowrap="true" valign="top" align="center" style="padding-top:20px;">
 						<cfif qry_detail.detail.link_kind NEQ "lan">
-							<div id="thevideodetail"><cfif qry_detail.detail.link_kind EQ "url">#qry_detail.detail.link_path_url#<cfelse><a href="#session.thehttp##cgi.HTTP_HOST##cgi.SCRIPT_NAME#?#theaction#=c.sv&f=#attributes.file_id#&v=o" target="_blank"><img src="<cfif application.razuna.storage EQ "local">#cgi.context_path#/assets/#session.hostid#/#qry_detail.detail.path_to_asset#/#qry_detail.detail.vid_name_image#?#qry_detail.detail.hashtag#<cfelse>#qry_detail.detail.cloud_url#</cfif>" width="400"></a></cfif></div>
+							<div id="thevideodetail">
+								<cfif qry_detail.detail.link_kind EQ "url" or (qry_detail.detail.link_kind EQ "youtube_vimeo" and not qry_settings.set2_vid_preview_enable)>
+									#qry_detail.detail.link_path_url#
+								<cfelse>
+									<cfif qry_settings.set2_vid_preview_enable and (listfindnocase("f4v,m4v,mp4,webm,ogv",qry_detail.detail.vid_extension) or qry_detail.detail.link_kind EQ "youtube_vimeo")>
+										<!--- Preview the video using osmplayer for youtube/vimeo urls & video files --->
+										<cfif qry_detail.detail.link_kind EQ "youtube_vimeo">
+											<video id="osmplayer" src="#qry_detail.detail.link_path_url#"></video>
+										<cfelse>	
+											<video id="osmplayer" poster="<cfif application.razuna.storage EQ 'local'>#session.thehttp##cgi.HTTP_HOST##thestorage##qry_detail.detail.path_to_asset#/#qry_detail.detail.vid_name_image#<cfelse>#qry_detail.detail.cloud_url#</cfif>" preload="none" controls="controls">
+									    		<source src="<cfif application.razuna.storage EQ 'local'>#session.thehttp##cgi.HTTP_HOST##thestorage##qry_detail.detail.path_to_asset#/#qry_detail.detail.vid_filename#<cfelse>#qry_detail.detail.cloud_url_org#</cfif>" />
+											</video>
+										</cfif>
+										
+									<cfelse>
+										<a href="#session.thehttp##cgi.HTTP_HOST##cgi.SCRIPT_NAME#?#theaction#=c.sv&f=#attributes.file_id#&v=o" target="_blank">
+											<img src="<cfif application.razuna.storage EQ "local">#cgi.context_path#/assets/#session.hostid#/#qry_detail.detail.path_to_asset#/#qry_detail.detail.vid_name_image#?#qry_detail.detail.hashtag#<cfelse>#qry_detail.detail.cloud_url#</cfif>" width="400">
+										</a>
+											
+									</cfif>
+								</cfif>
+							</div>
 						<cfelse>
 							<img src="#thestorage##qry_detail.detail.path_to_asset#/#qry_detail.detail.vid_name_image#" border="0" width="400"><br />
 							#qry_detail.detail.link_path_url#<br />
@@ -365,7 +387,16 @@
 			}
 		});
 	};
+
 	// Activate Chosen
 	$(".chzn-select").chosen();
+	
+	<cfif qry_settings.set2_vid_preview_enable>
+	//osm-player
+	$("##osmplayer").osmplayer({
+          width: '400px',
+          height: '300px'
+    });
+    </cfif>
 </script>
 </cfoutput>

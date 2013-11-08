@@ -1774,6 +1774,8 @@
 		  SET2_AKA_AUD					VARCHAR(200),
 		  SET2_AKA_DOC					VARCHAR(200),
 		  SET2_COLORSPACE_RGB			VARCHAR(5) DEFAULT 'false',
+		  SET2_VID_PREVIEW_ENABLE		VARCHAR(5) DEFAULT 'false',
+		  SET2_VID_PLAYER				VARCHAR(50),
 		  rec_uuid						VARCHAR(100),
 		  PRIMARY KEY (rec_uuid),
 		  KEY #arguments.thestruct.host_db_prefix#set2_HOST_ID (HOST_ID),

@@ -178,7 +178,7 @@
 							<cfif is_available>
 								<cfset theid = id>
 								<div class="theimg">
-									<cfif link_kind NEQ "url">
+									<cfif link_kind NEQ "url" AND link_kind NEQ "youtube_vimeo">
 										<!--- This is for the overlay --->
 										<cfif theformat EQ "video" OR theformat EQ "" OR theformat EQ "org">
 											<cfset theid = id>

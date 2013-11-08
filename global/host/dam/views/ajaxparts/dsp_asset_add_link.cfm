@@ -42,7 +42,12 @@
 				<td nowrap="true" style="padding-top:10px;"><strong>#myFusebox.getApplicationData().defaults.trans("link_asset_store")#</strong></td>
 			</tr>
 			<tr>
-				<td><input name="link_kind" type="radio" value="url" checked="true"> On public URL <input name="link_kind" type="radio" value="urlvideo"> Video with embedded player <cfif !application.razuna.isp><input name="link_kind" type="radio" value="lan"> Available on my local network</cfif></td>
+				<td>
+					<input name="link_kind" type="radio" value="url" checked="true"> On public URL 
+					<input name="link_kind" type="radio" value="urlvideo"> Video with embedded player 
+					<cfif !application.razuna.isp><input name="link_kind" type="radio" value="lan"> Available on my local network</cfif>
+					<input name="link_kind" type="radio" value="youtube_vimeo"> Youtube/Vimeo url
+				</td>
 			</tr>
 			<tr>
 				<td width="1%" nowrap="true" style="padding-top:7px;"><strong>#myFusebox.getApplicationData().defaults.trans("link_path_url")#</strong></td>
