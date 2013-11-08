@@ -109,10 +109,10 @@
 					<td nowrap="true" valign="top" align="center" style="padding-top:20px;">
 						<cfif qry_detail.detail.link_kind NEQ "lan">
 							<div id="thevideodetail">
-								<cfif qry_detail.detail.link_kind EQ "url" or (qry_detail.detail.link_kind EQ "youtube_vimeo" and not qry_settings.set2_vid_preview_enable)>
+								<cfif qry_detail.detail.link_kind EQ "url" OR (qry_detail.detail.link_kind EQ "youtube_vimeo" AND NOT qry_settings.set2_vid_preview_enable)>
 									#qry_detail.detail.link_path_url#
 								<cfelse>
-									<cfif qry_settings.set2_vid_preview_enable and (listfindnocase("f4v,m4v,mp4,webm,ogv",qry_detail.detail.vid_extension) or qry_detail.detail.link_kind EQ "youtube_vimeo")>
+									<cfif qry_settings.set2_vid_preview_enable AND (listfindnocase("f4v,m4v,mp4,webm,ogv",qry_detail.detail.vid_extension) OR qry_detail.detail.link_kind EQ "youtube_vimeo")>
 										<!--- Preview the video using osmplayer for youtube/vimeo urls & video files --->
 										<cfif qry_detail.detail.link_kind EQ "youtube_vimeo">
 											<video id="osmplayer" src="#qry_detail.detail.link_path_url#"></video>
@@ -211,7 +211,7 @@
 				</tr>
 				<cfif attributes.folderaccess NEQ "R" AND qry_detail.detail.link_kind NEQ "url">
 					<tr>
-						<td><a href="##" onclick="showwindow('#myself#c.previewimage&file_id=#attributes.file_id#&folder_id=#attributes.folder_id#&type=#attributes.cf_show#','#myFusebox.getApplicationData().defaults.trans("header_preview_image")#',550,2);return false;">#myFusebox.getApplicationData().defaults.trans("header_preview_image_title")#</a> or <a href="##" onclick="recreatepreview();return false;">#myFusebox.getApplicationData().defaults.trans("header_preview_image_title_recreate")#</a></td>
+						<td><a href="##" onclick="showwindow('#myself#c.previewimage&file_id=#attributes.file_id#&folder_id=#attributes.folder_id#&type=#attributes.cf_show#','#myFusebox.getApplicationData().defaults.trans("header_preview_image")#',550,2);return false;">#myFusebox.getApplicationData().defaults.trans("header_preview_image_title")#</a> OR <a href="##" onclick="recreatepreview();return false;">#myFusebox.getApplicationData().defaults.trans("header_preview_image_title_recreate")#</a></td>
 					</tr>
 				</cfif>
 				<!--- Submit Button --->
