@@ -41,8 +41,8 @@
 				<div style="float:left;padding-right:10px;">#myFusebox.getApplicationData().defaults.trans("tooltip_print")#</div>
 			</a>
 		</cfif>
-		<!--- Shown only to users who are not R --->
-		<cfif attributes.folderaccess NEQ "R">
+		<!--- Shown only to users who are not R AND RAZ-583: Link to folder(Hide the move file and move to trash icons)--->
+		<cfif attributes.folderaccess NEQ "R" AND (structKeyExists(qry_folder,'link_path') AND qry_folder.link_path EQ '')>
 			<!--- Move --->
 			<a href="##" onclick="showwindow('#myself#c.move_file&file_id=#attributes.file_id#&type=movefile&thetype=#attributes.cf_show#&folder_id=#qry_detail.detail.folder_id_r#','#myFusebox.getApplicationData().defaults.trans("move_file")#',600,2);">
 				<div style="float:left;">

@@ -106,7 +106,8 @@
 										<cfif cs.show_bottom_part>
 											<a href="##" onclick="loadcontent('thedropfav','#myself#c.favorites_put&favid=#vid_id#&favtype=file&favkind=vid');flash_footer();return false;" title="Add to favorites"><img src="#dynpath#/global/host/dam/images/favs_16.png" width="16" height="16" border="0" /></a>
 										</cfif>
-										<cfif attributes.folderaccess NEQ "R">
+										<!--- Check the folder access and RAZ-583: Link to folder(Hide the trash icon)  --->
+										<cfif attributes.folderaccess NEQ "R" AND (structKeyExists(qry_folder,'link_path') AND qry_folder.link_path EQ '')>
 											<a href="##" onclick="showwindow('#myself#ajax.trash_record&id=#vid_id#&what=videos&loaddiv=vid&folder_id=#attributes.folder_id#&showsubfolders=#attributes.showsubfolders#','#Jsstringformat(myFusebox.getApplicationData().defaults.trans("trash"))#',400,1);return false;" title="#myFusebox.getApplicationData().defaults.trans("trash")#"><img src="#dynpath#/global/host/dam/images/trash.png" width="16" height="16" border="0" /></a>
 										</cfif>
 									</div>
@@ -204,7 +205,8 @@
 									<cfif cs.show_bottom_part>
 										<a href="##" onclick="loadcontent('thedropfav','#myself#c.favorites_put&favid=#vid_id#&favtype=file&favkind=vid');flash_footer();return false;" title="Add to favorites"><img src="#dynpath#/global/host/dam/images/favs_16.png" width="16" height="16" border="0" /></a>
 									</cfif>
-									<cfif attributes.folderaccess NEQ "R">
+									<!--- Check the folder access and RAZ-583: Link to folder(Hide the trash icon)  --->
+									<cfif attributes.folderaccess NEQ "R" AND (structKeyExists(qry_folder,'link_path') AND qry_folder.link_path EQ '')>
 										<a href="##" onclick="showwindow('#myself#ajax.trash_record&id=#vid_id#&what=videos&loaddiv=vid&folder_id=#attributes.folder_id#&showsubfolders=#attributes.showsubfolders#','#Jsstringformat(myFusebox.getApplicationData().defaults.trans("trash"))#',400,1);return false;" title="#myFusebox.getApplicationData().defaults.trans("trash")#"><img src="#dynpath#/global/host/dam/images/trash.png" width="16" height="16" border="0" /></a>
 									</cfif>
 								</div>
@@ -307,7 +309,8 @@
 									<cfif cs.show_bottom_part>
 										<a href="##" onclick="loadcontent('thedropfav','#myself#c.favorites_put&favid=#vid_id#&favtype=file&favkind=vid');flash_footer();return false;" title="Add to favorites"><img src="#dynpath#/global/host/dam/images/favs_16.png" width="16" height="16" border="0" /></a>
 									</cfif>
-									<cfif attributes.folderaccess NEQ "R">
+									<!--- Check the folder access and RAZ-583: Link to folder(Hide the trash icon)  --->
+									<cfif attributes.folderaccess NEQ "R" AND (structKeyExists(qry_folder,'link_path') AND qry_folder.link_path EQ '')>
 										<a href="##" onclick="showwindow('#myself#ajax.trash_record&id=#vid_id#&what=videos&loaddiv=div&folder_id=#attributes.folder_id#&showsubfolders=#attributes.showsubfolders#','#Jsstringformat(myFusebox.getApplicationData().defaults.trans("trash"))#',400,1);return false;" title="#myFusebox.getApplicationData().defaults.trans("trash")#"><img src="#dynpath#/global/host/dam/images/trash.png" width="16" height="16" border="0" /></a>
 									</cfif>
 								</div>
@@ -371,7 +374,7 @@
 						});
 						getselected#kind#(fileids);
 						// Now uncheck all
-						$('###kind#form :checkbox').prop('checked', false);
+						$('###kind#form :checkbox').attr('checked', false);
 					}
 				});
 			});

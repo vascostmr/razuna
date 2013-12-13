@@ -230,4 +230,14 @@
 		</cfoutput></cfloop>
 		return encodeURIComponent(searchtext);
 	}
+	//for sync folder
+	function syncfolder(theid,isdetail,iscol){
+		// Load folder sync
+		$("#synupdatetext").load('index.cfm?fa=c.folder_sync&iscol=F&folder_id=' + theid);
+		// Reload Explorer
+		$('#explorer').load('index.cfm?fa=c.explorer');
+		// Show the Sync feedback
+		document.getElementById('synupdatetext').style.visibility = "visible";
+		$("#synupdatetext").html('<cfoutput>#JSStringFormat(myFusebox.getApplicationData().defaults.trans("sync_success"))#</cfoutput>');
+	}
 </script>

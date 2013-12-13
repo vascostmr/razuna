@@ -3097,7 +3097,10 @@ This is the main function called directly by a single upload else from addassets
 				<!--- Just assign the current path to the finalpath --->
 				<cfset arguments.thestruct.thisvid.finalpath = "#arguments.thestruct.qryfile.path#">
 				<cfif !arguments.thestruct.importpath>
-					<cfset arguments.thestruct.thetempdirectory = arguments.thestruct.thisvid.finalpath>
+						 <!--- Create var with temp directory --->
+                         <cfset arguments.thestruct.thetempdirectory = "#arguments.thestruct.thepath#/incoming/#createuuid('')#">
+                         <!--- Create temp folder --->
+                         <cfdirectory action="create" directory="#arguments.thestruct.thetempdirectory#" mode="775">
 				</cfif>
 			</cfif>
 			<!--- Create thumbnail --->
