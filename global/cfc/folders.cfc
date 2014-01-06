@@ -5561,6 +5561,17 @@
 				AND folder_id_r = <cfqueryparam CFSQLType="CF_SQL_VARCHAR" value="#i#">
 			</cfquery>
 			<cfdirectory action="list" directory="#qry.link_path#" name="arguments.thestruct.thefiles" type="file">
+			<cfquery dbtype="query" name="arguments.thestruct.thefiles">
+				SELECT *
+				FROM arguments.thestruct.thefiles
+				WHERE size != 0
+				AND attributes != 'H'
+				AND name != 'thumbs.db'
+				AND name NOT LIKE '.DS_STORE%'
+				AND name NOT LIKE '__MACOSX%'
+				AND name NOT LIKE '%scheduleduploads_%'
+			</cfquery>	
+			
 			<cfif qry_detail.RecordCount>
 				<cfloop query="qry_detail">
 					<cfif !listFindNoCase(valueList(arguments.thestruct.thefiles.name),qry_detail.org_name)>
