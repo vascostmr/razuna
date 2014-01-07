@@ -210,6 +210,15 @@
 				<input type="button" name="cancel" value="#myFusebox.getApplicationData().defaults.trans("cancel")#" onclick="destroywindow(1);return false;" class="button"> 
 			</cfif> --->
 		</div>
+		<!--- RAZ-583: Sync Button --->
+		<cfif attributes.isdetail EQ "T">
+			<cfif qry_folder.link_path NEQ ''>
+				<div style="float:left;clear:both;">
+					(#myFusebox.getApplicationData().defaults.trans("sync_desc")#)
+				</div>
+			</cfif>
+		</cfif>
+			
 		<div style="float:right;padding-top:10px;padding-right:10px;">
 			<div id="updatetext" style="float:left;color:green;padding-right:10px;padding-top:4px;font-weight:bold;"></div>
 		</div>
