@@ -5577,6 +5577,7 @@
 					<cfif !listFindNoCase(valueList(arguments.thestruct.thefiles.name),qry_detail.org_name)>
 						<cfif qry_detail.link_kind EQ 'lan'>
 							<!--- Remove the files not in file system --->
+							<cfset attributes.instruct.thestruct.assetpath = arguments.thestruct.assetpath>
 							<cfset attributes.instruct.thestruct.id = qry_detail.id>
 							<cfset attributes.instruct.thestruct.folder_id = qry_detail.folder_id_r>
 							<cfif qry_detail.type EQ 'img'>

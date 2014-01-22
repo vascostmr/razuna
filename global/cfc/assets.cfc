@@ -2456,7 +2456,7 @@ This is the main function called directly by a single upload else from addassets
 			<cfif arguments.thestruct.isWindows>
 				<cfset arguments.thestruct.thesource = """#arguments.thestruct.qryfile.path#""">
 			<cfelse>
-				<cfset arguments.thestruct.thesource = replacenocase(arguments.thestruct.qryfile.path," ","\ ","all")>
+				<cfset arguments.thestruct.thesource = """#arguments.thestruct.qryfile.path#""">
 				<cfset arguments.thestruct.thesource = replacenocase(arguments.thestruct.thesource,"&","\&","all")>
 				<cfset arguments.thestruct.thesource = replacenocase(arguments.thestruct.thesource,"'","\'","all")>
 			</cfif>
