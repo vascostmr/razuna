@@ -1233,9 +1233,9 @@
 	<cfqueryparam value="#now()#" cfsqltype="cf_sql_timestamp">,
 	<cfif arguments.thestruct.link_path NEQ ''>
 		<cfif arguments.thestruct.link_folder_level GT 1 >
-			<cfqueryparam value="#arguments.thestruct.link_path#/#arguments.thestruct.folder_name#" cfsqltype="cf_sql_varchar">,
+			<cfqueryparam value="#replace('#arguments.thestruct.link_path#/#arguments.thestruct.folder_name#','/','\','all')#" cfsqltype="cf_sql_varchar">,
 		<cfelse>
-			<cfqueryparam value="#arguments.thestruct.link_path#" cfsqltype="cf_sql_varchar">,
+			<cfqueryparam value="#replace('#arguments.thestruct.link_path#','/','\','all')#" cfsqltype="cf_sql_varchar">,
 		</cfif>
 	</cfif>
 	<cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
@@ -5453,6 +5453,10 @@
 	<cfset var folder_level_root="#qGetRootLinkPath.folder_level#">
 	<cfset var folderidr="#arguments.thestruct.folder_id#">
 	<cfset var folder_main_id_r="#qGetRootLinkPath.rid#">
+	<!--- Call to get the recursive folder ids --->
+	<cfinvoke method="recfolder" returnvariable="subfolderids">
+		<cfinvokeargument name="thelist" value="#arguments.thestruct.folder_id#">
+	</cfinvoke>
 	<cfdirectory action="list" directory="#link_path_root#" name="thedir" recurse="true" type="dir">
 	<!--- Sort the above list in a query because cfdirectory sorting sucks --->
 	<cfquery dbtype="query" name="thedir">
@@ -5461,6 +5465,42 @@
 	WHERE name NOT LIKE '__MACOSX%'
 	ORDER BY name
 	</cfquery>
+	<!--- chenck the file system directory removed any folders with files --->
+	<cfif thedir.recordCount GT 0>
+		<cfset fs_link_path = "">
+		<cfloop query="thedir">
+			<cfset fullpath = "#replace('#thedir.directory#\#thedir.name#','/','\','all')#" >
+			<cfset fs_link_path=listappend(fs_link_path,fullpath,',')>
+		</cfloop>
+		<cfloop list="#subfolderids#" index="idx">
+			<cfif arguments.thestruct.folder_id NEQ idx>
+				<cfquery name="qryGetSubFolderDetails" datasource="#variables.dsn#">
+					SELECT /* #variables.cachetoken#qryGetSubFolderDetails */ folder_id,folder_name,folder_level FROM  #session.hostdbprefix#folders 
+					WHERE link_path IN  (<cfqueryparam cfsqltype="cf_sql_varchar" value="#fs_link_path#" list="true">)
+					AND folder_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#idx#" >
+					AND folder_main_id_r = <cfqueryparam value="#folder_main_id_r#" cfsqltype="cf_sql_varchar">
+					AND host_id = <cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
+				</cfquery>
+				<cfif qryGetSubFolderDetails.recordcount EQ 0>
+					<cfset var args = structnew()>
+					<cfset args.assetpath = arguments.thestruct.assetpath>
+					<cfset args.folder_id = idx>
+					<!--- Call remove function --->
+					<cfinvoke method="remove" thestruct="#args#" />			
+				</cfif>		
+			</cfif>
+		</cfloop>
+	<cfelse>
+		<cfset var args = structnew()>
+		<cfloop list="#subfolderids#" index="idx">
+			<cfif arguments.thestruct.folder_id NEQ idx>
+				<cfset args.assetpath = arguments.thestruct.assetpath>
+				<cfset args.folder_id = idx>
+				<!--- Call remove function --->
+				<cfinvoke method="remove" thestruct="#args#" />			
+			</cfif> 
+		</cfloop>
+	</cfif>
 	<!--- Create Directories --->
 	<cfif thedir.RecordCount GT 0>
 		<cfloop query="thedir">
@@ -5516,7 +5556,7 @@
 					<cfqueryparam value="#folderlevel#" cfsqltype="CF_SQL_NUMERIC">,
 					<cfqueryparam value="#fidr#" cfsqltype="CF_SQL_VARCHAR">,
 					<cfqueryparam value="#folder_main_id_r#" cfsqltype="CF_SQL_VARCHAR">,
-					<cfqueryparam value="#thedir.directory#\#thedir.name#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#replace('#thedir.directory#\#thedir.name#','/','\','all')#" cfsqltype="CF_SQL_VARCHAR">,
 					<cfqueryparam value="#session.theuserid#" cfsqltype="CF_SQL_VARCHAR">,
 					<cfqueryparam value="#now()#" cfsqltype="cf_sql_date">,
 					<cfqueryparam value="#now()#" cfsqltype="cf_sql_date">,
