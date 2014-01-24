@@ -1233,9 +1233,9 @@
 	<cfqueryparam value="#now()#" cfsqltype="cf_sql_timestamp">,
 	<cfif arguments.thestruct.link_path NEQ ''>
 		<cfif arguments.thestruct.link_folder_level GT 1 >
-			<cfqueryparam value="#replace('#arguments.thestruct.link_path#/#arguments.thestruct.folder_name#','/','\','all')#" cfsqltype="cf_sql_varchar">,
+			<cfqueryparam value="#replace('#arguments.thestruct.link_path#/#arguments.thestruct.folder_name#','\','/','all')#" cfsqltype="cf_sql_varchar">,
 		<cfelse>
-			<cfqueryparam value="#replace('#arguments.thestruct.link_path#','/','\','all')#" cfsqltype="cf_sql_varchar">,
+			<cfqueryparam value="#replace('#arguments.thestruct.link_path#','\','/','all')#" cfsqltype="cf_sql_varchar">,
 		</cfif>
 	</cfif>
 	<cfqueryparam cfsqltype="cf_sql_numeric" value="#session.hostid#">
@@ -5457,7 +5457,12 @@
 	<cfinvoke method="recfolder" returnvariable="subfolderids">
 		<cfinvokeargument name="thelist" value="#arguments.thestruct.folder_id#">
 	</cfinvoke>
-	<cfdirectory action="list" directory="#link_path_root#" name="thedir" recurse="true" type="dir">
+	<cfif directoryexists("#link_path_root#")>
+		<cfdirectory action="list" directory="#link_path_root#" name="thedir" recurse="true" type="dir">
+	<cfelse>
+		<!---Current directory not in your file system--->
+		<cfabort>
+	</cfif>
 	<!--- Sort the above list in a query because cfdirectory sorting sucks --->
 	<cfquery dbtype="query" name="thedir">
 	SELECT *
@@ -5469,7 +5474,7 @@
 	<cfif thedir.recordCount GT 0>
 		<cfset fs_link_path = "">
 		<cfloop query="thedir">
-			<cfset fullpath = "#replace('#thedir.directory#\#thedir.name#','/','\','all')#" >
+			<cfset fullpath = "#replace('#thedir.directory#/#thedir.name#','\','/','all')#" >
 			<cfset fs_link_path=listappend(fs_link_path,fullpath,',')>
 		</cfloop>
 		<cfloop list="#subfolderids#" index="idx">
@@ -5556,7 +5561,7 @@
 					<cfqueryparam value="#folderlevel#" cfsqltype="CF_SQL_NUMERIC">,
 					<cfqueryparam value="#fidr#" cfsqltype="CF_SQL_VARCHAR">,
 					<cfqueryparam value="#folder_main_id_r#" cfsqltype="CF_SQL_VARCHAR">,
-					<cfqueryparam value="#replace('#thedir.directory#\#thedir.name#','/','\','all')#" cfsqltype="CF_SQL_VARCHAR">,
+					<cfqueryparam value="#replace('#thedir.directory#/#thedir.name#','\','/','all')#" cfsqltype="CF_SQL_VARCHAR">,
 					<cfqueryparam value="#session.theuserid#" cfsqltype="CF_SQL_VARCHAR">,
 					<cfqueryparam value="#now()#" cfsqltype="cf_sql_date">,
 					<cfqueryparam value="#now()#" cfsqltype="cf_sql_date">,
