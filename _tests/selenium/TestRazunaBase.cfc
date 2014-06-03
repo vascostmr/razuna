@@ -29,11 +29,11 @@ component extends="mxunit.framework.TestCase"{
 		//selenium.setSpeed("1000");
 		
 		// Valid Amazon S3 Storage
-		awsAccessKey = "0NDYJACRSKM5DF03XR02";
-		awsSecretKey = "4uMOItVwuXswnOMppQsDx/dj81c4K1HiOiTDQ+Nw";
+		awsAccessKey = "";
+		awsSecretKey = "";
 		// Invalid Amazon S3 Storage
-		InvalidAwsAccessKey = "0NDYJACRSKM5DF03XR";
-		InvalidAwsSecretKey = "4uMOItVwuXswnOMppQsDx/dj81c4K1HiOiTDQ";
+		InvalidAwsAccessKey = "";
+		InvalidAwsSecretKey = "";
 
 
 		createObject( "java", "coldfusion.tagext.lang.SettingTag" ).setRequestTimeout(javaCast( "double", 0 ));
