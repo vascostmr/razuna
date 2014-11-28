@@ -1217,10 +1217,14 @@
 				<cfinvoke method="create_inserts" tempid="#arguments.thestruct.tempid#" thestruct="#arguments.thestruct#" />
 				<!--- Grab file --->
 				<cfinvoke method="addassetsendmail" returnvariable="arguments.thestruct.qryfile" thestruct="#arguments.thestruct#">
-				<!--- Call the addasset function --->
-				<!--- <cfthread intstruct="#arguments.thestruct#"> --->
+				<cfif arraylen(getallthreads()) LT 100>
+					<!--- Call the addasset function --->
+					<cfthread intstruct="#arguments.thestruct#">
+						<cfinvoke method="addasset" thestruct="#attributes.intstruct#">
+					</cfthread>
+				<cfelse>
 					<cfinvoke method="addasset" thestruct="#arguments.thestruct#">
-				<!--- </cfthread> --->
+				</cfif>
 				<!--- Get file type so we can return the type --->
 				<cfquery datasource="#application.razuna.datasource#" name="fileType">
 				SELECT type_type
